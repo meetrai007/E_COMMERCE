@@ -1,0 +1,28 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage - Category-wise Products</title>
+</head>
+<body>
+    <h1>Products by Category</h1>
+
+    {% for category, products in category_products.items %}
+        <h2>{{ category.name }}</h2>
+        <ul>
+            {% for product in products %}
+                <li>
+                    <a href="{% url 'product_detail' product.slug %}">
+                        <strong>{{ product.name }}</strong>
+                    </a> - ${{ product.price }} <br>
+                    {{ product.description }}
+                </li>
+            {% empty %}
+                <li>No products available in this category.</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</body>
+</html>
