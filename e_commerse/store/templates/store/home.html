@@ -10,7 +10,7 @@
 
 </head>
 <body>
-{% include 'store/header.html' %}
+{% include 'base/header.html' %}
 
 
 <!-- prodects category lists -->
@@ -104,32 +104,46 @@
 
 
 <!-- show products by categorys -->
-<div class="container_products ">
-    <h1>Products by Category</h1>
-    <ul class="prodects_list d-flex">
-        <li>
 
-            {% for category, products in category_products.items %}
-                <h2>{{ category.name }}</h2>
-                <ul>
-                    {% for product in products %}
-                        <li>
-                            <strong>{{ product.name }}</strong> - ${{ product.price }} <br>
-                            {{ product.description|linebreaksbr }} <br>
+<div class="container_products">
+    <h1 class="mb-4">Products by Category</h1>
+
+    <!-- Loop through categories and products -->
+    <div class="row">
+        {% for category, products in category_products.items %}
+            <h2>{{ category.name }}</h2>
+
+            <!-- Row for products under this category col-md-4 mb-4-->
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card product-card">
                             {% if product.photo %}
-                                <img src="{{ product.photo.url }}" alt="{{ product.name }}" width="200">
+                                <img src="{{ product.photo.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 100px; object-fit: cover;">
+                            {% else %}
+                                <img src="\static\store\img\ONE-PLUS-NORD-CE-2-LITE-5G-BLUE-TIDE-6GB128GB.png" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: cover;">
                             {% endif %}
-                        </li>
-                    {% empty %}
-                        <li>No products available in this category.</li>
-                    {% endfor %}
-                </ul>
-            {% endfor %}
-        </li>
+                            
+                            <div class="card-body">
+                                <h5 class="product-title">{{ product.name }}</h5>
+                                <p class="product-price">$ {{ product.price }}</p>
+                                <p class="product-description">{{ product.description|linebreaksbr }}</p>
+                                
+                                <!-- Buy Now and Add to Cart Buttons -->
+                                <div class="d-flex justify-content-between">
+                                    <a href="#" class="btn btn-success btn-sm">Buy Now</a>
+                                    <a href="#" class="btn btn-warning btn-sm">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
 
-    </ul>
-    
-
+        {% empty %}
+            <div class="alert alert-info">No products available in this category.</div>
+        {% endfor %}
+    </div>
 </div>
 
 </body>

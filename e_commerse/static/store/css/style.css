@@ -79,3 +79,28 @@
     text-align: center;
 }
 
+/* products tiles */
+.container_products {
+    margin: 50px auto;
+    padding: 20px;
+}
+.product-card {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+.product-card:hover {
+    transform: scale(1.05);
+}
+.product-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.product-price {
+    color: green;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+.product-description {
+    font-size: 0.9rem;
+    color: #666;
+}
