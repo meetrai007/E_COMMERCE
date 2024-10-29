@@ -11,9 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/store/css/style.css">
-
-
-    </head>
+</head>
 <body>
 
 <!-- Navbar -->
@@ -22,7 +20,7 @@
         <!-- Site Name / Logo -->
         <a class="navbar-brand" href="#">
             <img src="/static/store/img/logo.png" alt="Site Logo">
-           The Sirsa Store
+            The Sirsa Store
         </a>
 
         <!-- Navbar Toggler (for mobile view) -->
@@ -38,27 +36,39 @@
                 <button class="btn btn-custom" type="submit">Search</button>
             </form>
 
-            <!-- Right-side Buttons: Cart and Login -->
+            <!-- Right-side Buttons: Cart, Login, or Logout -->
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'cart_view' %}">
                         <i class="bi bi-cart"></i> Cart
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">
-                        <i class="bi bi-box-arrow-in-right"></i> Login
-                    </a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_account' %}">
+                            <i class="bi bi-person"></i> {{ user.username }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                    <!-- Hidden logout form -->
+                    <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                        {% csrf_token %}
+                    </form>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
 </nav>
 
-
-
-
-
 </body>
 </html>
-

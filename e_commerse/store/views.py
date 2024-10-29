@@ -18,10 +18,10 @@ def home_view(request):
     }
     return render(request, 'store/home.html', context)
 
-
 def product_detail_view(request, slug):
     product = get_object_or_404(Product, slug=slug)
     context = {
         'product': product
     }
     return render(request, 'store/product_detail.html', context)
+
