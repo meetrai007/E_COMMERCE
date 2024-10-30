@@ -85,22 +85,31 @@
     padding: 20px;
 }
 .product-card {
+    height: 100%; /* Make sure the card takes full height of the column */
+    display: flex;
+    flex-direction: column; /* Arrange children in a column */
+    justify-content: space-between; /* Space out children to fill card */
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
 }
+
 .product-card:hover {
     transform: scale(1.05);
 }
+
 .product-title {
     font-weight: bold;
     font-size: 1.2rem;
 }
+
 .product-price {
     color: green;
     font-size: 1.1rem;
     margin-bottom: 10px;
 }
+
 .product-description {
     font-size: 0.9rem;
     color: #666;
+    flex-grow: 1; /* Allow description to grow and take available space */
 }
