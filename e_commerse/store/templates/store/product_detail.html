@@ -9,7 +9,7 @@
 <body>
     <h1>{{ product.name }}</h1>
     <p>Price: ${{ product.price }}</p>
-    <p>{{ product.description }}</p>
+    <p>{{ product.description|linebreaksbr }}</p>
     <a href="{% url 'home' %}">Back to Home</a>
 </body>
 </html>
