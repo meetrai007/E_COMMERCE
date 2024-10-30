@@ -154,4 +154,4 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 
 # settings.py
-LOGOUT_REDIRECT_URL = '/store'
+LOGOUT_REDIRECT_URL = '/'

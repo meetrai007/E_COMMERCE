@@ -137,7 +137,7 @@ def test_email(request):
             'Test Subject',
             'This is a test email.',
             'your_email@outlook.com',  # From address
-            ['recipient_email@example.com'],  # To address
+            ['lllllmeetlllll@gmail.com'],  # To address
             fail_silently=False,
         )
         return HttpResponse("Email sent successfully.")
