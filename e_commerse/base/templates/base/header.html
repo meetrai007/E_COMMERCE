@@ -31,8 +31,8 @@
         <!-- Navbar Links and Search -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Search Form -->
-            <form class="d-flex mx-auto" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search products" aria-label="Search">
+            <form class="d-flex mx-auto" action="{% url 'search_products' %}" method="get">
+                <input class="form-control me-2" name="q" type="search" placeholder="Search products" aria-label="Search" value="{{ query }}">
                 <button class="btn btn-custom" type="submit">Search</button>
             </form>
 
