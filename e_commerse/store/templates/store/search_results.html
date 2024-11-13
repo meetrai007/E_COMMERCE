@@ -1,43 +1,39 @@
-
 {% include 'base/header.html' %}
 
-{% block content %}
-<h2>Search Results for "{{ query }}"</h2>
+<div class="container_products">
 
-{% if products %}
+    <!-- Search Results Header -->
+    <h2>Search Results for "{{ query }}"</h2>
 
-    <ul>
+    <!-- Row for products -->
+    <div class="row">
         {% for product in products %}
-        <div class="col-md-4 mb-4">
-            <div class="card product-card">
-                {% if product.photo %}
-                <a href="{% url 'product_detail' product.slug %}">
-                    <img src="{{ product.photo.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: contain; margin-top: 10px;">
-                </a>
-            {% else %}
-                <a href="{% url 'product_detail' product.slug %}">
-                    <img src="\static\store\img\ONE-PLUS-NORD-CE-2-LITE-5G-BLUE-TIDE-6GB128GB.png" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: cover;">
-                </a>
-            {% endif %}
-                <div class="card-body">
-                    <h5 class="product-title">{{ product.name }}</h5>
-                    <p class="product-price">$ {{ product.price }}</p>
-                    <p class="product-description">{{ product.description|linebreaksbr }}</p>
-                    
-                    <!-- Buy Now and Add to Cart Buttons -->
-                    <div class="d-flex justify-content-between">
-                        <a href="{% url 'product_detail' product.slug %}" class="btn btn-success btn-sm">Buy Now</a>
-                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning btn-sm">Add to Cart</a>
+            <div class="col-md-4 mb-4">
+                <div class="card product-card">
+                    {% if product.photo %}
+                        <a href="{% url 'product_detail' product.slug %}">
+                            <img src="{{ product.photo.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: contain; margin-top: 10px;">
+                        </a>
+                    {% else %}
+                        <a href="{% url 'product_detail' product.slug %}">
+                            <img src="\static\store\img\ONE-PLUS-NORD-CE-2-LITE-5G-BLUE-TIDE-6GB128GB.png" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: cover;">
+                        </a>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="product-title">{{ product.name }}</h5>
+                        <p class="product-price">$ {{ product.price }}</p>
+                        <p class="product-description">{{ product.description|linebreaksbr }}</p>
 
+                        <!-- Buy Now and Add to Cart Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'product_detail' product.slug %}" class="btn btn-success btn-sm">Buy Now</a>
+                            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning btn-sm">Add to Cart</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
-    </ul>
-
-{% else %}
-    <p>No products found.</p>
-{% endif %}
-
-{% endblock %}
+        {% empty %}
+            <div class="alert alert-info">No products found.</div>
+        {% endfor %}
+    </div>
+</div>
