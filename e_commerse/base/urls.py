@@ -19,6 +19,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     # Optional: Redirecting to the homepage after logout
     path('', RedirectView.as_view(url='/', permanent=False), name='homepage'), 
+    path('become-seller/', views.become_seller, name='become_seller'),
 
 ]
 

@@ -9,8 +9,10 @@ from django.contrib.auth import login as auth_login
 from django.shortcuts import render
 from django.core.mail import send_mail
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import random
+from .models import Seller
 
 # Create your views here.
 def login(request):
@@ -143,3 +145,34 @@ def test_email(request):
         return HttpResponse("Email sent successfully.")
     except Exception as e:
         return HttpResponse(f"Failed to send email: {str(e)}")
+    
+
+
+@login_required
+def become_seller(request):
+    if hasattr(request.user, 'seller_profile'):
+        messages.info(request, "You are already registered as a seller.")
+        return redirect('home')  # Redirect to a dashboard or relevant page
+
+    if request.method == 'POST':
+        owner_name = request.POST.get('owner_name')
+        shop_name = request.POST.get('shop_name')
+        shop_address = request.POST.get('shop_address')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+
+        if owner_name and shop_name and shop_address and email and phone:
+            seller = Seller.objects.create(
+                user=request.user,
+                owner_name=owner_name,
+                shop_name=shop_name,
+                shop_address=shop_address,
+                email=email,
+                phone=phone
+            )
+            messages.success(request, "You are now a seller!")
+            return redirect('home')  # Redirect to a dashboard or relevant page
+        else:
+            messages.error(request, "All fields are required.")
+
+    return render(request, 'register/become_seller.html')

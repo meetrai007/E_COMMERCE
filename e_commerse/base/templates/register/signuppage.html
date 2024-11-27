@@ -61,16 +61,16 @@
                 <label for="email" class="form-label">Email address</label>
                 <div class="input-group">
                     <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email" required>
-                    <button class="btn btn-outline-secondary" type="button" id="sendOtpEmail">Send OTP</button>
+                    <!-- <button class="btn btn-outline-secondary" type="button" id="sendOtpEmail">Send OTP</button> -->
                 </div>
             </div>
     
             <!-- OTP for Email -->
-            <div class="mb-3 otp-field" id="emailOtpField">
+            <!-- <div class="mb-3 otp-field" id="emailOtpField">
                 <label for="emailOtp" class="form-label">Enter OTP</label>
                 <input type="text" class="form-control" id="emailOtp" placeholder="Enter the OTP sent to your email" name="emailOtp" required>
                 <button class="btn btn-outline-secondary mt-2" type="button">Verify OTP</button>
-            </div>
+            </div> -->
     
            
             <!-- Password Field -->
@@ -116,47 +116,51 @@
         //     document.getElementById('emailOtpField').style.display = 'block';
         // });
    
+
+        
     // Send OTP for Email
-    document.getElementById('sendOtpEmail').addEventListener('click', function () {
-        const email = document.getElementById('email').value;
-        fetch("{% url 'send_email_otp' %}", {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: email }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                document.getElementById('emailOtpField').style.display = 'block';
-            } else {
-                alert(data.error);
-            }
-        });
-    });
+    // document.getElementById('sendOtpEmail').addEventListener('click', function () {
+    //     const email = document.getElementById('email').value;
+    //     fetch("{% url 'send_email_otp' %}", {
+    //         method: 'POST',
+    //         headers: {
+    //             'X-CSRFToken': '{{ csrf_token }}',
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ email: email }),
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.message) {
+    //             document.getElementById('emailOtpField').style.display = 'block';
+    //         } else {
+    //             alert(data.error);
+    //         }
+    //     });
+    // });
+
+
 
     // Validate OTP
-    document.querySelector('#emailOtpField button').addEventListener('click', function () {
-        const otp = document.getElementById('emailOtp').value;
-        fetch("{% url 'validate_email_otp' %}", {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ otp: otp }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                alert('OTP verified successfully');
-            } else {
-                alert(data.error);
-            }
-        });
-    });
+    // document.querySelector('#emailOtpField button').addEventListener('click', function () {
+    //     const otp = document.getElementById('emailOtp').value;
+    //     fetch("{% url 'validate_email_otp' %}", {
+    //         method: 'POST',
+    //         headers: {
+    //             'X-CSRFToken': '{{ csrf_token }}',
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ otp: otp }),
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data.message) {
+    //             alert('OTP verified successfully');
+    //         } else {
+    //             alert(data.error);
+    //         }
+    //     });
+    // });
 </script>
 
 
