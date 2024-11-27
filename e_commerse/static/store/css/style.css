@@ -1,7 +1,12 @@
 .navbar-custom {
     background-color: #f8f9fa; /* Light background for the navbar */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for effect */
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    
 }
+
 
 .navbar-brand img {
     width: 40px; /* Logo size */
