@@ -1,5 +1,6 @@
 # models.py
 from django.db import models
+from base.models import Seller
 from autoslug import AutoSlugField  # Ensure to install django-autoslug
 
 class Category(models.Model):
@@ -10,6 +11,7 @@ class Category(models.Model):
         return self.name
 
 class Product(models.Model):
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, related_name='products', null=True, blank=True)  # Link to Seller
     name = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
