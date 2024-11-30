@@ -118,3 +118,58 @@
     color: #666;
     flex-grow: 1; /* Allow description to grow and take available space */
 }
+
+
+/* Add Product Form Specific Styling */
+.add-product-form form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-product-form label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+}
+
+.add-product-form input,
+.add-product-form select,
+.add-product-form textarea,
+.add-product-form button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.add-product-form input:focus,
+.add-product-form select:focus,
+.add-product-form textarea:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.add-product-form button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-product-form button:hover {
+    background-color: #0056b3;
+}
+
+.add-product-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}

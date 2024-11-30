@@ -16,54 +16,46 @@ from .models import Seller
 
 # Create your views here.
 def login(request):
+    """
+    Handles the login form submission and logs the user in.
+    """
     if request.method == 'POST':
+        # Get the username and password from the form
         username = request.POST['username']
         password = request.POST['password']
 
-        # Authenticate user
+        # Authenticate the user
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
-            auth_login(request, user)  # Log the user in
+            # Log the user in
+            auth_login(request, user)
+            # Show a success message
             messages.success(request, "Logged in successfully!")
-            return redirect('home')  # Redirect to the homepage or any other page
+            # Redirect to the homepage or any other page
+            return redirect('home')
         else:
+            # Show an error message
             messages.error(request, "Invalid username or password.")
+            # Redirect to the login page
             return redirect('login')
     
-    return render(request,'register/loginpage.html')
+    # Render the login page if the request is not a POST
+    return render(request, 'register/loginpage.html')
 
 
 def user_account(request):
-    return render(request,'try/user_account.html')
+    """
+    Renders the user account page.
 
+    Args:
+        request: The HTTP request object.
 
-# def signup(request):
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         email = request.POST['email']
-#         password = request.POST['password']
-#         password_confirm = request.POST['password_confirm']
-
-#         # Basic validations
-#         if password != password_confirm:
-#             messages.error(request, "Passwords do not match.")
-#             return redirect('signup')
-#         if User.objects.filter(username=username).exists():
-#             messages.error(request, "Username already exists.")
-#             return redirect('signup')
-#         if User.objects.filter(email=email).exists():
-#             messages.error(request, "Email already exists.")
-#             return redirect('signup')
-
-#         # Create the user
-#         user = User.objects.create_user(username=username, email=email, password=password)
-#         user.save()
-#         messages.success(request, "Account created successfully.")
-#         return redirect('login')  # Redirect to login page after successful registration
-
-#     return render(request,'register/signuppage.html')
-
-
+    Returns:
+        HttpResponse: The rendered user account page.
+    """
+    # Render the 'user_account.html' template
+    return render(request, 'try/user_account.html')
 
 # Helper function to generate OTP
 def generate_otp():
@@ -72,6 +64,21 @@ def generate_otp():
 # Endpoint to send OTP via email
 @csrf_exempt
 def send_email_otp(request):
+    """
+    Endpoint to send OTP via email.
+
+    This view accepts a POST request and expects 'email' in the request body.
+    It generates a random OTP and sends it to the provided email address.
+    The OTP is stored in the session for later validation.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        JsonResponse: A response with a success message if the OTP is sent, or
+            an error message if the request is invalid.
+    """
+
     if request.method == 'POST':
         email = request.POST.get('email')
         otp = generate_otp()
