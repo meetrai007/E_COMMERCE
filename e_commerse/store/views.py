@@ -7,18 +7,21 @@ from django.db.models import Q
 from rapidfuzz.fuzz import partial_ratio
 
 def home_view(request):
-    categories = Category.objects.all()
-    category_products = {}
-    
-    for category in categories:
-        products = Product.objects.filter(category=category)
-        category_products[category] = products
+    categories = Category.objects.all()  # Fetch all categories
+    return render(request, 'store/home.html', {'categories': categories})
 
-    context = {
-        'categories': categories,
-        'category_products': category_products
-    }
-    return render(request, 'store/home.html', context)
+    # categories = Category.objects.all()
+    # category_products = {}
+    
+    # for category in categories:
+    #     products = Product.objects.filter(category=category)
+    #     category_products[category] = products
+
+    # context = {
+    #     'categories': categories,
+    #     'category_products': category_products
+    # }
+    # return render(request, 'store/home.html', context)
 
 def product_detail_view(request, slug):
     product = get_object_or_404(Product, slug=slug)
@@ -26,6 +29,7 @@ def product_detail_view(request, slug):
         'product': product
     }
     return render(request, 'store/product_detail.html', context)
+
 
 
 def search_products(request):
@@ -45,7 +49,7 @@ def search_products(request):
             # Aggregate the highest score
             max_score = max(name_score, category_score, description_score)
             
-            # Set a threshold for inclusion in the results (e.g., > 50%)
+            # Set a threshold for inclusion in the results (e.g., > 90%)
             if max_score > 90:
                 matched_products.append((product, max_score))
         
@@ -54,6 +58,7 @@ def search_products(request):
         products = [item[0] for item in matched_products]  # Extract only the product objects
     
     return render(request, 'store/search_results.html', {'products': products, 'query': query})
+
 
 
 

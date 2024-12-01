@@ -1,12 +1,11 @@
+/* Navbar */
 .navbar-custom {
     background-color: #f8f9fa; /* Light background for the navbar */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for effect */
     position: sticky;
     top: 0;
     z-index: 999;
-    
 }
-
 
 .navbar-brand img {
     width: 40px; /* Logo size */
@@ -36,7 +35,7 @@
 }
 
 
-/* categoreys */
+/* Categories */
 .category-tile {
     text-align: center;
     border: 1px solid #ddd;
@@ -72,28 +71,21 @@
 }
 
 
-/* slider */
-.carousel-item img {
-    height: 400px;
-    object-fit: cover;
-}
-
-
-/* show products by categorys  */
-.container_products h1{
+/* Products */
+.container_products h1 {
     text-align: center;
 }
 
-/* products tiles */
 .container_products {
     margin: 50px auto;
     padding: 20px;
 }
+
 .product-card {
-    height: 100%; /* Make sure the card takes full height of the column */
+    height: 100%; /* Ensure full height */
     display: flex;
-    flex-direction: column; /* Arrange children in a column */
-    justify-content: space-between; /* Space out children to fill card */
+    flex-direction: column;
+    justify-content: space-between;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
 }
@@ -172,4 +164,4 @@
 .add-product-form textarea {
     resize: vertical;
     min-height: 100px;
-}
+}            

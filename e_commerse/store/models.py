@@ -6,6 +6,7 @@ from autoslug import AutoSlugField  # Ensure to install django-autoslug
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = AutoSlugField(populate_from='name', unique=True)
+    photo = models.ImageField(upload_to='categories/', blank=True, null=True)  # Field to store category photo
 
     def __str__(self):
         return self.name
