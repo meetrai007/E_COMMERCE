@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
     <link rel="stylesheet" href="/static/store/css/style.css">
 </head>
+
 <body>
     {% include 'base/header.html' %}
     <br><br>
     <hr><br><br>
 
     <div class="add-product-form">
+        <!-- Add Product Form -->
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            <input type="hidden" name="action" value="add_product">
+            <!-- Product Fields -->
             <label for="name">Product Name:</label>
             <input type="text" id="name" name="name" required>
-
             <label for="category">Category:</label>
             <select id="category" name="category" required>
                 <option value="" disabled selected>Select Category</option>
@@ -24,19 +28,81 @@
                 <option value="{{ category.id }}">{{ category.name }}</option>
                 {% endfor %}
             </select>
-
             <label for="price">Price:</label>
             <input type="number" id="price" name="price" step="0.01" required>
-
             <label for="description">Description:</label>
             <textarea id="description" name="description" required></textarea>
-
             <label for="photo">Photo:</label>
             <input type="file" id="photo" name="photo">
-
             <button type="submit">Add Product</button>
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add New
+                Category</button>
         </form>
     </div>
 
+    <!-- Modal for Adding New Category -->
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add Category Form -->
+                    <form id="add-category-form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="add_category">
+                        <div class="mb-3">
+                            <label for="category-name" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="category-name" name="category-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category-image" class="form-label">Category Image</label>
+                            <input type="file" class="form-control" id="category-image" name="category-image" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Category</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js">
+
+fetch('/your-category-endpoint/', {
+    method: 'POST',
+    body: new FormData(document.getElementById('add-category-form'))
+})
+.then(response => response.json())
+.then(data => {
+    // Assuming 'data' is the JSON response
+    const categoryTile = document.createElement('div');
+    categoryTile.classList.add('category-tile');
+
+    const imgElement = document.createElement('img');
+    imgElement.classList.add('category-logo');
+    imgElement.src = data.image_url; // Use the returned image_url
+    imgElement.alt = data.name;
+
+    const nameElement = document.createElement('div');
+    nameElement.classList.add('category-name');
+    nameElement.textContent = data.name;
+
+    categoryTile.appendChild(imgElement);
+    categoryTile.appendChild(nameElement);
+
+    document.getElementById('category-list').appendChild(categoryTile);
+
+    // Clear the form
+    document.getElementById('add-category-form').reset();
+})
+.catch(error => console.error('Error:', error));
+
+    </script>
+    
 </body>
+
 </html>
