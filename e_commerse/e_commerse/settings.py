@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'landingpage',
     'cart',
     'base',
+    "seller"
 ]
 
 MIDDLEWARE = [
