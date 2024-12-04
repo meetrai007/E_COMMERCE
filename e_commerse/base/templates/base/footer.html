@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .footer {
+            background-color: #1f2937;
+            color: #d1d5db;
+            padding: 2rem;
+        }
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+        .footer-brand {
+            flex: 1 1 100%;
+            text-align: center;
+        }
+        .footer-brand-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #d1d5db;
+            text-decoration: none;
+        }
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            background-color: #7c3aed;
+            border-radius: 50%;
+        }
+        .icon {
+            fill: #1f2937;
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        .footer-section {
+            text-align: left;
+        }
+        .footer-section h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            color: #f9fafb;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-section li a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        .footer-section li a:hover {
+            color: #7c3aed;
+        }
+        .social-icons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: #7c3aed;
+        }
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #9ca3af;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="footer-brand-link">
+                    <div class="brand-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="icon">
+                            <circle cx="16" cy="16" r="10"></circle>
+                        </svg>
+                    </div>
+                    <span class="brand-name">Brand name</span>
+                </a>
+            </div>
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Developers</h3>
+                    <ul>
+                        <li><a href="#">Public API</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Guides</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Social Media</h3>
+                    <div class="social-icons">
+                        <a href="#" title="Facebook"><svg class="icon"><circle cx="16" cy="16" r="10"></circle></svg></a>
+                        <a href="#" title="Twitter"><svg class="icon"><circle cx="16" cy="16" r="10"></circle></svg></a>
+                        <a href="#" title="Instagram"><svg class="icon"><circle cx="16" cy="16" r="10"></circle></svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">© 1968 Company Co. All rights reserved.</div>
+    </footer>
+    
+    
+</body>
+</html>
