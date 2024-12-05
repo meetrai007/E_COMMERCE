@@ -165,3 +165,95 @@
     resize: vertical;
     min-height: 100px;
 }            
+
+
+/* footer css  */
+.footer {
+    background-color: #f8f9fa; /* Match header background */
+    color: #343a40; /* Match header text */
+    padding: 2rem 1rem;
+    border-top: 1px solid #dee2e6; /* Optional border for separation */
+}
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.brand-icon {
+     /* Match header icon color */
+    color: #ffffff;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.brand-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #343a40;
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    width: 100%;
+}
+.footer-section h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    font-weight: bold;
+    color: #343a40;
+}
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-section li {
+    margin-bottom: 0.5rem;
+}
+.footer-section li a {
+    color: #495057;
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+.footer-section li a:hover {
+    color: #007bff; /* Match header link hover */
+}
+.social-icons {
+    display: flex;
+    gap: 0.5rem;
+}
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #28a745;
+    border-radius: 50%;
+    color: #ffffff;
+}
+.social-icons a:hover {
+    background-color: #007bff;
+}
+.footer-bottom {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 1rem;
+}
+.brand-icon img {
+    width: 40px; /* Logo size */
+height: 40px;
+}
