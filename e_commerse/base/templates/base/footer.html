@@ -6,72 +6,66 @@
     <title>Document</title>
     <style>
         .footer {
-            background-color: #1f2937;
-            color: #d1d5db;
-            padding: 2rem;
+            background-color: #f8f9fa; /* Match header background */
+            color: #343a40; /* Match header text */
+            padding: 2rem 1rem;
+            border-top: 1px solid #dee2e6; /* Optional border for separation */
         }
         .footer-container {
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
-            gap: 1.5rem;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .footer-brand {
-            flex: 1 1 100%;
-            text-align: center;
-        }
-        .footer-brand-link {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            color: #d1d5db;
-            text-decoration: none;
+            gap: 1rem;
         }
         .brand-icon {
+             /* Match header icon color */
+            color: #ffffff;
+            width: 3rem;
+            height: 3rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 3rem;
-            height: 3rem;
-            background-color: #7c3aed;
             border-radius: 50%;
-        }
-        .icon {
-            fill: #1f2937;
-            width: 1.5rem;
-            height: 1.5rem;
         }
         .brand-name {
             font-size: 1.5rem;
             font-weight: bold;
+            color: #343a40;
         }
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
-        }
-        .footer-section {
-            text-align: left;
+            width: 100%;
         }
         .footer-section h3 {
             font-size: 1rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            color: #f9fafb;
+            margin-bottom: 0.75rem;
+            font-weight: bold;
+            color: #343a40;
         }
         .footer-section ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
         .footer-section li a {
-            color: #d1d5db;
+            color: #495057;
             text-decoration: none;
             font-size: 0.875rem;
         }
         .footer-section li a:hover {
-            color: #7c3aed;
+            color: #007bff; /* Match header link hover */
         }
         .social-icons {
             display: flex;
@@ -81,30 +75,39 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 2rem;
-            height: 2rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #28a745;
             border-radius: 50%;
-            background-color: #7c3aed;
+            color: #ffffff;
+        }
+        .social-icons a:hover {
+            background-color: #007bff;
         }
         .footer-bottom {
             text-align: center;
             font-size: 0.875rem;
-            color: #9ca3af;
+            color: #6c757d;
             margin-top: 1rem;
         }
+        .brand-icon img {
+            width: 40px; /* Logo size */
+    height: 40px;
+        }
+
     </style>
+    
 </head>
 <body>
+    <br>
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand">
-                <a href="#" class="footer-brand-link">
+                <a href="{% url 'home' %}" class="footer-brand-link">
                     <div class="brand-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="icon">
-                            <circle cx="16" cy="16" r="10"></circle>
-                        </svg>
+                        <img src="/static/store/img/logo.png" alt="brand logo">
                     </div>
-                    <span class="brand-name">Brand name</span>
+                    <span class="brand-name">The Sirsa Store</span>
                 </a>
             </div>
             <div class="footer-grid">
@@ -135,9 +138,9 @@
                 <div class="footer-section">
                     <h3>Social Media</h3>
                     <div class="social-icons">
-                        <a href="#" title="Facebook"><svg class="icon"><circle cx="16" cy="16" r="10"></circle></svg></a>
-                        <a href="#" title="Twitter"><svg class="icon"><circle cx="16" cy="16" r="10"></circle></svg></a>
-                        <a href="#" title="Instagram"><svg class="icon"><circle cx="16" cy="16" r="10"></circle></svg></a>
+                        <a href="#" title="Facebook"><svg class="icon"></svg></a>
+                        <a href="#" title="Twitter"><svg class="icon"></svg></a>
+                        <a href="#" title="Instagram"><svg class="icon"></svg></a>
                     </div>
                 </div>
             </div>
