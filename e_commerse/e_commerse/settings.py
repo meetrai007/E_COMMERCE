@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'e_commerse.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tutorial',
+        'NAME': 'thesirsastore',
         'USER': 'root',
         'PASSWORD': 'Coder@007',
         'HOST': 'localhost',
