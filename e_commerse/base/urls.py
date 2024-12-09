@@ -11,10 +11,7 @@ from base import views
 urlpatterns = [
     path('login/',views.login, name='login'),
     path('signup/',views.signup, name='signup'),
-    path('send-email-otp/', views.send_email_otp, name='send_email_otp'),
-    path('validate-email-otp/', views.validate_email_otp, name='validate_email_otp'),
-    path('user_account/',views.user_account, name='user_account'),
-    path('test_email/',views.test_email, name='test_email'),
+    path('user_account/',views.account_page, name='user_account'),
     # Other URL patterns
     path('logout/', LogoutView.as_view(), name='logout'),
     # Optional: Redirecting to the homepage after logout
