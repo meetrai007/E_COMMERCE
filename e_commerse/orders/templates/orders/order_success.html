@@ -1,0 +1,11 @@
+{% include 'base/header.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Order Placed Successfully!</h1>
+    <p>Thank you for your order. You will receive an email confirmation shortly.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Return to Home</a>
+</div>
+{% endblock %}
+<!-- Footer -->
+{% include 'base/footer.html' %}

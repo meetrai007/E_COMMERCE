@@ -1,6 +1,6 @@
 # models.py
 from django.db import models
-from base.models import Seller
+from seller.models import Seller
 from autoslug import AutoSlugField  # Ensure to install django-autoslug
 
 class Category(models.Model):
