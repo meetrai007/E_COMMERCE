@@ -5,124 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Order</title>
-    <style>
-        /* General Styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
 
-        .container {
-            display: flex;
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Left Section: Product Details */
-        .product-details {
-            flex: 1;
-            padding: 20px;
-            border-right: 1px solid #ddd;
-        }
-
-        .product-details img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .product-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .product-description {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: #555;
-        }
-
-        .product-price {
-            font-size: 20px;
-            color: #007bff;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        /* Right Section: Order Form */
-        .order-form {
-            flex: 1;
-            padding: 20px;
-        }
-
-        .order-form h1 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #444;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 5px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .btn-primary {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: #fff;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        /* Styling for New Address Section */
-        .new-address-form {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-    </style>
 </head>
 
 <body>
     {% include 'base/header.html' %}
-    <div class="container">
+    <div class="container-oder">
         <div class="product-details">
             {% if product.photo %}
             <img src="{{ product.photo.url }}" alt="{{ product.name }}">
