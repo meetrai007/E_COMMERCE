@@ -384,3 +384,163 @@
 .otp-field {
     display: none;
 }
+
+/* Product Order Page */
+.container-oder {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 30px auto;
+    max-width: 1200px;
+    padding: 20px;
+    background-color: var(--light-bg);
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px var(--shadow-light);
+}
+
+.product-details {
+    flex: 1;
+    min-width: 300px;
+    max-width: 600px;
+    padding: 20px;
+    text-align: center;
+}
+
+.product-details img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px var(--shadow-dark);
+    margin-bottom: 20px;
+}
+
+.product-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.product-description {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Order Form */
+.order-form {
+    flex: 1;
+    min-width: 300px;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0px 4px 8px var(--shadow-light);
+}
+
+.order-form h1 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.order-form .form-group {
+    margin-bottom: 20px;
+}
+
+.order-form label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.order-form .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 0.9rem;
+    background-color: var(--light-bg);
+}
+
+.order-form .form-control:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.order-form button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    color: white;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.order-form button:hover {
+    background-color: var(--hover-color);
+}
+
+/* Add New Address Form */
+.new-address-form {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--light-bg);
+}
+
+.new-address-form h4 {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.new-address-form .form-group {
+    margin-bottom: 15px;
+}
+
+.new-address-form input[type="text"],
+.new-address-form input[type="checkbox"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 0.9rem;
+    background-color: white;
+}
+
+.new-address-form input[type="text"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.new-address-form label {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.new-address-form input[type="checkbox"] {
+    width: auto;
+    margin-right: 5px;
+}
+
+.new-address-form label[for="is_default"] {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--text-color);
+}

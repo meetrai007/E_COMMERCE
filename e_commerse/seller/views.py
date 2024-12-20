@@ -5,6 +5,7 @@ from seller.models import Seller
 from store.models import Product,Category
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from orders.models import Order
 
 @login_required
 def add_product(request):
@@ -74,4 +75,12 @@ def seller_dashboard(request):
 
     seller = request.user.seller_profile
     products = seller.products.all()  # Access the seller's products using the related_name
+
+    for product in products:
+        product.total_orders = Order.objects.filter(product=product).count()
+        avlable_quantity = product.quantity - product.total_orders
+        product.available_quantity = avlable_quantity
+
+
+    # Render the seller dashboard    
     return render(request, 'seller/seller_dashboard.html', {'products': products})

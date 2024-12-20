@@ -20,8 +20,9 @@
             <tr>
                 <th>Name</th>
                 <th>Category</th>
-                <th>Quantity</th>
                 <th>Price</th>
+                <th>Total Orders</th>
+                <th>Available Quantity</th>
                 <th>Description</th>
                 <th>Photo</th>
             </tr>
@@ -31,8 +32,9 @@
             <tr class="table-row">
                 <td class="table-cell">{{ product.name }}</td>
                 <td class="table-cell">{{ product.category.name }}</td>
-                <td class="table-cell">{{ product.quantity }}</td>
                 <td class="table-cell">{{ product.price }}</td>
+                <td class="table-cell">{{ product.total_orders }}</td>
+                <td class="table-cell">{{ product.available_quantity }}</td>
                 <td class="table-cell">{{ product.description }}</td>
                 <td class="table-cell">
                     {% if product.photo %}
@@ -44,7 +46,7 @@
             </tr>
             {% empty %}
             <tr class="table-row">
-                <td colspan="5" class="table-no-products">No products found.</td>
+                <td colspan="7" class="table-no-products">No products found.</td>
             </tr>
             {% endfor %}
         </tbody>
