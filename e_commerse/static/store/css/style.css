@@ -277,6 +277,87 @@
     background-color: var(--hover-color);
 }
 
+/* seller dashboard */
+/* General page styling */
+.page-header {
+    text-align: center;
+    color: #2c3e50;
+}
+
+.page-divider {
+    border: none;
+    border-top: 2px solid #2c3e50;
+}
+
+.link-button {
+    display: inline-block;
+    margin: 10px auto;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #3498db;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.link-button:hover {
+    background-color: #2980b9;
+}
+
+/* Table styling */
+.table {
+    margin: 20px auto;
+    width: 90%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.table-header {
+    background-color: #34495e;
+    color: white;
+}
+
+.table-header th {
+    padding: 10px;
+    text-align: left;
+}
+
+.table-row {
+    border-bottom: 1px solid #ddd;
+}
+
+.table-row:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-cell {
+    padding: 10px;
+    text-align: left;
+}
+
+.table img {
+    display: block;
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Center "No products found" message */
+.table-no-products {
+    text-align: center;
+    font-style: italic;
+    color: #7f8c8d;
+}
+
+/* Highlight row on hover */
+.table-row:hover {
+    background-color: #e0f7fa;
+}
+
+
 /* Login and Signup Forms */
 .login-form,
 .signup-form {

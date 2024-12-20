@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seller Dashboard</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Ensure this links to your updated CSS file -->
 </head>
 <body>
     {% include 'base/header.html' %}
     <br><br>
-    <hr><br><br>
+    <hr class="page-divider"><br><br>
     
-    <h2>Welcome to Your Dashboard</h2>
-    <a href="{% url 'add_product' %}">Add New Product</a>
+    <h2 class="page-header">Welcome to Your Dashboard</h2>
+    <a href="{% url 'add_product' %}" class="link-button">Add New Product</a>
     
-    
-    <h3>Your Products</h3>
-    <table >
-        <thead>
+    <h3 class="page-header">Your Products</h3>
+    <table class="table">
+        <thead class="table-header">
             <tr>
                 <th>Name</th>
                 <th>Category</th>
@@ -27,22 +27,22 @@
         </thead>
         <tbody>
             {% for product in products %}
-            <tr>
-                <td>{{ product.name }}</td>
-                <td>{{ product.category.name }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.description }}</td>
-                <td>
+            <tr class="table-row">
+                <td class="table-cell">{{ product.name }}</td>
+                <td class="table-cell">{{ product.category.name }}</td>
+                <td class="table-cell">{{ product.price }}</td>
+                <td class="table-cell">{{ product.description }}</td>
+                <td class="table-cell">
                     {% if product.photo %}
-                    <img src="{{ product.photo.url }}" alt="{{ product.name }}" width="100">
+                    <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="table-image">
                     {% else %}
                     No Photo
                     {% endif %}
                 </td>
             </tr>
             {% empty %}
-            <tr>
-                <td colspan="5">No products found.</td>
+            <tr class="table-row">
+                <td colspan="5" class="table-no-products">No products found.</td>
             </tr>
             {% endfor %}
         </tbody>
