@@ -77,9 +77,12 @@
 }
 
 .category-list {
+    margin: 20px 50px;
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    overflow-x: scroll;
+}
+.category-list::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Webkit-based browsers */
 }
 
 /* Products */
@@ -197,6 +200,7 @@
 }
 
 .footer-container {
+    
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
