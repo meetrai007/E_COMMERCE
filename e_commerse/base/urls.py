@@ -17,6 +17,7 @@ urlpatterns = [
     # Optional: Redirecting to the homepage after logout
     path('', RedirectView.as_view(url='/', permanent=False), name='homepage'), 
     path('become-seller/', views.become_seller, name='become_seller'),
+    path('login-or-signup/', views.login_or_signup_with_otp, name='login_or_signup_with_otp'),
 
 ]
 
