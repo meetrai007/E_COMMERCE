@@ -85,6 +85,79 @@
     display: none; /* Hide scrollbar for Webkit-based browsers */
 }
 
+
+/* login or signup */
+.container {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.alert {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.alert-info {
+    background-color: #d9edf7;
+    color: #31708f;
+}
+
+.alert-success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.alert-error {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+.form-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+.form-text {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+
 /* Products */
 .container_products h1 {
     text-align: center;
@@ -359,34 +432,6 @@
 /* Highlight row on hover */
 .table-row:hover {
     background-color: #e0f7fa;
-}
-
-
-/* Login and Signup Forms */
-.login-form,
-.signup-form {
-    width: 100%;
-    max-width: 400px;
-    padding: 30px;
-    margin: 50px auto;
-    background: #fff;
-    box-shadow: 0px 0px 10px var(--shadow-light);
-}
-
-.login-form .form-title,
-.signup-form .form-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--text-color);
-}
-
-.social-login-btn {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.otp-field {
-    display: none;
 }
 
 /* Product Order Page */

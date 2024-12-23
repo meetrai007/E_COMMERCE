@@ -46,7 +46,7 @@
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'user_account' %}">
-                            <i class="bi bi-person"></i> {{ user.username }}
+                            <i class="bi bi-person"></i> Account
                         </a>
                     </li>
 
@@ -76,7 +76,7 @@
                     </form>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">
+                        <a class="nav-link" href="{% url 'login_or_signup_with_otp' %}">
                             <i class="bi bi-box-arrow-in-right"></i> Login
                         </a>
                     </li>

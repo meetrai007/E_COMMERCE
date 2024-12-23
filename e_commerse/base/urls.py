@@ -9,8 +9,6 @@ from django.views.generic import RedirectView
 from base import views
 
 urlpatterns = [
-    path('login/',views.login, name='login'),
-    path('signup/',views.signup, name='signup'),
     path('user_account/',views.account_page, name='user_account'),
     # Other URL patterns
     path('logout/', LogoutView.as_view(), name='logout'),

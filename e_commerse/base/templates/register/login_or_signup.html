@@ -3,32 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>OTP Verification</title>
+    <style>
+        
+    </style>
 </head>
 <body>
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-    
-    <form method="POST">
-        {% csrf_token %}
-    
-        {% if otp_sent %}
-            <p>OTP sent to {{ phone_number }}. Please enter it below:</p>
-            <label for="otp">Enter OTP:</label>
-            <input type="text" name="otp" required>
-            <input type="hidden" name="phone_number" value="{{ phone_number }}">
-            <button type="submit">Verify OTP</button>
-        {% else %}
-            <label for="phone_number">Phone Number:</label>
-            <input type="text" name="phone_number" placeholder="+1234567890" required>
-            <button type="submit">Send OTP</button>
+    {% include 'base/header.html' %}
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endif %}
-    </form>
+
+        <div class="login_form">
+            <form method="POST">
+                {% csrf_token %}
     
+                {% if otp_sent %}
+                    <p class="form-text">OTP sent to {{ phone_number }}. Please enter it below:</p>
+                    <label class="form-label" for="otp">Enter OTP:</label>
+                    <input class="form-input" type="text" name="otp" required>
+                    <input type="hidden" name="phone_number" value="{{ phone_number }}">
+                    <button class="form-button" type="submit">Verify OTP</button>
+                {% else %}
+                    <label class="form-label" for="phone_number">Phone Number:</label>
+                    <input class="form-input" type="text" name="phone_number" placeholder="+1234567890" required>
+                    <button class="form-button" type="submit">Send OTP</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
 </body>
 </html>
