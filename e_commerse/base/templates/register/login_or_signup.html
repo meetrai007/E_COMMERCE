@@ -22,17 +22,26 @@
         <div class="login_form">
             <form method="POST">
                 {% csrf_token %}
-    
+
                 {% if otp_sent %}
                     <p class="form-text">OTP sent to {{ phone_number }}. Please enter it below:</p>
                     <label class="form-label" for="otp">Enter OTP:</label>
-                    <input class="form-input" type="text" name="otp" required>
+                    <input class="form-input" type="text" name="otp" placeholder="Enter OTP" required>
                     <input type="hidden" name="phone_number" value="{{ phone_number }}">
                     <button class="form-button" type="submit">Verify OTP</button>
                 {% else %}
                     <label class="form-label" for="phone_number">Phone Number:</label>
                     <input class="form-input" type="text" name="phone_number" placeholder="+1234567890" required>
-                    <button class="form-button" type="submit">Send OTP</button>
+                    <button class="form-button" type="submit" name="action" value="send">Send OTP</button>
+                {% endif %}
+
+                {% if otp_sent %}
+                    <form method="POST" style="margin-top: 10px;">
+                        {% csrf_token %}
+                        <input type="hidden" name="phone_number" value="{{ phone_number }}">
+                        <input type="hidden" name="action" value="resend">
+                        <button class="resend-button" type="submit">Resend OTP</button>
+                    </form>
                 {% endif %}
             </form>
         </div>

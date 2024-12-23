@@ -33,6 +33,7 @@ def login_or_signup_with_otp(request):
     if request.method == 'POST':
         phone_number = request.POST.get('phone_number')
         otp = request.POST.get('otp')
+        action = request.POST.get('action')  # Distinguish between 'send' and 'resend'
 
         # Validate phone number
         phone_number = validate_phone_number(phone_number)
@@ -40,14 +41,15 @@ def login_or_signup_with_otp(request):
             messages.error(request, "Invalid phone number.")
             return render(request, 'register/login_or_signup.html', context)
 
-        if otp:  # If OTP is submitted
+        # OTP submission
+        if otp:
             try:
                 otp_record = OTP.objects.get(phone_number=phone_number)
                 if otp_record.otp == otp and otp_record.is_valid():
                     # OTP is valid
                     user, created = User.objects.get_or_create(username=phone_number)
                     if created:
-                        user.set_password(User.objects.create_user(None).make_random_password())  # Set random password
+                        user.set_password(User.objects.make_random_password())  # Set random password
                         user.save()
                         messages.success(request, "Account created and logged in successfully.")
                     else:
@@ -60,12 +62,28 @@ def login_or_signup_with_otp(request):
                     messages.error(request, "Invalid or expired OTP.")
             except OTP.DoesNotExist:
                 messages.error(request, "OTP not found. Please request a new one.")
-        else:  # If phone number is submitted to request OTP
+
+        # Request OTP or Resend OTP
+        elif action in ['send', 'resend']:
+            otp_record, created = OTP.objects.get_or_create(phone_number=phone_number)
+
+            if action == 'resend' and not otp_record.can_resend():
+                if otp_record.resend_count >= 3:
+                    messages.error(request, "Maximum OTP resend attempts reached for today.")
+                else:
+                    messages.error(request, "You can resend OTP only after 1 minute.")
+                return render(request, 'register/login_or_signup.html', context)
+
             # Generate and send OTP
             otp = generate_otp()
-            OTP.objects.update_or_create(phone_number=phone_number, defaults={'otp': otp, 'created_at': now()})
+            otp_record.otp = otp
+            otp_record.created_at = now()
+            if action == 'resend':
+                otp_record.resend_count += 1
+                otp_record.last_resend_at = now()
+            otp_record.save()
 
-            # Simulate sending OTP (replace this with an SMS API in production)
+            # Simulate sending OTP (replace with SMS API in production)
             print(f"Sending OTP {otp} to {phone_number}")
             # send_mail(
             #     'Your OTP',
