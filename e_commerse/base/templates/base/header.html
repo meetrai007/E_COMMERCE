@@ -50,20 +50,6 @@
                         </a>
                     </li>
 
-                    {% if user.is_authenticated and not user.seller_profile %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'become_seller' %}">
-                            <i class="bi bi-person"></i> Become a Seller
-                        </a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'seller_dashboard' %}">
-                            <i class="bi bi-person"></i> Seller Dashbord
-                        </a>
-                    </li>
-                    {% endif %}
-
                     
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

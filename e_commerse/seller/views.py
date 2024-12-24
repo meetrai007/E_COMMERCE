@@ -66,21 +66,58 @@ def add_product(request):
     return render(request, 'seller/add_product.html', {'categories': categories})
 
 
-@login_required
+
 def seller_dashboard(request):
-    # Check if the user is a seller
-    if not hasattr(request.user, 'seller_profile'):
-        messages.error(request, "You must be a seller to view this page.")
-        return redirect('seller_dashboard')  # Redirect non-sellers elsewhere
+    seller_id = request.session.get('seller_id')
+    if not seller_id:
+        return redirect('seller_login')
 
-    seller = request.user.seller_profile
-    products = seller.products.all()  # Access the seller's products using the related_name
+    seller = Seller.objects.get(seller_id=seller_id)
+    return render(request, 'seller/seller_dashboard.html', {'seller': seller})
 
-    for product in products:
-        product.total_orders = Order.objects.filter(product=product).count()
-        avlable_quantity = product.quantity - product.total_orders
-        product.available_quantity = avlable_quantity
+def seller_logout(request):
+    request.session.flush()  # Clear all session data
+    return redirect('seller_login')
+
+def seller_register(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        email = request.POST['email']
+
+        if Seller.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists.')
+        else:
+            seller = Seller.objects.create(
+                username=username,
+                email=email,
+                owner_name=request.POST['owner_name'],
+                shop_name=request.POST['shop_name'],
+                shop_address=request.POST['shop_address'],
+                phone=request.POST['phone']
+            )
+            seller.set_password(password)  # Save the hashed password
+            messages.success(request, 'Registration successful. You can now log in.')
+            return redirect('seller_login')
+
+    return render(request, 'seller/seller_register.html')
 
 
-    # Render the seller dashboard    
-    return render(request, 'seller/seller_dashboard.html', {'products': products})
+
+def seller_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        try:
+            seller = Seller.objects.get(username=username)
+            if seller.check_password(password):
+                # Save the seller's ID in the session
+                request.session['seller_id'] = seller.seller_id
+                return redirect('seller_dashboard')
+            else:
+                messages.error(request, 'Invalid password.')
+        except Seller.DoesNotExist:
+            messages.error(request, 'Seller not found.')
+
+    return render(request, 'seller/seller_login.html')

@@ -167,3 +167,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # settings.py
 LOGOUT_REDIRECT_URL = '/'
+
+FAST2SMS_API_KEY = '0bb039eeb6fc1921702aaf370d7b0de4'
+
+# LOGIN_URL = '/seller/login/'  # Replace with your custom login URL
