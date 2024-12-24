@@ -15,6 +15,7 @@ urlpatterns = [
 
     # URL for seller logout
     path('logout/', views.seller_logout, name='seller_logout'),
+
 ]
 
 if settings.DEBUG:

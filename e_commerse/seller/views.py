@@ -6,8 +6,9 @@ from store.models import Product,Category
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from orders.models import Order
+from django.contrib.auth import authenticate, login
 
-@login_required
+@login_required(login_url='/seller/login/')
 def add_product(request):
     # Check if the user is a seller
     if not hasattr(request.user, 'seller_profile'):
@@ -67,13 +68,14 @@ def add_product(request):
 
 
 
+@login_required(login_url='/seller/login/')  # Specify login page URL
 def seller_dashboard(request):
-    seller_id = request.session.get('seller_id')
-    if not seller_id:
-        return redirect('seller_login')
+    if request.user.is_authenticated:
+        sellername = request.user.username  # Get the username of the logged-in seller
+    else:
+        sellername = None  # Optional: You can set a default value if not logged in
 
-    seller = Seller.objects.get(seller_id=seller_id)
-    return render(request, 'seller/seller_dashboard.html', {'seller': seller})
+    return render(request, 'seller/seller_dashboard.html', {'sellername': sellername})
 
 def seller_logout(request):
     request.session.flush()  # Clear all session data
@@ -109,15 +111,13 @@ def seller_login(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        try:
-            seller = Seller.objects.get(username=username)
-            if seller.check_password(password):
-                # Save the seller's ID in the session
-                request.session['seller_id'] = seller.seller_id
-                return redirect('seller_dashboard')
-            else:
-                messages.error(request, 'Invalid password.')
-        except Seller.DoesNotExist:
-            messages.error(request, 'Seller not found.')
+        # Authenticate the seller using the custom backend
+        seller = authenticate(request, username=username, password=password)
+
+        if seller is not None:
+            login(request, seller)  # Logs in the seller
+            return redirect('seller_dashboard')  # Redirect to a dashboard or test page
+        else:
+            messages.error(request, 'Invalid username or password.')
 
     return render(request, 'seller/seller_login.html')

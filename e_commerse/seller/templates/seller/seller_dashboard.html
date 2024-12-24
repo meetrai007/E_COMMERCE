@@ -8,7 +8,15 @@
 </head>
 <body>
     {% include 'base/header.html' %}
+
+    {% if sellername %}
+    <h1>Welcome, {{ sellername }}!</h1>
+{% else %}
+    <h1>You are not logged in.</h1>
+{% endif %}
+
     <br><br>
+    <h1>{{seller_name}}</h1>
     <hr class="page-divider"><br><br>
     
     <h2 class="page-header">Welcome to Your Dashboard</h2>
