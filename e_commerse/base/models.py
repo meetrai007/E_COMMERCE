@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.utils.timezone import now, timedelta
 
 
+
 class OTP(models.Model):
     phone_number = models.CharField(max_length=15, unique=True)
     otp = models.CharField(max_length=6)

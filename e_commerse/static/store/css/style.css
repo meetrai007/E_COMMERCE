@@ -10,7 +10,9 @@
     --shadow-light: rgba(0, 0, 0, 0.1); /* Light Shadow */
     --shadow-dark: rgba(0, 0, 0, 0.2); /* Dark Shadow */
 }
-
+a{
+    text-decoration: none;
+}
 /* Navbar */
 .navbar-custom {
     background-color: var(--light-bg);
@@ -262,6 +264,29 @@
 .product-price {
     font-size: 1.5rem;
     color: var(--primary-color);
+}
+
+/* account page */
+.sidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar h4 {
+    margin-bottom: 20px;
+}
+
+.account-page {
+    padding: 20px;
+}
+
+.section {
+    display: none;
+}
+
+.active-section {
+    display: block;
 }
 
 /* Footer */

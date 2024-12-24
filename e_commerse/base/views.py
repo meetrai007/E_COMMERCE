@@ -114,10 +114,10 @@ def account_page(request):
     purchased_products = orders.filter(status="Delivered")
 
     return render(request, 'useraccount/user_account.html', {
+        'user': user,
         'orders': orders,
         'purchased_products': purchased_products
     })
-
 
 @login_required
 def become_seller(request):
