@@ -116,7 +116,8 @@ def seller_login(request):
 
         if seller is not None:
             login(request, seller)  # Logs in the seller
-            return redirect('seller_dashboard')  # Redirect to a dashboard or test page
+            request.session['is_seller'] = True
+            return redirect('home')  # Redirect to a dashboard or test page
         else:
             messages.error(request, 'Invalid username or password.')
 

@@ -56,6 +56,7 @@ def login_or_signup_with_otp(request):
                         messages.success(request, "Logged in successfully.")
 
                     auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    request.session['is_seller'] = False
                     otp_record.delete()  # Clear OTP after use
                     return redirect('home')
                 else:

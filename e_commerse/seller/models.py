@@ -11,6 +11,7 @@ class Seller(models.Model):
     username = models.CharField(max_length=150, unique=True)  # Username for login
     password = models.CharField(max_length=128)  # Store hashed passwords
     last_login = models.DateTimeField(blank=True, null=True)
+    IS_seller = models.BooleanField(default=True)
 
     def set_password(self, raw_password):
         self.password = make_password(raw_password)

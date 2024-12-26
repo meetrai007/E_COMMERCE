@@ -43,14 +43,23 @@
                         <i class="bi bi-cart"></i> Cart
                     </a>
                 </li>
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'user_account' %}">
-                            <i class="bi bi-person"></i> Account
-                        </a>
-                    </li>
 
-                    
+                {% if user.is_authenticated %}
+                    <!-- Display different welcome message based on user type -->
+                    {% if request.session.is_seller %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'seller_dashboard' %}">
+                                <i class="bi bi-shop"></i> Welcome, Seller!
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user_account' %}">
+                                <i class="bi bi-person"></i> Welcome, {{ user.username }}!
+                            </a>
+                        </li>
+                    {% endif %}
+
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="bi bi-box-arrow-right"></i> Logout
