@@ -3,75 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        form {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 16px;
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <title>Seller Login</title>
+
 </head>
 <body>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required>
+
+    {% include 'base/header.html' %}
+    
+    <div class="main-container">
+
+        <!-- Login Container -->
+        <div class="login-container">
+            <div class="login-wrapper">
+                <!-- Heading for Login Seller -->
+                <h2>Login Seller</h2>
+    
+                <!-- Login Form -->
+                <form method="POST" class="seller-login-form">
+                    {% csrf_token %}
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username" required>
+                    
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" required>
+                    
+                    <button type="submit">Login</button>
+                </form>
+                
+                <!-- Or Divider -->
+                <div class="or-divider">
+                    <span>or</span>
+                </div>
+    
+                <!-- Register Button -->
+                <a href="{% url 'seller_register' %}">
+                    <button type="button" class="register-button">Register</button>
+                </a>
+    
+                <!-- Help Instructions -->
+                <div class="help-instructions">
+                    <p><strong>Need help?</strong></p>
+                    <p>If you're having trouble logging in, ensure your username and password are correct. If you’ve forgotten your password, click the “Forgot Password” link.</p>
+                    <p>Contact our customer service for further assistance.</p>
+                </div>
+            </div>
+        </div>
         
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
-        
-        <button type="submit">Login</button>
-    </form>
-    <a href="{% url 'seller_register' %}">Register</a>
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+    
+    </div>
+    {% include 'base/footer.html' %}
+
 </body>
 </html>
