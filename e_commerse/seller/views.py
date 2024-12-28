@@ -72,10 +72,12 @@ def add_product(request):
 def seller_dashboard(request):
     if request.user.is_authenticated:
         sellername = request.user.username  # Get the username of the logged-in seller
+        seller_id = request.user.seller_id
+        products = Product.objects.filter(seller=seller_id)
     else:
         sellername = None  # Optional: You can set a default value if not logged in
 
-    return render(request, 'seller/seller_dashboard.html', {'sellername': sellername})
+    return render(request, 'seller/seller_dashboard.html', {'sellername': sellername, 'products': products})
 
 def seller_logout(request):
     request.session.flush()  # Clear all session data

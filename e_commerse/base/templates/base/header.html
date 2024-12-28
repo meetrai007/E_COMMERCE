@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<!-- Navbar -->
+<!-- Navbar for -->
 <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
         <!-- Site Name / Logo -->
@@ -38,11 +38,13 @@
 
             <!-- Right-side Buttons: Cart, Login, or Logout -->
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if not request.session.is_seller %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'cart_view' %}">
                         <i class="bi bi-cart"></i> Cart
                     </a>
                 </li>
+                {% endif %}
 
                 {% if user.is_authenticated %}
                     <!-- Display different welcome message based on user type -->
@@ -55,7 +57,7 @@
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'user_account' %}">
-                                <i class="bi bi-person"></i> Welcome, {{ user.username }}!
+                                <i class="bi bi-person"></i> Account
                             </a>
                         </li>
                     {% endif %}
