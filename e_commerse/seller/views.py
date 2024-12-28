@@ -10,10 +10,7 @@ from django.contrib.auth import authenticate, login
 
 @login_required(login_url='/seller/login/')
 def add_product(request):
-    # Check if the user is a seller
-    if not hasattr(request.user, 'seller_profile'):
-        messages.error(request, "You must be a seller to add products.")
-        return redirect('seller_dashboard')
+    
 
     if request.method == 'POST':
         action = request.POST.get('action')
@@ -31,7 +28,7 @@ def add_product(request):
             else:
                 try:
                     category = Category.objects.get(id=category_id)
-                    seller = request.user.seller_profile
+                    seller = Seller.objects.get(username=request.user.username)
                     product = Product.objects.create(
                         seller=seller,
                         name=name,
