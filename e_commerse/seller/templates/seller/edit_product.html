@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .edit-product-container {
+            width: 50%;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .edit-product-form-group {
+            margin-bottom: 15px;
+        }
+
+        .edit-product-form-label {
+            display: block;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .edit-product-form-control {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .edit-product-form-control:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .edit-product-form-select {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .edit-product-form-text {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .edit-product-submit-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-product-submit-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .edit-product-container {
+                width: 90%;
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-product-container">
+        <h2>Edit Product: {{ product.name }}</h2>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Product Name -->
+            <div class="edit-product-form-group mb-3">
+                <label for="name" class="edit-product-form-label">Product Name:</label>
+                <input type="text" id="name" name="name" class="edit-product-form-control" value="{{ product.name }}" required>
+            </div>
+    
+            <!-- Category -->
+            <div class="edit-product-form-group mb-3">
+                <label for="category" class="edit-product-form-label">Category:</label>
+                <select id="category" name="category" class="edit-product-form-select" required>
+                    <option value="" disabled>Select Category</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if category.id == product.category.id %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <!-- Price -->
+            <div class="edit-product-form-group mb-3">
+                <label for="price" class="edit-product-form-label">Price:</label>
+                <input type="number" id="price" name="price" class="edit-product-form-control" step="0.01" value="{{ product.price }}" required>
+            </div>
+    
+            <!-- Description -->
+            <div class="edit-product-form-group mb-3">
+                <label for="description" class="edit-product-form-label">Description:</label>
+                <textarea id="description" name="description" class="edit-product-form-control" rows="4" required>{{ product.description }}</textarea>
+            </div>
+    
+            <!-- Photo Upload -->
+            <div class="edit-product-form-group mb-3">
+                <label for="photo" class="edit-product-form-label">Photo:</label>
+                <input type="file" id="photo" name="photo" class="edit-product-form-control">
+                <small class="edit-product-form-text">Leave empty to keep current photo.</small>
+            </div>
+    
+            <!-- Submit Button -->
+            <button type="submit" class="edit-product-submit-button">Update Product</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -16,6 +16,9 @@ urlpatterns = [
     # URL for seller logout
     path('logout/', views.seller_logout, name='seller_logout'),
 
+    path('products/edit/<int:product_id>/', views.edit_product, name='edit_product'),
+    path('products/delete/<int:product_id>/', views.remove_product, name='remove_product'),
+
 ]
 
 if settings.DEBUG:

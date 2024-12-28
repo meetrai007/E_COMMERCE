@@ -47,7 +47,8 @@ def place_order(request, slug):
             delivery_address=selected_address.address_line1,  # Store only the line1 for now
             status='Pending'
         )
-
+        product.quantity -= 1
+        product.save()
         # Redirect to an order success page (or another destination)
         return redirect('order_success')
 
