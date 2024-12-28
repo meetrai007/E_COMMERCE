@@ -65,17 +65,45 @@ def add_product(request):
 
 
 
-@login_required(login_url='/seller/login/')  # Specify login page URL
+
+
+@login_required(login_url='/seller/login/')
 def seller_dashboard(request):
-    if request.user.is_authenticated:
-        sellername = request.user.username  # Get the username of the logged-in seller
-        seller_id = request.user.seller_id
-        products = Product.objects.filter(seller=seller_id)
-    else:
-        sellername = None  # Optional: You can set a default value if not logged in
+    sellername = request.user.username
+    seller_id = request.user.seller_id
 
-    return render(request, 'seller/seller_dashboard.html', {'sellername': sellername, 'products': products})
+    # Fetch products and orders
+    products = Product.objects.filter(seller=seller_id)
+    orders = Order.objects.filter(product__seller=seller_id)
+    categories = Category.objects.all()  # Get all categories for dropdown
 
+    # Handle Add Product logic
+    if request.method == 'POST' and request.POST.get('action') == 'add_product':
+        name = request.POST['name']
+        category_id = request.POST['category']
+        price = request.POST['price']
+        description = request.POST['description']
+        photo = request.FILES.get('photo')
+
+        category = Category.objects.get(id=category_id)
+        Product.objects.create(
+            name=name,
+            category=category,
+            price=price,
+            description=description,
+            photo=photo,
+            seller=request.user
+        )
+        return redirect('seller_dashboard')
+
+    context = {
+        'sellername': sellername,
+        'products': products,
+        'orders': orders,
+        'categories': categories,
+        'seller': request.user
+    }
+    return render(request, 'seller/seller_dashboard.html', context)
 def seller_logout(request):
     request.session.flush()  # Clear all session data
     return redirect('seller_login')
