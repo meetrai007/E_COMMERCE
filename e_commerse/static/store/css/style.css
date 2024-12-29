@@ -137,7 +137,7 @@ a {
 }
 
 /* Main Container */
-.container {
+.container-login {
     max-width: 400px;
     margin: 50px auto;
     background-color: #ffffff;
