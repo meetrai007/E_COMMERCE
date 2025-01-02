@@ -13,15 +13,8 @@
     
     {% include 'base/header.html' %}
     
-    {% if messages %}
-    <div class="container mt-3">
-        {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
-                {{ message }}
-            </div>
-        {% endfor %}
-    </div>
-{% endif %}
+    {% include 'base/alert_message.html' %}
+    
 
 <div class="category-list">
     {% for category in categories %}

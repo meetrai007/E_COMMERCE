@@ -1,0 +1,22 @@
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+        <div 
+            class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" 
+            role="alert"
+            id="alert-{{ forloop.counter }}"
+        >
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+<script>
+    // Auto-hide alerts after 2 seconds
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function () {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => alert.remove());
+        }, 2000); // 2000 ms = 2 seconds
+    });
+</script>
+{% endif %}
