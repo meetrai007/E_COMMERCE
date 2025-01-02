@@ -19,8 +19,7 @@
     <div class="container-fluid">
         <!-- Site Name / Logo -->
         <a class="navbar-brand" href="{% url 'home' %}">
-            <img src="/static/store/img/logo.png" alt="Site Logo">
-            The Sirsa Store
+            <img src="/static/store/img/mainlogo.png" alt="Site Logo">
         </a>
 
         <!-- Navbar Toggler (for mobile view) -->
@@ -31,9 +30,9 @@
         <!-- Navbar Links and Search -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Search Form -->
-            <form class="d-flex mx-auto" action="{% url 'search_products' %}" method="get">
-                <input class="form-control-navbar me-2" name="q" type="search" placeholder="Search products" aria-label="Search" value="{{ query }}">
-                <button class="btn btn-custom-navbar" type="submit">Search</button>
+            <form class="d-flex mx-auto " action="{% url 'search_products' %}" method="get">
+                <input class="form-control-navbar " name="q" type="search" placeholder="Search products" aria-label="Search" value="{{ query }}">
+                <button class=" btn-custom-navbar" type="submit">Search</button>
             </form>
 
             <!-- Right-side Buttons: Cart, Login, or Logout -->

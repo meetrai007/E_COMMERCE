@@ -1,24 +1,16 @@
 /* General Theme Settings */
 :root {
-    --primary-color: #28a745;
-    /* Green */
-    --secondary-color: #007bff;
-    /* Blue */
-    --text-color: #000;
-    /* Black */
-    --light-bg: #f8f9fa;
-    /* Light Gray */
-    --dark-bg: #343a40;
-    /* Dark Gray */
-    --hover-color: #0056b3;
-    /* Darker Blue */
-    --border-color: #ddd;
-    /* Light Gray Border */
-    --shadow-light: rgba(0, 0, 0, 0.1);
-    /* Light Shadow */
-    --shadow-dark: rgba(0, 0, 0, 0.2);
-    /* Dark Shadow */
+    --primary-color: #2ecc71; /* Soft Green */
+    --secondary-color: #3498db; /* Soft Blue */
+    --text-color: #000000; /* Near White */
+    --light-bg: #ecf0f1; /* Very Light Gray */
+    --dark-bg: #2c3e50; /* Dark Gray-Blue */
+    --hover-color: #27ae60; /* Darker Green */
+    --border-color: #bdc3c7; /* Light Gray Border */
+    --shadow-light: rgba(255, 255, 255, 0.2); /* Light White Shadow */
+    --shadow-dark: rgba(0, 0, 0, 0.3); /* Darker Shadow */
 }
+
 
 a {
     text-decoration: none;
@@ -34,12 +26,13 @@ a {
 }
 
 .navbar-brand img {
-    width: 40px;
     height: 40px;
 }
 
 .navbar-nav .nav-link {
     color: var(--text-color);
+    font-weight: 500;
+    font-size: 1.4rem;
 }
 
 .navbar-nav .nav-link:hover {
@@ -48,12 +41,16 @@ a {
 
 .form-control-navbar {
     width: 350px;
+    border-radius: 10px 0px 0px 10px;
+    border: 1px solid var(--border-color);
+    height: 48px;
 }
 
 .btn-custom-navbar {
     color: white;
     background-color: var(--primary-color);
     border: none;
+    border-radius: 0px 10px 10px 0px;
     height: 48px;
 }
 
