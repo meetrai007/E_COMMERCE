@@ -1,3 +1,9 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
 /* General Theme Settings */
 :root {
     --primary-color: #2ecc71; /* Soft Green */
@@ -12,9 +18,7 @@
 }
 
 
-a {
-    text-decoration: none;
-}
+
 
 /* Navbar */
 .navbar-custom {
@@ -59,6 +63,22 @@ a {
 }
 
 /* Categories */
+
+.category-list {
+    margin: 20px 50px;
+    display: flex;
+    overflow-x: scroll;
+    background-color: white;
+}
+.category-list a{
+    text-decoration: none;
+}
+
+.category-list::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar for Webkit-based browsers */
+}
+
 .category-tile {
     text-align: center;
     border: 1px solid var(--border-color);
@@ -68,6 +88,7 @@ a {
     background-color: var(--light-bg);
     transition: box-shadow 0.3s;
     width: 150px;
+    height: 200px;
 }
 
 .category-tile:hover {
@@ -75,6 +96,7 @@ a {
 }
 
 .category-logo {
+    
     width: 80px;
     height: 80px;
     object-fit: contain;
@@ -85,17 +107,7 @@ a {
     font-size: 1.2rem;
     font-weight: 500;
     color: var(--text-color);
-}
-
-.category-list {
-    margin: 20px 50px;
-    display: flex;
-    overflow-x: scroll;
-}
-
-.category-list::-webkit-scrollbar {
-    display: none;
-    /* Hide scrollbar for Webkit-based browsers */
+    
 }
 
 
@@ -355,6 +367,7 @@ a {
 
 /* Footer */
 .footer {
+    margin-top: 20px;
     background-color: var(--light-bg);
     color: var(--text-color);
     padding: 2rem 1rem;
@@ -377,10 +390,7 @@ a {
     gap: 1rem;
 }
 
-.footer-brand img {
-    width: 30px;
-    height: 30px;
-}
+
 
 .footer-grid {
     display: grid;
@@ -445,12 +455,6 @@ a {
 
 /* seller dashboard */
 /* General layout */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
 
 /* Dashboard Wrapper */
 .dashboard-wrapper {
