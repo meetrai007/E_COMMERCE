@@ -98,6 +98,10 @@
     </style>
 </head>
 <body>
+    <!-- Include Header -->
+    {% include 'base/header.html' %}
+
+    <!-- Edit Product Form -->
     <div class="edit-product-container">
         <h2>Edit Product: {{ product.name }}</h2>
         
@@ -126,7 +130,13 @@
                 <label for="price" class="edit-product-form-label">Price:</label>
                 <input type="number" id="price" name="price" class="edit-product-form-control" step="0.01" value="{{ product.price }}" required>
             </div>
-    
+            
+            <!-- Quantity -->
+            <div class="edit-product-form-group mb-3">
+                <label for="quantity" class="edit-product-form-label">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" class="edit-product-form-control" value="{{ product.quantity }}" required>
+            </div>
+
             <!-- Description -->
             <div class="edit-product-form-group mb-3">
                 <label for="description" class="edit-product-form-label">Description:</label>
@@ -144,5 +154,8 @@
             <button type="submit" class="edit-product-submit-button">Update Product</button>
         </form>
     </div>
+
+    <!-- Include Footer -->
+    {% include 'base/footer.html' %}
 </body>
 </html>

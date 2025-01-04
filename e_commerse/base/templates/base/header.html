@@ -52,8 +52,13 @@
                     <!-- Display different welcome message based on user type -->
                     {% if request.session.is_seller %}
                         <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-person"></i> Welcome,{{ user.username }}!
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'seller_dashboard' %}">
-                                <i class="bi bi-shop"></i> Welcome, Seller!
+                                <i class="bi bi-shop"></i> Dashboard
                             </a>
                         </li>
                     {% else %}

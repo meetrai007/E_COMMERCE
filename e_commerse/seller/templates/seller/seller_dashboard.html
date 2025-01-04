@@ -14,21 +14,90 @@
         <nav class="dashboard-sidebar">
             <!-- Seller Info Section -->
             <div class="seller-info text-center p-3">
-                <h4 class="seller-name">Seller name : {{ seller.owner_name }}</h4>
-                <p class="shop-name">Shop name : {{ seller.shop_name }}</p>
+                <h4 class="seller-name">Seller name: {{ seller.owner_name }}</h4>
+                <p class="shop-name">Shop name: {{ seller.shop_name }}</p>
             </div>
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <li class="sidebar-item"><a href="#" class="sidebar-link" onclick="showSection('section-add-product')">Add Product</a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link" onclick="showSection('section-view-products')">View Products</a></li>
                 <li class="sidebar-item"><a href="#" class="sidebar-link" onclick="showSection('section-orders')">View Orders</a></li>
+                <li class="sidebar-item"><a href="#" class="sidebar-link" onclick="showSection('section-add-product')">Add Product</a></li>
             </ul>
         </nav>
 
         <div class="dashboard-content">
+            <!-- View Products Section -->
+            <section id="section-view-products" class="dashboard-section section-active">
+                <h2 class="section-title">Your Products</h2>
+                <table class="table product-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <td>{{ product.id }}</td>
+                            <td><img src="{{ product.photo.url }}" alt="{{ product.name }}" width="50" height="50"></td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.category.name }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td>₹{{ product.price }}</td>
+                            <td>
+                                <a href="{% url 'edit_product' product.id %}" class="btn btn-edit">Edit</a>
+                                <a href="{% url 'remove_product' product.id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7">No products found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="section-orders" class="dashboard-section">
+                <h2 class="section-title">Your Orders</h2>
+                <table class="table order-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.product.name }}</td>
+                            <td>{{ order.quantity }}</td>
+                            <td>{{ order.order_date }}</td>
+                            <td>{{ order.status }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">No orders found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+
             <!-- Add Product Section -->
-            <section id="section-add-product" class="dashboard-section section-active">
+            <section id="section-add-product" class="dashboard-section">
                 <h2 class="section-title">Add New Product</h2>
                 <form method="POST" enctype="multipart/form-data" class="add-product-form">
                     {% csrf_token %}
@@ -51,6 +120,10 @@
                         <input type="number" id="price" name="price" class="form-control" step="0.01" required>
                     </div>
                     <div class="form-group">
+                        <label for="quantity" class="form-label">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" class="form-control" required>
+                    </div>
+                    <div class="form-group">
                         <label for="description" class="form-label">Description:</label>
                         <textarea id="description" name="description" class="form-control" required></textarea>
                     </div>
@@ -61,78 +134,9 @@
                     <button type="submit" class="btn btn-submit">Add Product</button>
                 </form>
             </section>
-
-            <!-- View Products Section -->
-<section id="section-view-products" class="dashboard-section">
-    <h2 class="section-title">Your Products</h2>
-    <table class="table product-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Photo</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td><img src="{{ product.photo.url }}" alt="{{ product.name }}" width="50" height="50"></td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.category.name }}</td>
-                <td>{{ product.quantity }}</td>
-                <td>${{ product.price }}</td>
-                <td>
-                    <a href="{% url 'edit_product' product.id %}" class="btn btn-edit">Edit</a>
-                    <a href="{% url 'remove_product' product.id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="3">No products found.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</section>
-
-
-            <!-- Orders Section -->
-            <section id="section-orders" class="dashboard-section">
-                <h2 class="section-title">Your Orders</h2>
-                <table class="table order-table">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for order in orders %}
-                        <tr>
-                            <td>{{ order.id }}</td>
-                            <td>{{ order.product.name }}</td>
-                            <td>{{ order.quantity }}</td>
-                            <td>{{ order.order_date }}</td>
-                            <td>{{ order.status }}</td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="4">No orders found.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </section>
         </div>
     </div>
+
 
     <script>
         function showSection(sectionId) {
@@ -140,6 +144,7 @@
             document.getElementById(sectionId).classList.add('section-active');
         }
     </script>
+
 </body>
 
 </html>
