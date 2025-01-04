@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Login</title>
+
+</head>
+<body>
+
+    {% include 'base/header.html' %}
+    
+    <div class="main-container">
+
+        <!-- Login Container -->
+        <div class="login-container">
+            <div class="login-wrapper">
+                <!-- Heading for Login Seller -->
+                <h2>Login Seller</h2>
+    
+                <!-- Login Form -->
+                <form method="POST" class="seller-login-form">
+                    {% csrf_token %}
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username" required>
+                    
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" required>
+                    
+                    <button type="submit">Login</button>
+                </form>
+                
+                <!-- Or Divider -->
+                <div class="or-divider">
+                    <span>or</span>
+                </div>
+    
+                <!-- Register Button -->
+                <a href="{% url 'seller_register' %}">
+                    <button type="button" class="register-button">Register</button>
+                </a>
+    
+                <!-- Help Instructions -->
+                <div class="help-instructions">
+                    <p><strong>Need help?</strong></p>
+                    <p>If you're having trouble logging in, ensure your username and password are correct. If you’ve forgotten your password, click the “Forgot Password” link.</p>
+                    <p>Contact our customer service for further assistance.</p>
+                </div>
+            </div>
+        </div>
+        
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+    
+    </div>
+    {% include 'base/footer.html' %}
+
+</body>
+</html>

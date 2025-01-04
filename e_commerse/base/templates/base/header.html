@@ -14,13 +14,12 @@
 </head>
 <body>
 
-<!-- Navbar -->
+<!-- Navbar for -->
 <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
         <!-- Site Name / Logo -->
         <a class="navbar-brand" href="{% url 'home' %}">
-            <img src="/static/store/img/logo.png" alt="Site Logo">
-            The Sirsa Store
+            <img src="/static/store/img/mainlogo.png" alt="Site Logo">
         </a>
 
         <!-- Navbar Toggler (for mobile view) -->
@@ -30,41 +29,46 @@
 
         <!-- Navbar Links and Search -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {% if not request.session.is_seller %}
             <!-- Search Form -->
-            <form class="d-flex mx-auto" action="{% url 'search_products' %}" method="get">
-                <input class="form-control me-2" name="q" type="search" placeholder="Search products" aria-label="Search" value="{{ query }}">
-                <button class="btn btn-custom" type="submit">Search</button>
+            <form class="d-flex mx-auto " action="{% url 'search_products' %}" method="get">
+                <input class="form-control-navbar " name="q" type="search" placeholder="Search products" aria-label="Search" value="{{ query }}">
+                <button class=" btn-custom-navbar" type="submit">Search</button>
             </form>
+            
+        {% endif %}
 
             <!-- Right-side Buttons: Cart, Login, or Logout -->
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if not request.session.is_seller %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'cart_view' %}">
                         <i class="bi bi-cart"></i> Cart
                     </a>
                 </li>
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'user_account' %}">
-                            <i class="bi bi-person"></i> {{ user.username }}
-                        </a>
-                    </li>
+                {% endif %}
 
-                    {% if user.is_authenticated and not user.seller_profile %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'become_seller' %}">
-                            <i class="bi bi-person"></i> Become a Seller
-                        </a>
-                    </li>
+                {% if user.is_authenticated %}
+                    <!-- Display different welcome message based on user type -->
+                    {% if request.session.is_seller %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-person"></i> Welcome,{{ user.username }}!
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'seller_dashboard' %}">
+                                <i class="bi bi-shop"></i> Dashboard
+                            </a>
+                        </li>
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'seller_dashboard' %}">
-                            <i class="bi bi-person"></i> Seller Dashbord
-                        </a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user_account' %}">
+                                <i class="bi bi-person"></i> Account
+                            </a>
+                        </li>
                     {% endif %}
 
-                    
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="bi bi-box-arrow-right"></i> Logout
@@ -76,7 +80,7 @@
                     </form>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">
+                        <a class="nav-link" href="{% url 'login_or_signup_with_otp' %}">
                             <i class="bi bi-box-arrow-in-right"></i> Login
                         </a>
                     </li>

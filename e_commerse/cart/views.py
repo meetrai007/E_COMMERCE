@@ -27,7 +27,7 @@ def cart_view(request):
         return render(request, 'cart/cart.html', {'cart': cart})
     else:
         # Redirect to login or show an error
-        return redirect('login')
+        return redirect('login_or_signup_with_otp')
 
 
 def add_to_cart(request, product_id):

@@ -21,13 +21,17 @@
                     {% endif %}
                     <div class="card-body">
                         <h5 class="product-title">{{ product.name }}</h5>
-                        <p class="product-price">$ {{ product.price }}</p>
+                        <p class="product-price">₹{{ product.price }}</p>
                         <p class="product-description">{{ product.description|linebreaksbr }}</p>
 
                         <!-- Buy Now and Add to Cart Buttons -->
                         <div class="d-flex justify-content-between">
-                            <a href="{% url 'place_order' product.slug %}" class="btn btn-success btn-sm">Buy Now</a>
-                            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning btn-sm">Add to Cart</a>
+                            {% if product.quantity > 0 %}
+                                <a href="{% url 'place_order' product.slug %}" class="btn btn-success btn-sm">Buy Now</a>
+                                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning btn-sm">Add to Cart</a>
+                            {% else %}
+                                <p class="text-danger">Out of Stock</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

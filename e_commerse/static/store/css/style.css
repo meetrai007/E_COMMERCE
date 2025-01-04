@@ -1,15 +1,24 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
 /* General Theme Settings */
 :root {
-    --primary-color: #28a745; /* Green */
-    --secondary-color: #007bff; /* Blue */
-    --text-color: #000; /* Black */
-    --light-bg: #f8f9fa; /* Light Gray */
-    --dark-bg: #343a40; /* Dark Gray */
-    --hover-color: #0056b3; /* Darker Blue */
-    --border-color: #ddd; /* Light Gray Border */
-    --shadow-light: rgba(0, 0, 0, 0.1); /* Light Shadow */
-    --shadow-dark: rgba(0, 0, 0, 0.2); /* Dark Shadow */
+    --primary-color: #2ecc71; /* Soft Green */
+    --secondary-color: #3498db; /* Soft Blue */
+    --text-color: #000000; /* Near White */
+    --light-bg: #ecf0f1; /* Very Light Gray */
+    --dark-bg: #2c3e50; /* Dark Gray-Blue */
+    --hover-color: #27ae60; /* Darker Green */
+    --border-color: #bdc3c7; /* Light Gray Border */
+    --shadow-light: rgba(255, 255, 255, 0.2); /* Light White Shadow */
+    --shadow-dark: rgba(0, 0, 0, 0.3); /* Darker Shadow */
 }
+
+
+
 
 /* Navbar */
 .navbar-custom {
@@ -21,33 +30,55 @@
 }
 
 .navbar-brand img {
-    width: 40px;
     height: 40px;
 }
 
 .navbar-nav .nav-link {
     color: var(--text-color);
+    font-weight: 500;
+    font-size: 1.4rem;
 }
 
 .navbar-nav .nav-link:hover {
     color: var(--primary-color);
 }
 
-.form-control {
+.form-control-navbar {
     width: 350px;
+    border-radius: 10px 0px 0px 10px;
+    border: 1px solid var(--border-color);
+    height: 48px;
 }
 
-.btn-custom {
+.btn-custom-navbar {
     color: white;
     background-color: var(--primary-color);
     border: none;
+    border-radius: 0px 10px 10px 0px;
+    height: 48px;
 }
 
-.btn-custom:hover {
+.btn-custom-navbar:hover {
     background-color: var(--hover-color);
 }
 
 /* Categories */
+
+.category-list {
+    margin: 20px 50px;
+    display: flex;
+    overflow-x: scroll;
+    background-color: white;
+}
+.category-list a{
+    text-decoration: none;
+}
+
+.category-list::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar for Webkit-based browsers */
+}
+
 .category-tile {
     text-align: center;
     border: 1px solid var(--border-color);
@@ -57,6 +88,7 @@
     background-color: var(--light-bg);
     transition: box-shadow 0.3s;
     width: 150px;
+    height: 200px;
 }
 
 .category-tile:hover {
@@ -64,6 +96,7 @@
 }
 
 .category-logo {
+    
     width: 80px;
     height: 80px;
     object-fit: contain;
@@ -74,16 +107,134 @@
     font-size: 1.2rem;
     font-weight: 500;
     color: var(--text-color);
+    
 }
 
-.category-list {
-    margin: 20px 50px;
-    display: flex;
-    overflow-x: scroll;
+
+/* login or signup */
+
+/* Seller Section */
+.seller-section_login {
+    background-color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #e0e0e0;
 }
-.category-list::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for Webkit-based browsers */
+
+.seller-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #28a745;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
 }
+
+.seller-button:hover {
+    background-color: #218838;
+}
+
+.or-text {
+    margin-top: 15px;
+    font-size: 16px;
+    color: #6c757d;
+    font-weight: bold;
+}
+
+/* Main Container */
+.container-login {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+}
+
+.alert {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Form Styling */
+.login_form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #495057;
+}
+
+.login_form input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+}
+
+.login_form input:focus {
+    outline: none;
+    border-color: #80bdff;
+    background-color: #ffffff;
+}
+
+.form-button,
+.resend-button {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+.resend-button {
+    background-color: #ffc107;
+    margin-top: 10px;
+}
+
+.resend-button:hover {
+    background-color: #e0a800;
+}
+
+/* Help Section */
+.help-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #6c757d;
+    text-align: center;
+}
+
+.help-text strong {
+    color: #495057;
+}
+
 
 /* Products */
 .container_products h1 {
@@ -105,7 +256,7 @@
 }
 
 .product-card:hover {
-    transform: scale(1.05);
+    box-shadow: 0px 4px 10px var(--shadow-dark);
 }
 
 .product-title {
@@ -191,8 +342,32 @@
     color: var(--primary-color);
 }
 
+/* account page */
+.sidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar h4 {
+    margin-bottom: 20px;
+}
+
+.account-page {
+    padding: 20px;
+}
+
+.section {
+    display: none;
+}
+
+.active-section {
+    display: block;
+}
+
 /* Footer */
 .footer {
+    margin-top: 20px;
     background-color: var(--light-bg);
     color: var(--text-color);
     padding: 2rem 1rem;
@@ -200,7 +375,7 @@
 }
 
 .footer-container {
-    
+
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -215,10 +390,7 @@
     gap: 1rem;
 }
 
-.footer-brand img {
-    width: 30px;
-    height: 30px;
-}
+
 
 .footer-grid {
     display: grid;
@@ -282,112 +454,207 @@
 }
 
 /* seller dashboard */
-/* General page styling */
-.page-header {
-    text-align: center;
-    color: #2c3e50;
+/* General layout */
+
+/* Dashboard Wrapper */
+.dashboard-wrapper {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
 }
 
-.page-divider {
-    border: none;
-    border-top: 2px solid #2c3e50;
+/* Sidebar */
+.dashboard-sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    padding-top: 20px;
+    position: fixed;
+    height: 100%;
 }
 
-.link-button {
-    display: inline-block;
-    margin: 10px auto;
-    text-align: center;
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-item {
+    margin: 20px 0;
+}
+
+.sidebar-link {
+    color: #fff;
     text-decoration: none;
-    color: white;
-    background-color: #3498db;
-    padding: 10px 20px;
-    border-radius: 5px;
+    font-size: 16px;
+    padding: 10px;
+    display: block;
     transition: background-color 0.3s;
 }
 
-.link-button:hover {
-    background-color: #2980b9;
+.sidebar-link:hover {
+    background-color: #007bff;
 }
 
-/* Table styling */
-.table {
-    margin: 20px auto;
-    width: 90%;
-    border-collapse: collapse;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: white;
+/* Dashboard Content */
+.dashboard-content {
+    margin-left: 250px;
+    padding: 20px;
+    flex: 1;
+    background-color: #fff;
+    overflow-y: auto;
 }
 
-.table-header {
-    background-color: #34495e;
-    color: white;
+/* Section Styles */
+.dashboard-section {
+    display: none;
 }
 
-.table-header th {
+.dashboard-section.section-active {
+    display: block;
+}
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Add Product Form */
+.add-product-form {
+    max-width: 800px;  /* Limit the form width */
+    margin: 0 auto;  /* Center the form */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    font-size: 16px;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
     padding: 10px;
-    text-align: left;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.table-row {
+.form-select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea.form-control {
+    height: 120px;
+}
+
+input[type="file"] {
+    padding: 6px;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.btn-submit {
+    background-color: #28a745;
+    color: #fff;
+    width: 100%;  /* Make the submit button full-width */
+}
+
+.btn-submit:hover {
+    background-color: #218838;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #fff;
+    margin-right: 10px;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
-.table-row:nth-child(even) {
-    background-color: #f2f2f2;
+.table th {
+    background-color: #f8f9fa;
+    font-size: 18px;
 }
 
-.table-cell {
-    padding: 10px;
-    text-align: left;
+.table td {
+    background-color: #fff;
 }
 
-.table img {
-    display: block;
-    max-width: 100px;
-    max-height: 100px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.table tbody tr:hover {
+    background-color: #f1f1f1;
 }
 
-/* Center "No products found" message */
-.table-no-products {
-    text-align: center;
-    font-style: italic;
-    color: #7f8c8d;
+.product-table td, .order-table td {
+    font-size: 16px;
 }
 
-/* Highlight row on hover */
-.table-row:hover {
-    background-color: #e0f7fa;
+.product-table .btn, .order-table .btn {
+    margin: 0;
+}
+/* Seller Info Section */
+.seller-info {
+    background-color: #007bff;  /* Blue background */
+    color: #fff;
+    padding: 20px;
+    border-bottom: 2px solid #0056b3;
 }
 
-
-/* Login and Signup Forms */
-.login-form,
-.signup-form {
-    width: 100%;
-    max-width: 400px;
-    padding: 30px;
-    margin: 50px auto;
-    background: #fff;
-    box-shadow: 0px 0px 10px var(--shadow-light);
+.seller-info .seller-name {
+    font-size: 20px;
+    font-weight: bold;
 }
 
-.login-form .form-title,
-.signup-form .form-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--text-color);
+.seller-info .shop-name {
+    font-size: 16px;
+    margin-top: 5px;
 }
-
-.social-login-btn {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.otp-field {
-    display: none;
-}
+ 
 
 /* Product Order Page */
 .container-oder {
@@ -547,4 +814,239 @@
     font-size: 0.9rem;
     font-weight: bold;
     color: var(--text-color);
+}
+
+
+
+/* Main Container for Login */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Login Wrapper */
+.login-wrapper {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: center;
+}
+
+/* Heading */
+.login-wrapper h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Login Form Styles */
+.seller-login-form {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.seller-login-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.seller-login-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.seller-login-form input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.seller-login-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.seller-login-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Divider */
+.or-divider {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 16px;
+    color: #666;
+}
+
+.or-divider span {
+    background-color: #fff;
+    padding: 0 10px;
+}
+
+/* Register Button */
+.register-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+    background-color: #218838;
+}
+
+/* Help Instructions */
+.help-instructions {
+    background-color: #fafafa;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    color: #555;
+    text-align: center;
+}
+
+.help-instructions p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+/* Container for Form */
+.form-container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+label {
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+    flex: 1 1 100%;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Button Styles */
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+/* Login Link */
+.login-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/* Help Section */
+.help-section {
+    background-color: #fafafa;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 8px;
+    text-align: center;
+    color: #666;
+}
+
+.help-section p {
+    margin: 0;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
 }

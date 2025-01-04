@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <!-- Include Header -->
+    {% include 'base/header.html' %}
+
+    
+
+    <!-- OTP Verification Form -->
+    <div class="container-login">
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+
+        <div class="login_form">
+            <form method="POST">
+                {% csrf_token %}
+                {% if otp_sent %}
+                    <p class="form-text">An OTP has been sent to <strong>{{ phone_number }}</strong>. Please enter it below to verify your account.</p>
+                    <label for="otp">Enter OTP</label>
+                    <input type="text" name="otp" id="otp" placeholder="Enter OTP" required>
+                    <input type="hidden" name="phone_number" value="{{ phone_number }}">
+                    <button type="submit" class="form-button">Verify OTP</button>
+                {% else %}
+                    <h1>OTP Verification</h1>
+                    <p class="form-text">Enter your phone number below to receive an OTP for login.</p>
+                    <label for="phone_number">Phone Number</label>
+                    <input type="text" name="phone_number" id="phone_number" placeholder="Enter your phone number" value="+91" required>
+                    <button type="submit" name="action" value="send" class="form-button">Send OTP</button>
+                {% endif %}
+
+                {% if otp_sent %}
+                    <form method="POST" style="margin-top: 10px;">
+                        {% csrf_token %}
+                        <input type="hidden" name="phone_number" value="{{ phone_number }}">
+                        <input type="hidden" name="action" value="resend">
+                        <button type="submit" class="resend-button">Resend OTP</button>
+                    </form>
+                {% endif %}
+            </form>
+            <div class="or-text">OR</div>
+            <!-- Seller Login Section -->
+    <div class="seller-section">
+        <a href="{% url 'seller_login' %}" class="seller-button">Seller Login or Become a Seller</a>
+    </div>
+        </div>
+
+        <!-- Help Text -->
+        <div class="help-text">
+            <p><strong>Need Help?</strong></p>
+            <p>If you're a seller, click on <strong>"Seller Login or Become a Seller"</strong> above to manage your seller account or register as a seller.</p>
+            <p>If you're a customer, use the OTP form to securely log in to your account.</p>
+        </div>
+    </div>
+
+    <!-- Include Footer -->
+    {% include 'base/footer.html' %}
+</body>
+</html>

@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Product
 from django.db.models import Q
 from rapidfuzz.fuzz import partial_ratio
+from django.core.cache import cache
 
 def home_view(request):
     categories = Category.objects.all()  # Fetch all categories
@@ -34,8 +35,13 @@ def product_detail_view(request, slug):
 
 def search_products(request):
     query = request.GET.get('q', '')  # Get the search term from the 'q' parameter in the URL
-    products = Product.objects.all()  # Fetch all products to filter them manually
     
+    try:
+        products = list(cache.get('products'))
+    except:
+        products = (Product.objects.all())
+        cache.set('products', products)
+
     if query:
         # Create a list to store products with similarity scores
         matched_products = []
