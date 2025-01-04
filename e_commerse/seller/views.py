@@ -20,7 +20,7 @@ def seller_dashboard(request):
     categories = Category.objects.all()  # Get all categories for dropdown
 
     # Handle Add Product logic
-    if request.method == "POST" and request.POST.get("action") == "add_product":
+    if request.method == "POST":
         name = request.POST["name"]
         category_id = request.POST["category"]
         price = request.POST["price"]
@@ -38,6 +38,9 @@ def seller_dashboard(request):
             photo=photo,
             seller=request.user,
         )
+        # update the cache
+        cache.set("products", products)
+        
         return redirect("seller_dashboard")
 
     context = {

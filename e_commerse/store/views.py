@@ -37,9 +37,9 @@ def search_products(request):
     query = request.GET.get('q', '')  # Get the search term from the 'q' parameter in the URL
     
     try:
-        products = cache.get('products')
+        products = list(cache.get('products'))
     except:
-        products = Product.objects.all()
+        products = (Product.objects.all())
         cache.set('products', products)
 
     if query:
