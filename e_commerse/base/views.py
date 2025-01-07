@@ -9,7 +9,12 @@ from django.utils.timezone import now
 from .models import OTP
 from django.contrib.auth.decorators import login_required
 from django.utils.crypto import get_random_string
+from .forms import UserProfileForm
 from .utils import validate_phone_number, generate_otp  # Assuming you have these utility functions
+from .models import Userprofile
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 def login_or_signup_with_otp(request):
     context = {}
@@ -78,17 +83,40 @@ def login_or_signup_with_otp(request):
 
     return render(request, 'register/login_or_signup.html', context)
 
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Userprofile.objects.create(user=instance, phone_number=instance.username)
 
 
+@login_required
+def update_profile(request):
+    try:
+        profile = request.user.userprofile
+    except Userprofile.DoesNotExist:
+        profile = Userprofile.objects.create(user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated successfully.')
+            return redirect('profile_update')
+    else:
+        form = UserProfileForm(instance=profile)
+    
+    return render(request, 'useraccount/update_profile.html', {'form': form})
 
 @login_required
 def account_page(request):
     user = request.user
+    userprofile = user.userprofile
     orders = Order.objects.filter(buyer=user)
     purchased_products = orders.filter(status="Delivered")
 
     return render(request, 'useraccount/user_account.html', {
         'user': user,
+        'userprofile': userprofile,
         'orders': orders,
         'purchased_products': purchased_products
     })

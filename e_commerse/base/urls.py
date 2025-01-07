@@ -17,6 +17,8 @@ urlpatterns = [
     path('become-seller/', views.become_seller, name='become_seller'),
     path('login-or-signup/', views.login_or_signup_with_otp, name='login_or_signup_with_otp'),
 
+    path('profile/update/', views.update_profile, name='profile_update'),
+
 ]
 
 

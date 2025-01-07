@@ -39,7 +39,7 @@ def search_products(request):
     try:
         products = list(cache.get('products'))
     except:
-        products = (Product.objects.all())
+        products = Product.objects.all()
         cache.set('products', products)
 
     if query:
