@@ -1,5 +1,4 @@
-import random
-import phonenumbers
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login,authenticate
@@ -9,25 +8,9 @@ from django.contrib import messages
 from django.utils.timezone import now
 from .models import OTP
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail  # For simulation; replace with SMS in production
+from django.utils.crypto import get_random_string
+from .utils import validate_phone_number, generate_otp  # Assuming you have these utility functions
 
-
-# Helper function to generate OTP
-def generate_otp():
-    return str(random.randint(100000, 999999))
-
-# Helper function to validate phone number
-def validate_phone_number(phone_number):
-    try:
-        parsed_number = phonenumbers.parse(phone_number)
-        if phonenumbers.is_valid_number(parsed_number):
-            return phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)
-        else:
-            return None
-    except phonenumbers.NumberParseException:
-        return None
-
-# Login or Signup with OTP
 def login_or_signup_with_otp(request):
     context = {}
     if request.method == 'POST':
@@ -49,7 +32,8 @@ def login_or_signup_with_otp(request):
                     # OTP is valid
                     user, created = User.objects.get_or_create(username=phone_number)
                     if created:
-                        user.set_password(User.objects.make_random_password())  # Set random password
+                        random_password = get_random_string(length=8)  # You can adjust the length as needed
+                        user.set_password(random_password)
                         user.save()
                         messages.success(request, "Account created and logged in successfully.")
                     else:
@@ -88,17 +72,6 @@ def login_or_signup_with_otp(request):
             print(f"""-----------------------------
                   Sending OTP {otp} to {phone_number}
                   -----------------------------""")
-
-
-           
-
-            # send_mail(
-            #     'Your OTP',
-            #     f'Your OTP is {otp}',
-            #     'noreply@example.com',
-            #     ['your_email@example.com'],  # Replace with an SMS gateway
-            #     fail_silently=False,
-            # )
             messages.info(request, "OTP sent to your phone number.")
             context['otp_sent'] = True
             context['phone_number'] = phone_number

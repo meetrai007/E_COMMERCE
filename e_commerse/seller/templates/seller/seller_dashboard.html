@@ -72,6 +72,7 @@
                     <thead>
                         <tr>
                             <th>Order ID</th>
+                            <th>Buyer</th>
                             <th>Product</th>
                             <th>Quantity</th>
                             <th>Date</th>
@@ -82,6 +83,7 @@
                         {% for order in orders %}
                         <tr>
                             <td>{{ order.id }}</td>
+                            <td>{{ order.buyer }}</td>
                             <td>{{ order.product.name }}</td>
                             <td>{{ order.quantity }}</td>
                             <td>{{ order.order_date }}</td>
