@@ -74,9 +74,9 @@ def login_or_signup_with_otp(request):
             otp_record.save()
 
             # Simulate sending OTP (replace with SMS API in production)
-            print(f"""-----------------------------
-                  Sending OTP {otp} to {phone_number}
-                  -----------------------------""")
+            # print(f"""-----------------------------
+            #       Sending OTP {otp} to {phone_number}
+            #       -----------------------------""")
             messages.info(request, "OTP sent to your phone number.")
 
             context['otp'] = otp
