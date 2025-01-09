@@ -78,8 +78,11 @@ def login_or_signup_with_otp(request):
                   Sending OTP {otp} to {phone_number}
                   -----------------------------""")
             messages.info(request, "OTP sent to your phone number.")
+
+            context['otp'] = otp
             context['otp_sent'] = True
             context['phone_number'] = phone_number
+            
 
     return render(request, 'register/login_or_signup.html', context)
 
