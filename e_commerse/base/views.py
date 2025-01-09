@@ -101,7 +101,7 @@ def update_profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Your profile has been updated successfully.')
-            return redirect('profile_update')
+            return redirect('account_page')
     else:
         form = UserProfileForm(instance=profile)
     

@@ -58,6 +58,7 @@ button.btn-primary:hover {
     </style>
 </head>
 <body>
+    {% include 'base/navbar.html' %}
     
     <h2>Update Profile</h2>
     <form method="post" enctype="multipart/form-data">
@@ -65,6 +66,8 @@ button.btn-primary:hover {
       {{ form.as_p }}
       <button type="submit" class="btn btn-primary">Save Changes</button>
     </form>
+    
+    {% include 'base/footer.html' %}
 </body>
 </html>
 
