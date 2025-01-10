@@ -1,5 +1,4 @@
-import random
-import phonenumbers
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login,authenticate
@@ -9,25 +8,14 @@ from django.contrib import messages
 from django.utils.timezone import now
 from .models import OTP
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail  # For simulation; replace with SMS in production
+from django.utils.crypto import get_random_string
+from .forms import UserProfileForm
+from .utils import validate_phone_number, generate_otp  # Assuming you have these utility functions
+from .models import Userprofile
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
-# Helper function to generate OTP
-def generate_otp():
-    return str(random.randint(100000, 999999))
-
-# Helper function to validate phone number
-def validate_phone_number(phone_number):
-    try:
-        parsed_number = phonenumbers.parse(phone_number)
-        if phonenumbers.is_valid_number(parsed_number):
-            return phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)
-        else:
-            return None
-    except phonenumbers.NumberParseException:
-        return None
-
-# Login or Signup with OTP
 def login_or_signup_with_otp(request):
     context = {}
     if request.method == 'POST':
@@ -49,7 +37,8 @@ def login_or_signup_with_otp(request):
                     # OTP is valid
                     user, created = User.objects.get_or_create(username=phone_number)
                     if created:
-                        user.set_password(User.objects.make_random_password())  # Set random password
+                        random_password = get_random_string(length=8)  # You can adjust the length as needed
+                        user.set_password(random_password)
                         user.save()
                         messages.success(request, "Account created and logged in successfully.")
                     else:
@@ -85,37 +74,52 @@ def login_or_signup_with_otp(request):
             otp_record.save()
 
             # Simulate sending OTP (replace with SMS API in production)
-            print(f"""-----------------------------
-                  Sending OTP {otp} to {phone_number}
-                  -----------------------------""")
-
-
-           
-
-            # send_mail(
-            #     'Your OTP',
-            #     f'Your OTP is {otp}',
-            #     'noreply@example.com',
-            #     ['your_email@example.com'],  # Replace with an SMS gateway
-            #     fail_silently=False,
-            # )
+            # print(f"""-----------------------------
+            #       Sending OTP {otp} to {phone_number}
+            #       -----------------------------""")
             messages.info(request, "OTP sent to your phone number.")
+
+            context['otp'] = otp
             context['otp_sent'] = True
             context['phone_number'] = phone_number
+            
 
     return render(request, 'register/login_or_signup.html', context)
 
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Userprofile.objects.create(user=instance, phone_number=instance.username)
 
 
+@login_required
+def update_profile(request):
+    try:
+        profile = request.user.userprofile
+    except Userprofile.DoesNotExist:
+        profile = Userprofile.objects.create(user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated successfully.')
+            return redirect('account_page')
+    else:
+        form = UserProfileForm(instance=profile)
+    
+    return render(request, 'useraccount/update_profile.html', {'form': form})
 
 @login_required
 def account_page(request):
     user = request.user
+    userprofile = user.userprofile
     orders = Order.objects.filter(buyer=user)
     purchased_products = orders.filter(status="Delivered")
 
     return render(request, 'useraccount/user_account.html', {
         'user': user,
+        'userprofile': userprofile,
         'orders': orders,
         'purchased_products': purchased_products
     })

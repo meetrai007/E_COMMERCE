@@ -64,5 +64,13 @@
 
     <!-- Include Footer -->
     {% include 'base/footer.html' %}
+    
+
+    <!-- JavaScript to show OTP in alert -->
+    {% if otp %} 
+    <script>
+        alert("Your OTP is: {{ otp }}");
+    </script>
+    {% endif %}
 </body>
 </html>
