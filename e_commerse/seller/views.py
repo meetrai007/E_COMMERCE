@@ -109,7 +109,10 @@ def remove_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     product.delete()
     return redirect("seller_dashboard")  # Redirect back to the view products page
-
+def remove_product_image(request, image_id):
+    image = get_object_or_404(ProductImage, id=image_id)
+    image.delete()
+    return redirect("seller_dashboard")  # Redirect back to the view products page
 
 def edit_product(request, product_id):
     # Get the product to edit
