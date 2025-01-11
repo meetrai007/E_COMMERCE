@@ -726,7 +726,6 @@ input[type="file"] {
 /* Product Order Page */
 .container-oder {
     display: flex;
-    flex-wrap: wrap;
     gap: 20px;
     margin: 30px auto;
     max-width: 1200px;
@@ -738,7 +737,7 @@ input[type="file"] {
 /* Order Form */
 .order-form {
     flex: 1;
-    min-width: 300px;
+    min-width: 500px;
     max-width: 600px;
     padding: 20px;
     border: 1px solid var(--border-color);
@@ -832,7 +831,7 @@ input[type="file"] {
 
 .new-address-form label {
     font-size: 0.9rem;
-    color: var(--text-color);
+    color: black;
 }
 
 .new-address-form input[type="checkbox"] {
@@ -995,7 +994,7 @@ input[type="file"] {
     gap: 20px;
 }
 
-label {
+.form-group label {
     font-weight: 600;
     color: #444;
     margin-bottom: 8px;

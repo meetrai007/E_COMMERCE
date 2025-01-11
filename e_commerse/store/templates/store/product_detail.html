@@ -100,7 +100,7 @@
 
                     <!-- Buy Now and Add to Cart Buttons -->
                     <div class="product-buttons d-flex justify-content-between">
-                        <a href="{% url 'product_detail' product.slug %}" class="btn btn-success">Buy Now</a>
+                        <a href="{% url 'place_order' product.slug %}" class="btn btn-success">Buy Now</a>
                         <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning">Add to Cart</a>
                     </div>
                 </div>
