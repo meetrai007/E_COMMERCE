@@ -24,14 +24,14 @@
 
         <!-- Navbar Toggler (for mobile view) -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon" style="background-color: white;"></span>
         </button>
 
         <!-- Navbar Links and Search -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {% if not request.session.is_seller %}
             <!-- Search Form -->
-            <form class="d-flex mx-auto " action="{% url 'search_products' %}" method="get">
+            <form class="d-flex mx-auto" action="{% url 'search_products' %}" method="get">
                 <input class="form-control-navbar " name="q" type="search" placeholder="Search products" aria-label="Search" value="{{ query }}">
                 <button class=" btn-custom-navbar" type="submit">Search</button>
             </form>

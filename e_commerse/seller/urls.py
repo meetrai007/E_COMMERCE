@@ -18,7 +18,7 @@ urlpatterns = [
     path('products/edit/<int:product_id>/', views.edit_product, name='edit_product'),
     path('products/delete/<int:product_id>/', views.remove_product, name='remove_product'),
 
+    path('remove-product-image/<int:image_id>/', views.remove_product_image, name='remove_product_image'),
+
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

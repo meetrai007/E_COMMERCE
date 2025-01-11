@@ -2,11 +2,12 @@
 from django.shortcuts import render
 from .models import Category, Product
 from django.shortcuts import render, get_object_or_404
-from .models import Product
+from .models import Product, Category, ProductImage
 from django.db.models import Q
 from rapidfuzz.fuzz import partial_ratio
 from django.core.cache import cache
 from django.core.paginator import Paginator
+
 
 def home_view(request):
     categories = Category.objects.all()  # Fetch all categories
@@ -27,11 +28,16 @@ def home_view(request):
 
 def product_detail_view(request, slug):
     product = get_object_or_404(Product, slug=slug)
+    product_images = ProductImage.objects.filter(product=product)
     context = {
-        'product': product
+        'product': product,
+        'product_images': product_images
     }
     return render(request, 'store/product_detail.html', context)
 
+def product_images(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    return render(request, 'store/product_images.html', {'product': product})
 
 def search_products(request):
     query = request.GET.get('q', '')  # Get the search term from the 'q' parameter in the URL
@@ -63,6 +69,7 @@ def search_products(request):
         matched_products = sorted(matched_products, key=lambda x: x[1], reverse=True)
         products = [item[0] for item in matched_products]  # Extract only the product objects
 
+        
     # Pagination
     paginator = Paginator(products, 10)  # Show 10 products per page
     page_number = request.GET.get('page')  # Get the current page number from the request

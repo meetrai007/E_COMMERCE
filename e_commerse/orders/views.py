@@ -7,12 +7,21 @@ from django.shortcuts import render, get_object_or_404, redirect
 from store.models import Product
 from .models import Address, Order  # Assuming the `Order` model is in the `orders` app
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
+from base.models import Userprofile
 
 @login_required
 @csrf_exempt
 def place_order(request, slug):
+    try:
+        if request.user.IS_seller:
+            messages.info(request,"login as a buyer to place order")
+            return redirect('home')  # Redirect sellers to the homepage
+    except:
+        pass
     # Fetch the product using slug
     product = get_object_or_404(Product, slug=slug)
+    user_profile = Userprofile.objects.get(user=request.user)
 
     if request.method == 'POST':
         # Handle address selection or creation

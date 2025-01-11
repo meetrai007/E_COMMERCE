@@ -1,5 +1,5 @@
 {% if messages %}
-<div class="container mt-3">
+<div class="container">
     {% for message in messages %}
         <div 
             class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" 
@@ -11,12 +11,40 @@
     {% endfor %}
 </div>
 <script>
-    // Auto-hide alerts after 2 seconds
+    // Auto-hide alerts after 1.5 seconds with fade out effect
     document.addEventListener("DOMContentLoaded", function () {
         setTimeout(function () {
             const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => alert.remove());
-        }, 1500); // 2000 ms = 2 seconds
+            alerts.forEach(alert => {
+                alert.style.transition = 'opacity 1s ease';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 1000); // Remove after fade out
+            });
+        }, 1500); // 1500 ms = 1.5 seconds
     });
 </script>
 {% endif %}
+
+<style>
+    .alert {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 400px; /* Increased width for better visibility */
+        z-index: 1050; /* Higher than the navbar */
+        border-radius: 8px; /* More rounded corners for a modern look */
+        opacity: 1;
+        transition: opacity 1s ease;
+        text-align: center;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stronger shadow for emphasis */
+        padding: 15px; /* Increased padding for better spacing */
+        font-size: 16px; /* Larger font size for readability */
+        background-color: #e9f7fd; /* Light blue background for info look */
+        color: #31708f; /* Dark blue text for contrast */
+    }
+
+    .container.mt-3 {
+        margin-top: 100px; /* Adjusted margin for better spacing from navbar */
+    }
+</style>

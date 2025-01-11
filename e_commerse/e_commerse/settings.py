@@ -176,4 +176,4 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Default backend for normal users
     'seller.backends.SellerBackend', # Custom backend for sellers
 ]
-LOGIN_URL = '/seller/login/'  # Replace with the correct URL for your login page
+LOGIN_URL = '/base/login-or-signup/'  # Replace with the correct URL for your login page

@@ -5,15 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Order</title>
-
 </head>
 
 <body>
     {% include 'base/header.html' %}
-    <div class="container-oder">
+    <div class="container-oder ">
         <div class="product-details">
-            {% if product.photo %}
-            <img src="{{ product.photo.url }}" alt="{{ product.name }}">
+            {% if product.images.first.image.url %}
+            <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
             {% else %}
             <img src="https://via.placeholder.com/400x300" alt="No Image">
             {% endif %}

@@ -143,16 +143,44 @@
                 <textarea id="description" name="description" class="edit-product-form-control" rows="4" required>{{ product.description }}</textarea>
             </div>
     
-            <!-- Photo Upload -->
+            <!-- Current Photos -->
             <div class="edit-product-form-group mb-3">
-                <label for="photo" class="edit-product-form-label">Photo:</label>
-                <input type="file" id="photo" name="photo" class="edit-product-form-control">
-                <small class="edit-product-form-text">Leave empty to keep current photo.</small>
+                <label class="edit-product-form-label">Current Photos:</label><br>
+                {% for image in product.images.all %}
+                    <div class="existing-image d-flex align-items-center mb-2">
+                        <img src="{{ image.image.url }}" alt="Product Image" width="100" height="100">
+                    </div>
+                {% empty %}
+                    <p>No images available.</p>
+                {% endfor %}
+            </div>
+
+            <!-- New Photos Upload -->
+            <div class="edit-product-form-group mb-3">
+                <label for="photos" class="edit-product-form-label">New Photos (You can select multiple):</label>
+                <input type="file" id="photos" name="photos" class="edit-product-form-control" multiple>
+                <small class="edit-product-form-text">Select multiple images to upload.</small>
             </div>
     
             <!-- Submit Button -->
             <button type="submit" class="edit-product-submit-button">Update Product</button>
         </form>
+
+        <!-- to remove Current Photos -->
+<div class="edit-product-form-group mb-3">
+    <label class="edit-product-form-label">Current Photos:</label><br>
+    {% for image in product.images.all %}
+        <div class="existing-image">
+            <img src="{{ image.image.url }}" alt="Product Image" width="100" height="100">
+            <form action="{% url 'remove_product_image' image.id %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Remove</button>
+            </form>
+        </div>
+    {% empty %}
+        <p>No images available.</p>
+    {% endfor %}
+</div>
     </div>
 
     <!-- Include Footer -->
