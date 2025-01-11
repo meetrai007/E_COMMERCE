@@ -77,7 +77,7 @@ def login_or_signup_with_otp(request):
             # print(f"""-----------------------------
             #       Sending OTP {otp} to {phone_number}
             #       -----------------------------""")
-            messages.info(request, "OTP sent to your phone number.")
+            messages.info(request, "OTP sent to your phone number.otp is {}".format(otp))
 
             context['otp'] = otp
             context['otp_sent'] = True
