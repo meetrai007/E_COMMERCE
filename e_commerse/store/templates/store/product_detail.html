@@ -85,7 +85,7 @@
                 <div class=" product-image-thumbnail d-flex">
                     {% for image in product.images.all %}
                         <div>
-                            <a href="{{ image.image.url }}"><img src="{{ image.image.url }}" alt="{{ image.product.name }}" class="product-thumbnail"></a>
+                            <a href="{% url 'product_images' product.slug %}"><img src="{{ image.image.url }}" alt="{{ image.product.name }}" class="product-thumbnail"></a>
                         </div>    
                     {% endfor %}
                 </div>

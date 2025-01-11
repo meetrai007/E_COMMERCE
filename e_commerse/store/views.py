@@ -35,6 +35,9 @@ def product_detail_view(request, slug):
     }
     return render(request, 'store/product_detail.html', context)
 
+def product_images(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    return render(request, 'store/product_images.html', {'product': product})
 
 def search_products(request):
     query = request.GET.get('q', '')  # Get the search term from the 'q' parameter in the URL

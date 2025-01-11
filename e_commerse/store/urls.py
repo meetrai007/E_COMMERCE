@@ -4,12 +4,13 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import home_view,product_detail_view,search_products
+from . import views
 
 urlpatterns = [
-    path('', home_view, name='home'),
-    path('product/<slug:slug>/', product_detail_view, name='product_detail'),
-      path('search/', search_products, name='search_products'),
+    path('', views.home_view, name='home'),
+    path('product/<slug:slug>/', views.product_detail_view, name='product_detail'),
+    path('search/', views.search_products, name='search_products'),
+    path('product/<slug:slug>/images/', views.product_images, name='product_images'),
 
 ]
 
