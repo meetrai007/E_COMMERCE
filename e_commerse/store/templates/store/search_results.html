@@ -1,26 +1,20 @@
 {% include 'base/header.html' %}
 
 <div class="container_products">
-
     <!-- Search Results Header -->
     <h2>Search Results for "{{ query }}"</h2>
 
     <!-- Row for products -->
     <div class="row">
         {% for product in page_obj %}
-            <div class="col-md-12 ">
+            <div class="col-md-12">
                 <div class="card product-card d-flex">
                     <div class="product-img-container">
-                        {% if product.photo %}
-                            <a href="{% url 'product_detail' product.slug %}">
-                                <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="product-img">
-                            </a>
-                        {% else %}
-                            <a href="{% url 'product_detail' product.slug %}">
-                                <img src="/static/store/img/ONE-PLUS-NORD-CE-2-LITE-5G-BLUE-TIDE-6GB128GB.png" alt="{{ product.name }}" class="product-img">
-                            </a>
-                        {% endif %}
+                        <a href="{% url 'product_detail' product.slug %}">
+                            <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="product-img" id="main-product-image">
+                        </a>
                     </div>
+
                     <div class="card-body product-info">
                         <h5 class="product-title">{{ product.name }}</h5>
                         <p class="product-price">₹{{ product.price }}</p>
@@ -37,8 +31,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Horizontal line to separate products -->
-                
             </div>
         {% empty %}
             <div class="alert alert-info">No products found.</div>
@@ -63,5 +55,13 @@
             {% endif %}
         </span>
     </div>
-
 </div>
+
+<!-- JavaScript to handle main image -->
+<script>
+    // Function to set the main image (if you want to change it later)
+    function setMainImage(imageUrl) {
+        const mainImage = document.getElementById("main-product-image");
+        mainImage.src = imageUrl;
+    }
+</script>

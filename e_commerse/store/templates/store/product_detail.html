@@ -7,20 +7,88 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .product-image {
+            width: 100%;  /* Make the image responsive */
+            max-height: 400px;  /* Set a max height for the image */
+            object-fit: contain;  /* Ensure the image is contained within the space without distortion */
+            margin-top: 10px;
+            border-radius: 8px;  /* Optional: rounding the corners */
+        }
+    
+        .product-image-container {
+            border: 2px solid #ddd;  /* Border for the product image */
+            border-radius: 8px;  /* Optional: rounding the corners */
+            padding: 10px;  /* Add some padding around the image */
+        }
+    
+        .product-thumbnail {
+            width: 100%;  /* Ensures the thumbnail takes the full width of its container */
+            height: 100px;  /* Set a fixed height for the thumbnail */
+            object-fit: cover;  /* Crop and fill the thumbnail area */
+            border-radius: 4px;  /* Optional: rounding the corners */
+            margin-right: 10px;  /* Adding a little space between thumbnails */
+            transition: transform 0.3s ease;  /* Smooth scale transition on hover */
+            border: 2px solid #ddd;  /* Border for the thumbnail */
+        }
+    
+        .product-thumbnail:hover {
+            transform: scale(1.05);  /* Slight zoom effect on hover */
+            border: 2px solid #007bff;  /* Border color change on hover */
+        }
+    
+        .product-image-thumbnail {
+            display: flex;
+            margin-top: 15px;
+            justify-content: flex-start;  /* Align thumbnails to the left */
+        }
+    
+        .product-image-thumbnail div {
+            padding: 5px;  /* Add some padding around each thumbnail */
+            
+        }
+        .product-image-thumbnail div img {
+            padding: 5px;  /* Add some padding around each thumbnail */
+            object-fit: cover;
+            
+        }
+    
+        .product-image-thumbnail div:hover {
+            border-color: #007bff;  /* Border color change for thumbnails on hover */
+        }
+    
+        @media (max-width: 768px) {
+            .product-image-thumbnail {
+                justify-content: center;  /* Center thumbnails on smaller screens */
+            }
+    
+            .product-thumbnail {
+                height: 80px;  /* Adjust thumbnail height for smaller screens */
+                margin-right: 5px;  /* Reduce space between thumbnails on mobile */
+            }
+        }
+    </style>
     
 </head>
 <body>
-    {% include 'base/header.html' %}
 
     <div class="container my-5">
         <div class="row">
             <!-- Product Image Section -->
-            <div class="col-md-6">
-                {% if product.photo %}
-                    <img src="{{ product.photo.url }}" alt="{{ product.name }}" class="product-image" style="height: 400px; object-fit: contain; margin-top: 10px;">
+            <div class="col-md-6 product-image-container" >
+                {% if product.images.first.image.url %}
+                    <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="product-image">
                 {% else %}
-                    <img src="\static\store\img\placeholder.png" alt="No Image" class="product-image" style="height: 400px; object-fit: contain; margin-top: 10px;">
+                    <img src="/static/store/img/placeholder.png" alt="No Image" class="product-image">
                 {% endif %}
+                <div class=" product-image-thumbnail d-flex">
+                    {% for image in product.images.all %}
+                        <div>
+                            <a href="{{ image.image.url }}"><img src="{{ image.image.url }}" alt="{{ image.product.name }}" class="product-thumbnail"></a>
+                        </div>    
+                    {% endfor %}
+                </div>
             </div>
 
             <!-- Product Details Section -->
@@ -32,7 +100,7 @@
 
                     <!-- Buy Now and Add to Cart Buttons -->
                     <div class="product-buttons d-flex justify-content-between">
-                        <a href="(% url 'product_detail' product.slug %)" class="btn btn-success">Buy Now</a>
+                        <a href="{% url 'product_detail' product.slug %}" class="btn btn-success">Buy Now</a>
                         <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning">Add to Cart</a>
                     </div>
                 </div>

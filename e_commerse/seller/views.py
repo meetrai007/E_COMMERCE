@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from seller.models import Seller
-from store.models import Product, Category
+from store.models import Product, Category,ProductImage
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from orders.models import Order
@@ -26,19 +26,25 @@ def seller_dashboard(request):
         price = request.POST["price"]
         quantity = request.POST["quantity"]
         description = request.POST["description"]
-        photo = request.FILES.get("photo")
+        photos = request.FILES.getlist("photos")  # Get multiple files uploaded
 
         category = Category.objects.get(id=category_id)
-        Product.objects.create(
+        
+        # Create the product
+        product = Product.objects.create(
             name=name,
             category=category,
             price=price,
             quantity=quantity,
             description=description,
-            photo=photo,
             seller=request.user,
         )
-        # update the cache
+        
+        # Save each photo as a ProductImage
+        for photo in photos:
+            ProductImage.objects.create(product=product, image=photo)
+
+        # Optionally, update the cache (although this isn't strictly necessary here)
         cache.set("products", products)
         
         return redirect("seller_dashboard")
@@ -51,7 +57,6 @@ def seller_dashboard(request):
         "seller": request.user,
     }
     return render(request, "seller/seller_dashboard.html", context)
-
 
 def seller_logout(request):
     request.session.flush()  # Clear all session data
@@ -109,7 +114,7 @@ def remove_product(request, product_id):
 def edit_product(request, product_id):
     # Get the product to edit
     product = get_object_or_404(Product, id=product_id)
-    categories = Category.objects.all()  # Assuming you have a Category model
+    categories = Category.objects.all()  # Get all categories
 
     if request.method == "POST":
         # Get form data
@@ -118,11 +123,10 @@ def edit_product(request, product_id):
         price = request.POST.get("price")
         quantity = request.POST.get("quantity")
         description = request.POST.get("description")
-        photo = request.FILES.get("photo")
+        new_photos = request.FILES.getlist("photos")  # Get multiple new images uploaded
 
-        # Validate the form fields (you can add more validations if needed)
+        # Validate the form fields
         if not name or not price or not description:
-            # Handle the case where required fields are missing
             error_message = "Please fill in all required fields."
             return render(
                 request,
@@ -134,22 +138,32 @@ def edit_product(request, product_id):
                 },
             )
 
-        # Get the category instance
+        # Get the selected category
         category = get_object_or_404(Category, id=category_id)
 
-        # Update the product instance
+        # Update product details
         product.name = name
         product.category = category
         product.price = price
         product.quantity = quantity
         product.description = description
-        if photo:
-            product.photo = photo  # Update the photo if a new one is uploaded
 
-        product.save()  # Save the updated product
+        # Save the updated product
+        product.save()
 
-        return redirect("seller_dashboard")  # Redirect to the product listing page
+        # Handle new photos (multiple uploads)
+        if new_photos:
+            # Create ProductImage instances for new photos
+            for photo in new_photos:
+                ProductImage.objects.create(product=product, image=photo)
 
+        # Optionally, clear the cache or update the cache with new data
+        cache.set("products", Product.objects.all())
+
+        messages.success(request, "Product updated successfully.")
+        return redirect("seller_dashboard")  # Redirect to the seller dashboard after updating
+
+    # Return the edit product page with the existing product data
     return render(
         request,
         "seller/edit_product.html",

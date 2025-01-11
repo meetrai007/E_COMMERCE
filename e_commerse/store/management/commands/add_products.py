@@ -2,10 +2,11 @@ from django.core.management.base import BaseCommand
 from django.core.files import File
 from store.models import Product, Category
 from seller.models import Seller
+from store.models import ProductImage
 import os
 
 class Command(BaseCommand):
-    help = 'Add 50 products to the database'
+    help = 'Add 50 products to the database with multiple images'
 
     def handle(self, *args, **kwargs):
         category = Category.objects.first()
@@ -37,8 +38,15 @@ Monster Camera - 50MP (F1.8) Main Wide Angle Camera + 8MP (F2.2) Ultra Wide Angl
 Monster Battery - Get a massive 6000mAh Lithium-ion Battery (Non-Removable) with C-Type Fast Charging (25W Charging Support),"""
             )
 
-            with open(photo_path, 'rb') as photo_file:
-                product.photo.save(f"{product_name}.jpg", File(photo_file), save=False)
+            product.save()  # Save the product first to generate an ID
 
-            product.save()
-            self.stdout.write(f"Added {product_name}")
+            # Save the main product photo 5 times
+            for _ in range(5):
+                with open(photo_path, 'rb') as photo_file:
+                    product_image = ProductImage(
+                        product=product
+                    )
+                    product_image.image.save(f"{product_name}_image.jpg", File(photo_file), save=False)
+                    product_image.save()
+
+            self.stdout.write(f"Added {product_name} with 5 images.")

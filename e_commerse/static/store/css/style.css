@@ -290,12 +290,14 @@ body {
     background-color: var(--hover-color);
 }
 
+
 /* Product Card Styles */
 .product-card {
     display: flex;
     flex-direction: row;
     border-radius: 8px;
     padding: 30px;
+    margin-bottom: 20px; /* Add some margin between cards */
 }
 
 .product-img-container {
@@ -332,6 +334,30 @@ body {
     margin-bottom: 15px;
 }
 
+
+/* Product Thumbnails Container */
+.product-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: start;
+}
+
+.product-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Hover effect on thumbnails */
+.product-thumbnail:hover {
+    transform: scale(1.1);
+}
+
 /* Horizontal line separator */
 hr {
     border: 0;
@@ -346,8 +372,6 @@ hr {
     justify-content: center;
     text-align: center;
     margin: 50px auto;
-    
-
 }
 
 .pagination .step-links {
@@ -376,7 +400,6 @@ hr {
     background-color: #f8f9fa;
     border-radius: 5px;
 }
-
 
 
 
