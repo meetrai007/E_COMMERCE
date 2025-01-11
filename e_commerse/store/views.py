@@ -6,6 +6,7 @@ from .models import Product
 from django.db.models import Q
 from rapidfuzz.fuzz import partial_ratio
 from django.core.cache import cache
+from django.core.paginator import Paginator
 
 def home_view(request):
     categories = Category.objects.all()  # Fetch all categories
@@ -30,7 +31,6 @@ def product_detail_view(request, slug):
         'product': product
     }
     return render(request, 'store/product_detail.html', context)
-
 
 
 def search_products(request):
@@ -62,8 +62,14 @@ def search_products(request):
         # Sort matched products by their similarity score in descending order
         matched_products = sorted(matched_products, key=lambda x: x[1], reverse=True)
         products = [item[0] for item in matched_products]  # Extract only the product objects
-    
-    return render(request, 'store/search_results.html', {'products': products, 'query': query})
+
+    # Pagination
+    paginator = Paginator(products, 10)  # Show 10 products per page
+    page_number = request.GET.get('page')  # Get the current page number from the request
+    page_obj = paginator.get_page(page_number)  # Get the products for the current page
+
+    return render(request, 'store/search_results.html', {'page_obj': page_obj, 'query': query})
+
 
 
 
