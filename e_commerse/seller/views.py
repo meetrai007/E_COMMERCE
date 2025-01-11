@@ -4,10 +4,10 @@ from django.contrib import messages
 from seller.models import Seller
 from store.models import Product, Category,ProductImage
 from django.contrib.auth.models import User
-from django.http import JsonResponse
 from orders.models import Order
 from django.contrib.auth import authenticate, login
 from django.core.cache import cache
+from base.models import Userprofile
 
 @login_required(login_url="/seller/login/")
 def seller_dashboard(request):
@@ -55,6 +55,7 @@ def seller_dashboard(request):
         "orders": orders,
         "categories": categories,
         "seller": request.user,
+        # "buyer_profile": buyer_profile,
     }
     return render(request, "seller/seller_dashboard.html", context)
 

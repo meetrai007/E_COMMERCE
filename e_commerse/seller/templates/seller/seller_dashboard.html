@@ -82,6 +82,7 @@
                                 <th>Product</th>
                                 <th>Quantity</th>
                                 <th>Date</th>
+                                <th>Delivery Address</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -93,6 +94,7 @@
                                 <td>{{ order.product.name }}</td>
                                 <td>{{ order.quantity }}</td>
                                 <td>{{ order.order_date }}</td>
+                                <td>{{ order.delivery_address }}</td>
                                 <td>{{ order.status }}</td>
                             </tr>
                             {% empty %}
