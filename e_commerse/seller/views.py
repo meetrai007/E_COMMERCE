@@ -98,7 +98,7 @@ def seller_login(request):
 
         if seller is not None:
             login(request, seller)  # Logs in the seller
-            request.session["is_seller"] = True
+            request.session["not_admin"] = True  # Set a custom session variable
             messages.success(request, "Login successful as a seller.")
             return redirect("home")  # Redirect to a dashboard or test page
         else:

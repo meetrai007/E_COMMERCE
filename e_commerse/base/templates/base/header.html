@@ -29,7 +29,7 @@
 
         <!-- Navbar Links and Search -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            {% if not request.session.is_seller %}
+            {% if not request.user.IS_seller %}
             <!-- Search Form -->
             <form class="d-flex mx-auto" action="{% url 'search_products' %}" method="get">
                 <input class="form-control-navbar " name="q" type="search" placeholder="Search products" aria-label="Search" value="{{ query }}">
@@ -40,7 +40,7 @@
 
             <!-- Right-side Buttons: Cart, Login, or Logout -->
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                {% if not request.session.is_seller %}
+                {% if not request.user.IS_seller %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'cart_view' %}">
                         <i class="bi bi-cart"></i> Cart
@@ -50,7 +50,7 @@
 
                 {% if user.is_authenticated %}
                     <!-- Display different welcome message based on user type -->
-                    {% if request.session.is_seller %}
+                    {% if request.user.IS_seller %}
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="bi bi-person"></i> Welcome,{{ user.username }}!
@@ -59,6 +59,12 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'seller_dashboard' %}">
                                 <i class="bi bi-shop"></i> Dashboard
+                            </a>
+                        </li>
+                        {% elif user.is_staff or user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin:index' %}">
+                                <i class="bi bi-shield-lock"></i> Admin Panel
                             </a>
                         </li>
                     {% else %}
