@@ -1076,3 +1076,16 @@ textarea {
     align-items: center;
     padding: 50px;
 }
+
+
+@media screen and (max-width: 768px) {
+    .navbar-brand img {
+        width: 200px;
+        
+        
+    }
+    .form-control-navbar {
+        width: 250px;
+        
+    }
+}
