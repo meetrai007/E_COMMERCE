@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from seller.models import Seller
-from store.models import Product, Category,ProductImage
+from store.models import Product, Category,ProductImage, Brand
 from orders.models import Order
 from django.contrib.auth import authenticate, login
 from django.core.cache import cache
+from decimal import Decimal
 
 @login_required(login_url="/seller/login/")
 def seller_dashboard(request):
@@ -16,6 +17,7 @@ def seller_dashboard(request):
     products = Product.objects.filter(seller=seller_id)
     orders = Order.objects.filter(product__seller=seller_id)
     categories = Category.objects.all()  # Get all categories for dropdown
+    brands = Brand.objects.all()
 
     # Handle Add Product logic
     if request.method == "POST":
@@ -53,6 +55,7 @@ def seller_dashboard(request):
         "orders": orders,
         "categories": categories,
         "seller": request.user,
+        "brands": brands,
         # "buyer_profile": buyer_profile,
     }
     return render(request, "seller/seller_dashboard.html", context)
@@ -175,3 +178,63 @@ def edit_product(request, product_id):
             "categories": categories,
         },
     )
+
+
+
+
+# def apply_discount(request):
+#     if request.method == 'POST':
+#         # Get the discount percentage from the POST request
+#         discount_percentage = request.POST.get('discount_percentage')
+
+#         # Validate the discount percentage
+#         if not discount_percentage or not discount_percentage.isdigit():
+#             messages.error(request, 'Invalid discount percentage!')
+#             return redirect('apply_discount')  # Redirect to the same page with an error message
+        
+#         discount_percentage = float(discount_percentage)
+#         if not (1 <= discount_percentage <= 100):
+#             messages.error(request, 'Discount percentage must be between 1 and 100!')
+#             return redirect('apply_discount')
+
+#         # Get the selected product IDs from the POST request
+#         selected_products = request.POST.getlist('products')
+
+#         if not selected_products:
+#             messages.error(request, 'No products selected for discount!')
+#             return redirect('apply_discount')
+
+#         # Apply discount to selected products
+#         for product_id in selected_products:
+#             try:
+#                 product = Product.objects.get(id=product_id)
+#                 original_price = product.price
+#                 discounted_price = original_price - (original_price * discount_percentage / 100)
+#                 product.price = discounted_price
+#                 product.save()
+#             except Product.DoesNotExist:
+#                 messages.error(request, f'Product with ID {product_id} does not exist.')
+
+#         messages.success(request, f'Discount of {discount_percentage}% applied successfully to selected products!')
+#         return redirect('seller_dashboard')  # Redirect back to the seller's dashboard or another appropriate page
+
+#     # Render the form with existing products for selecting a discount
+#     products = Product.objects.all()  # You can filter this list if needed
+#     return render(request, 'your_template.html', {'products': products})
+
+def apply_discount(request):
+    if request.method == 'POST':
+        discount_percentage = Decimal(request.POST.get('discount_percentage'))  # Convert to Decimal
+        selected_products = request.POST.getlist('products')
+
+        for product_id in selected_products:
+            product = Product.objects.get(id=product_id)
+            original_price = product.price  # This should already be a Decimal
+            discounted_price = original_price - (original_price * discount_percentage / 100)  # Corrected calculation
+            product.price = discounted_price
+            product.save()
+
+        # Redirect after success
+        return redirect('discount_success')  # Replace with appropriate redirect
+def discount_success(request):
+    return render(request, 'seller/discount_success.html')

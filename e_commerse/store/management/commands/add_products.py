@@ -28,7 +28,7 @@ class Command(BaseCommand):
                 name=product_name,
                 category=category,
                 seller=seller,
-                price=9.99,
+                price=1000,
                 quantity=10,
                 description="""About this item
 Monster Durability & Display : Corning Gorilla Glass Victus+, 16.83 Centimeters (6.6Inch) Super AMOLED Display, FHD+ Resolution with 1080 x 2340 Pixels and 120Hz Refresh Rate

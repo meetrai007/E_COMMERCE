@@ -1,22 +1,8 @@
 from django.contrib import admin
-from .models import Product, ProductImage, Category
+from .models import Category, Brand, Tag, Product
 
-# Register Category model
+# Register Category, Brand, Tag, and Product models
 admin.site.register(Category)
-
-# Inline for ProductImage
-class ProductImageInline(admin.TabularInline):
-    model = ProductImage
-    extra = 1  # Allow for one extra empty row to add an image in the admin panel
-
-# ProductAdmin class to handle inline images
-class ProductAdmin(admin.ModelAdmin):
-    inlines = [ProductImageInline]
-    list_display = ['name', 'category', 'price', 'quantity']
-    search_fields = ['name', 'category__name']
-
-# Register Product model with ProductAdmin
-admin.site.register(Product, ProductAdmin)
-
-# Register ProductImage model
-admin.site.register(ProductImage)
+admin.site.register(Brand)
+admin.site.register(Tag)
+admin.site.register(Product)
