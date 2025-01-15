@@ -1,9 +1,6 @@
 # views.py
-from django.shortcuts import render
-from .models import Category, Product
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category, ProductImage
-from django.db.models import Q
 from rapidfuzz.fuzz import partial_ratio
 from django.core.cache import cache
 from django.core.paginator import Paginator

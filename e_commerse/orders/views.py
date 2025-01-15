@@ -1,9 +1,5 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
 from store.models import Product
 from .models import Address, Order  # Assuming the `Order` model is in the `orders` app
 from django.views.decorators.csrf import csrf_exempt

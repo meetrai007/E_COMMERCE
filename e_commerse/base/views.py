@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import login as auth_login,authenticate
+from django.contrib.auth import login as auth_login
 from orders.models import Order
 from seller.models import Seller
 from django.contrib import messages
