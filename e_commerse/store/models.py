@@ -31,13 +31,14 @@ class Product(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     name = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     discount_value = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     discount_type = models.CharField(max_length=10, choices=DISCOUNT_TYPE_CHOICES, default='percentage')
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     description = models.TextField()
     slug = AutoSlugField(populate_from='name', unique=True)
-    # brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='products')
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='products')
     gender = models.CharField(max_length=1, choices=[
         ('M', 'Male'),
         ('F', 'Female'),
@@ -52,9 +53,9 @@ class Product(models.Model):
         """Calculate the final price after discount."""
         if self.discount_value:
             if self.discount_type == 'percentage':
-                return self.price * (1 - self.discount_value / 100)
+                return self.original_price * (1 - self.discount_value / 100)
             elif self.discount_type == 'fixed':
-                return self.price - self.discount_value
+                return self.original_price - self.discount_value
         return self.price
 
 class ProductImage(models.Model):
