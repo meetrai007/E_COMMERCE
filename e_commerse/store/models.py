@@ -1,5 +1,6 @@
 from django.db import models
 from autoslug import AutoSlugField
+from decimal import Decimal
 from seller.models import Seller
 
 class Category(models.Model):
@@ -21,11 +22,10 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-
 class Product(models.Model):
     DISCOUNT_TYPE_CHOICES = [
-        ('percentage', 'Percentage'),
-        ('fixed', 'Fixed Amount'),
+        ('percentage', '%'),# % is the percentage symbol
+        ('fixed', '₹'),#₹ is the Indian Rupee symbol
     ]
 
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
@@ -34,29 +34,39 @@ class Product(models.Model):
     original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     discount_value = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     discount_type = models.CharField(max_length=10, choices=DISCOUNT_TYPE_CHOICES, default='percentage')
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # price field
     quantity = models.PositiveIntegerField(default=1)
     description = models.TextField()
     slug = AutoSlugField(populate_from='name', unique=True)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='products')
-    gender = models.CharField(max_length=1, choices=[
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('B', 'Both'),
-    ])
+    gender = models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female'), ('B', 'Both')])
     tags = models.ManyToManyField(Tag, related_name='products', blank=True)
 
     def __str__(self):
         return self.name
 
-    def get_discounted_price(self):
-        """Calculate the final price after discount."""
-        if self.discount_value:
-            if self.discount_type == 'percentage':
-                return self.original_price * (1 - self.discount_value / 100)
-            elif self.discount_type == 'fixed':
-                return self.original_price - self.discount_value
-        return self.price
+def save(self, *args, **kwargs):
+        # Set the price to be the same as original_price if it's not already set
+        if self.original_price is not None and self.price is None:
+            self.price = self.original_price
+        
+        super(Product, self).save(*args, **kwargs)
+
+def __str__(self):
+    return self.name
+# def get_discounted_price(self):
+#     """Calculate the final price after discount."""
+#     if self.discount_value:
+#         # Ensure the discount_value and original_price are Decimal
+#         original_price = Decimal(self.original_price)
+#         discount_value = Decimal(self.discount_value)
+        
+#         if self.discount_type == 'percentage':
+#             return original_price * (1 - discount_value / 100)
+#         elif self.discount_type == 'fixed':
+#             return original_price - discount_value
+#     return self.price
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')

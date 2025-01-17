@@ -54,6 +54,8 @@
                             <th>Name</th>
                             <th>Category</th>
                             <th>Quantity</th>
+                            <th>Original Price</th>
+                            <th>Discount</th>
                             <th>Price</th>
                             <th>Actions</th>
                         </tr>
@@ -67,6 +69,8 @@
                             <td>{{ product.name }}</td>
                             <td>{{ product.category.name }}</td>
                             <td>{{ product.quantity }}</td>
+                            <td>₹{{ product.original_price }}</td>
+                            <td>{{ product.discount_value }} {{ product.discount_type }}</td>
                             <td>₹{{ product.price }}</td>
                             <td>
                                 <a href="{% url 'edit_product' product.id %}" class="btn btn-edit">Edit</a>
@@ -194,38 +198,42 @@
             </section>
 
 
-
             <!-- Apply Discount Section -->
             <section id="section-apply-discount" class="dashboard-section">
                 <h2 class="section-title">Apply Discount to Multiple Products</h2>
-
+            
                 <form method="POST" action="{% url 'apply_discount' %}" class="apply-discount-form">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="apply_discount">
-
+            
                     <div class="form-group">
-                        <label for="discount_percentage" class="form-label">Discount Percentage:</label>
-                        <input type="number" id="discount_percentage" name="discount_percentage" class="form-control"
-                            min="1" max="100" required>
-                        <small class="form-text text-muted">Enter a discount percentage between 1 and 100.</small>
+                        <label for="discount_type" class="form-label">Discount Type:</label>
+                        <select id="discount_type" name="discount_type" class="form-select" required>
+                            <option value="percentage">Percentage</option>
+                            <option value="fixed">Fixed Amount</option>
+                        </select>
                     </div>
-
+            
+                    <div class="form-group">
+                        <label for="discount_value" class="form-label">Discount Value:</label>
+                        <input type="number" id="discount_value" name="discount_value" class="form-control" required>
+                        <small class="form-text text-muted">Enter a value based on the selected discount type.</small>
+                    </div>
+            
                     <div class="form-group">
                         <label for="products" class="form-label">Select Products to Apply Discount:</label>
                         <select id="products" name="products" class="form-select" multiple required>
-                            <option value="" disabled>Select Products</option>
                             {% for product in products %}
                             <option value="{{ product.id }}">{{ product.name }} (₹{{ product.price }})</option>
                             {% endfor %}
                         </select>
-                        <small class="form-text text-muted">Hold down the Ctrl (or Command) key to select multiple
-                            products.</small>
+                        <small class="form-text text-muted">Hold down the Ctrl (or Command) key to select multiple products.</small>
                     </div>
-
+            
                     <button type="submit" class="btn btn-submit">Apply Discount</button>
                 </form>
             </section>
-
+            
         </div>
     </div>
 

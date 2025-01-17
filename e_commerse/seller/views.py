@@ -222,19 +222,60 @@ def edit_product(request, product_id):
 #     products = Product.objects.all()  # You can filter this list if needed
 #     return render(request, 'your_template.html', {'products': products})
 
+# def apply_discount(request):
+#     if request.method == 'POST':
+#         discount_percentage = Decimal(request.POST.get('discount_percentage'))  # Convert to Decimal
+#         selected_products = request.POST.getlist('products')
+
+#         for product_id in selected_products:
+#             product = Product.objects.get(id=product_id)
+#             original_price = product.price  # This should already be a Decimal
+#             discounted_price = original_price - (original_price * discount_percentage / 100)  # Corrected calculation
+#             product.price = discounted_price
+#             product.save()
+
+#         # Redirect after success
+#         return redirect('discount_success')  # Replace with appropriate redirect
+# def discount_success(request):
+#     return render(request, 'seller/discount_success.html')
+
+
+
 def apply_discount(request):
     if request.method == 'POST':
-        discount_percentage = Decimal(request.POST.get('discount_percentage'))  # Convert to Decimal
-        selected_products = request.POST.getlist('products')
+        discount_type = request.POST.get('discount_type')
+        
+        try:
+            # Convert discount_value to Decimal
+            discount_value = Decimal(request.POST.get('discount_value'))
+        except (ValueError, TypeError):
+            messages.error(request, 'Invalid discount value entered.')
+            return redirect('seller_dashboard')
 
-        for product_id in selected_products:
-            product = Product.objects.get(id=product_id)
-            original_price = product.price  # This should already be a Decimal
-            discounted_price = original_price - (original_price * discount_percentage / 100)  # Corrected calculation
-            product.price = discounted_price
-            product.save()
+        product_ids = request.POST.getlist('products')
 
-        # Redirect after success
-        return redirect('discount_success')  # Replace with appropriate redirect
-def discount_success(request):
-    return render(request, 'seller/discount_success.html')
+        for product_id in product_ids:
+            try:
+                product = Product.objects.get(id=product_id)
+                original_price = product.original_price
+                
+                # Set discount type and value
+                product.discount_type = discount_type
+                product.discount_value = discount_value
+                
+                # Recalculate the discounted price based on the type of discount
+                if discount_type == 'percentage':
+                    # Ensure both operands are Decimals
+                    product.price = original_price * (1 - discount_value / Decimal(100))
+                elif discount_type == 'fixed':
+                    product.price = original_price - discount_value
+                product.save()
+                
+            except Product.DoesNotExist:
+                messages.error(request, f'Product with ID {product_id} not found.')
+
+        messages.success(request, 'Discount applied successfully to selected products.')
+        return redirect('seller_dashboard')
+
+    # If GET request, redirect back to dashboard or show the form again
+    return render(request, 'seller_dashboard.html')

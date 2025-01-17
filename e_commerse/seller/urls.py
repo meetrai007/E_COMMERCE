@@ -20,7 +20,6 @@ urlpatterns = [
 
     path('remove-product-image/<int:image_id>/', views.remove_product_image, name='remove_product_image'),
 
-    path('apply-discount/', views.apply_discount, name='apply_discount'),
-    path('dicount-success/', views.discount_success, name='discount_success'),
+    path('apply_discount/', views.apply_discount, name='apply_discount'),
 ]
 
