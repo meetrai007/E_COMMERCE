@@ -92,7 +92,7 @@
 
             <div class="row">
                 {% for product in page_obj %}
-                    <div class="">
+                    <div class="col-md-4">
                         <div class="card product-card">
                             <div class="product-img-container">
                                 <a href="{% url 'product_detail' product.slug %}">
@@ -104,7 +104,7 @@
                                 <p class="product-price">
                                     <del>₹{{ product.original_price }}</del> ₹{{ product.get_discounted_price }}
                                 </p>
-                                <p class="product-description">{{ product.description|linebreaksbr }}</p>
+                                <!-- <p class="product-description">{{ product.description|linebreaksbr }}</p> -->
 
                                 {% if product.quantity > 0 %}
                                     <a href="{% url 'place_order' product.slug %}" class="btn btn-success btn-sm">Buy Now</a>
@@ -170,13 +170,26 @@
 
 <!-- Custom CSS for responsive filters sidebar -->
 <style>
-    /* Sidebar background color to match header */
+    /* Sidebar fixed on the left */
     #filter-sidebar {
+        position: fixed;
+        top: 67px;
+        left: 0;
+        width: 300px;  /* Adjust width as needed */
+        height: 100vh;
         background-color: #2c3e50;
         padding: 20px;
-        border-radius: 8px;
+        overflow-y: auto; /* Prevents scrolling in the sidebar */
+        z-index: 999;
     }
 
+    /* Adjust the product listings to take the full width of the page */
+    .col-md-9 {
+        margin-left: 270px;  /* Create space for the sidebar */
+        padding-top: 20px;
+    }
+
+    /* Sidebar Title */
     .filter-title {
         font-size: 1.5rem;
         margin-bottom: 1rem;
@@ -184,6 +197,7 @@
         color: #fff;
     }
 
+    /* Form styles */
     .filter-form .form-group {
         margin-bottom: 1.5rem;
     }
@@ -210,30 +224,25 @@
         border-radius: 5px;
     }
 
-    .product-card {
-        margin-bottom: 20px;
-    }
-    #price-range-display {
-        color: #fff;
+    /* Hide filter toggle button on larger screens */
+    #filter-toggle-btn {
+        display: none;
     }
 
-    /* Responsive for mobile view */
+    /* Responsive Design for smaller screens */
     @media (max-width: 767px) {
+        /* Show toggle button */
         #filter-sidebar {
-            display: none;
-        }
-
-        .col-md-3 {
-            margin-bottom: 30px;
+            display: none;  /* Initially hide the sidebar */
         }
 
         .col-md-9 {
-            margin-top: 20px;
+            margin-left: 0;
         }
 
-        .pagination .step-links {
-            text-align: center;
+        #filter-toggle-btn {
             display: block;
+            margin: 20px auto;
         }
 
         .filter-form .form-group {
@@ -248,11 +257,6 @@
 
         .filter-form .btn {
             width: 100%;
-        }
-
-        #filter-toggle-btn {
-            display: block;
-            margin: 20px auto;
         }
     }
 </style>
