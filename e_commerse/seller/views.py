@@ -23,19 +23,22 @@ def seller_dashboard(request):
     if request.method == "POST":
         name = request.POST["name"]
         category_id = request.POST["category"]
-        price = request.POST["price"]
+        original_price = request.POST["original_price"]
         quantity = request.POST["quantity"]
         description = request.POST["description"]
+        brand = request.POST["brand"]
         photos = request.FILES.getlist("photos")  # Get multiple files uploaded
 
         category = Category.objects.get(id=category_id)
+        brand = Brand.objects.get(id=brand)
         
         # Create the product
         product = Product.objects.create(
             name=name,
             category=category,
-            price=price,
+            original_price=original_price,
             quantity=quantity,
+            brand=brand,
             description=description,
             seller=request.user,
         )
