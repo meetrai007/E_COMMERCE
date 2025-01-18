@@ -4,6 +4,7 @@ from .models import Product, Category, ProductImage, Brand, Tag
 from rapidfuzz.fuzz import partial_ratio
 from django.core.cache import cache
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 def home_view(request):
@@ -37,7 +38,6 @@ def product_images(request, slug):
     return render(request, 'store/product_images.html', {'product': product})
 
 
-
 def search_products(request):
     query = request.GET.get('q', '')
     category_id = request.GET.get('category')
@@ -46,51 +46,62 @@ def search_products(request):
     max_price = request.GET.get('max_price')
     discount_type = request.GET.get('discount_type')
     gender_age_group = request.GET.get('gender_age_group')
-    tag_ids = request.GET.getlist('tags')  # Handling multiple tags
-    
-    # Initial queryset for all products
-    products = Product.objects.all()
+    tag_ids = request.GET.getlist('tags')
 
-    print(query,category_id,brand_id,min_price,max_price,discount_type,gender_age_group,tag_ids)
-    # Apply search filter
+    # Initial queryset for all products, retrieved from cache or database
+    products = cache.get_or_set('products', Product.objects.all())
+
+    # Applying filters based on query parameters
+    filter_conditions = Q()
     if query:
-        products = products.filter(name__icontains=query)
-    
-    # Apply category filter
+        filter_conditions &= (Q(name__icontains=query) |
+                              Q(description__icontains=query) |
+                              Q(tags__name__icontains=query) |
+                              Q(brand__name__icontains=query) |
+                              Q(category__name__icontains=query) |
+                              Q(gender_age_group__icontains=query))
+
     if category_id:
-        products = products.filter(category_id=category_id)
+        filter_conditions &= Q(category_id=category_id)
 
-    # Apply brand filter
     if brand_id:
-        products = products.filter(brand_id=brand_id)
+        filter_conditions &= Q(brand_id=brand_id)
 
-    # Apply price range filter
     if min_price:
-        products = products.filter(original_price__gte=min_price)
+        try:
+            min_price = float(min_price)
+            filter_conditions &= Q(original_price__gte=min_price)
+        except ValueError:
+            pass  # Handle invalid min_price input gracefully
+
     if max_price:
-        products = products.filter(original_price__lte=max_price)
+        try:
+            max_price = float(max_price)
+            filter_conditions &= Q(original_price__lte=max_price)
+        except ValueError:
+            pass  # Handle invalid max_price input gracefully
 
-    # Apply discount type filter
     if discount_type:
-        products = products.filter(discount_type=discount_type)
+        filter_conditions &= Q(discount_type=discount_type)
 
-    # Apply gender/age group filter
     if gender_age_group:
-        products = products.filter(gender_age_group=gender_age_group)
+        filter_conditions &= Q(gender_age_group=gender_age_group)
 
-    # Apply tags filter
     if tag_ids:
-        products = products.filter(tags__id__in=tag_ids).distinct()
+        filter_conditions &= Q(tags__id__in=tag_ids)
+
+    products = products.filter(filter_conditions).distinct()
 
     # Pagination
     paginator = Paginator(products, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    gender_age_group_choices = Product._meta.get_field('gender_age_group').choices
+
     # Fetch all categories, brands, and tags for filter options
     categories = Category.objects.all()
     brands = Brand.objects.all()
     tags = Tag.objects.all()
+    gender_age_group_choices = Product._meta.get_field('gender_age_group').choices
 
     context = {
         'page_obj': page_obj,
