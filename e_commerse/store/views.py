@@ -1,6 +1,6 @@
 # views.py
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Category, ProductImage
+from .models import Product, Category, ProductImage, Brand, Tag
 from rapidfuzz.fuzz import partial_ratio
 from django.core.cache import cache
 from django.core.paginator import Paginator
@@ -36,46 +36,76 @@ def product_images(request, slug):
     product = get_object_or_404(Product, slug=slug)
     return render(request, 'store/product_images.html', {'product': product})
 
+
+
 def search_products(request):
-    query = request.GET.get('q', '')  # Get the search term from the 'q' parameter in the URL
+    query = request.GET.get('q', '')
+    category_id = request.GET.get('category')
+    brand_id = request.GET.get('brand')
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    discount_type = request.GET.get('discount_type')
+    gender_age_group = request.GET.get('gender_age_group')
+    tag_ids = request.GET.getlist('tags')  # Handling multiple tags
     
-    try:
-        products = list(cache.get('products'))
-    except:
-        products = Product.objects.all()
-        cache.set('products', products)
+    # Initial queryset for all products
+    products = Product.objects.all()
 
+    print(query,category_id,brand_id,min_price,max_price,discount_type,gender_age_group,tag_ids)
+    # Apply search filter
     if query:
-        # Create a list to store products with similarity scores
-        matched_products = []
-        
-        for product in products:
-            # Calculate similarity scores for the product fields
-            name_score = partial_ratio(query, product.name)
-            category_score = partial_ratio(query, product.category.name) if product.category else 0
-            description_score = partial_ratio(query, product.description)
-            gender_score = partial_ratio(query, product.gender_age_group)
-            
-            # Aggregate the highest score
-            max_score = max(name_score, category_score, description_score, gender_score)
-            
-            # Set a threshold for inclusion in the results (e.g., > 90%)
-            if max_score > 90:
-                matched_products.append((product, max_score))
-        
-        # Sort matched products by their similarity score in descending order
-        matched_products = sorted(matched_products, key=lambda x: x[1], reverse=True)
-        products = [item[0] for item in matched_products]  # Extract only the product objects
+        products = products.filter(name__icontains=query)
+    
+    # Apply category filter
+    if category_id:
+        products = products.filter(category_id=category_id)
 
-        
+    # Apply brand filter
+    if brand_id:
+        products = products.filter(brand_id=brand_id)
+
+    # Apply price range filter
+    if min_price:
+        products = products.filter(original_price__gte=min_price)
+    if max_price:
+        products = products.filter(original_price__lte=max_price)
+
+    # Apply discount type filter
+    if discount_type:
+        products = products.filter(discount_type=discount_type)
+
+    # Apply gender/age group filter
+    if gender_age_group:
+        products = products.filter(gender_age_group=gender_age_group)
+
+    # Apply tags filter
+    if tag_ids:
+        products = products.filter(tags__id__in=tag_ids).distinct()
+
     # Pagination
-    paginator = Paginator(products, 10)  # Show 10 products per page
-    page_number = request.GET.get('page')  # Get the current page number from the request
-    page_obj = paginator.get_page(page_number)  # Get the products for the current page
+    paginator = Paginator(products, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    gender_age_group_choices = Product._meta.get_field('gender_age_group').choices
+    # Fetch all categories, brands, and tags for filter options
+    categories = Category.objects.all()
+    brands = Brand.objects.all()
+    tags = Tag.objects.all()
 
-    return render(request, 'store/search_results.html', {'page_obj': page_obj, 'query': query})
+    context = {
+        'page_obj': page_obj,
+        'query': query,
+        'categories': categories,
+        'brands': brands,
+        'tags': tags,
+        'category_id': category_id,
+        'brand_id': brand_id,
+        'min_price': min_price,
+        'max_price': max_price,
+        'discount_type': discount_type,
+        'gender_age_group': gender_age_group,
+        'gender_age_group_choices': gender_age_group_choices,
+        'tag_ids': tag_ids,
+    }
 
-
-
-
-
+    return render(request, 'store/search_results.html', context)

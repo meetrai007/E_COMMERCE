@@ -1,67 +1,258 @@
 {% include 'base/header.html' %}
 
-<div class="container_products">
-    <!-- Search Results Header -->
-    <h2>Search Results for "{{ query }}"</h2>
-
-    <!-- Row for products -->
+<div class="container">
     <div class="row">
-        {% for product in page_obj %}
-            <div class="col-md-12">
-                <div class="card product-card d-flex">
-                    <div class="product-img-container">
-                        <a href="{% url 'product_detail' product.slug %}">
-                            <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="product-img" id="main-product-image">
-                        </a>
-                    </div>
-
-                    <div class="card-body product-info">
-                        <h5 class="product-title">{{ product.name }}</h5>
-                        <p class="product-price"><span><del>₹{{ product.original_price }}</del></span> ₹{{ product.get_discounted_price }}</p>
-                        <p class="product-description">{{ product.description|linebreaksbr }}</p>
-
-                        <!-- Buy Now and Add to Cart Buttons -->
-                        <div class="d-flex justify-content-left">
-                            {% if product.quantity > 0 %}
-                                <a href="{% url 'place_order' product.slug %}" class="btn btn-success btn-sm" >Buy Now</a>
-                                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning btn-sm" style="margin-left: 10px;">Add to Cart</a>
-                            {% else %}
-                                <p class="text-danger">Out of Stock</p>
-                            {% endif %}
-                        </div>
+        <!-- Sidebar for Filters -->
+        <div class="col-md-3" id="filter-sidebar">
+            <button class="btn btn-secondary d-md-none" id="filter-toggle-btn" onclick="toggleSidebar()">Toggle Filters</button>
+            <h3 class="filter-title">Filter Products</h3>
+            <form method="get" action="{% url 'search_products' %}" class="filter-form">
+                <!-- Category Filter -->
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" class="form-control">
+                        <option value="">All</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if category.id|stringformat:"s" == category_id|stringformat:"s" %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
+                <!-- Brand Filter -->
+                <div class="form-group">
+                    <label for="brand">Brand</label>
+                    <select id="brand" name="brand" class="form-control">
+                        <option value="">All</option>
+                        {% for brand in brands %}
+                            <option value="{{ brand.id }}" {% if brand.id|stringformat:"s" == brand_id|stringformat:"s" %}selected{% endif %}>
+                                {{ brand.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
+                <!-- Price Range Filter -->
+                <div class="form-group">
+                    <label for="price-range">Price Range</label>
+                    <input type="range" id="min_price" name="min_price" class="form-control" value="{{ min_price|default:0 }}" min="0" max="5000" step="100">
+                    <input type="range" id="max_price" name="max_price" class="form-control" value="{{ max_price|default:5000 }}" min="0" max="50000" step="100">
+                    <div id="price-range-display">
+                        <span>₹{{ min_price|default:0 }}</span> - <span>₹{{ max_price|default:5000 }}</span>
                     </div>
                 </div>
+            
+                <!-- Discount Type Filter -->
+                <div class="form-group">
+                    <label for="discount_type">Discount Type</label>
+                    <select id="discount_type" name="discount_type" class="form-control">
+                        <option value="">All</option>
+                        {% for code, symbol in product.DISCOUNT_TYPE_CHOICES %}
+                            <option value="{{ code }}" {% if code == discount_type %}selected{% endif %}>
+                                {{ symbol }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
+                <!-- Gender/Age Group Filter -->
+                <div class="form-group">
+                    <label for="gender_age_group">Gender/Age Group</label>
+                    <select id="gender_age_group" name="gender_age_group" class="form-control">
+                        <option value="">All</option>
+                        {% for code, label in gender_age_group_choices %}
+                            <option value="{{ code }}" {% if code == gender_age_group %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
+                <!-- Tags Filter -->
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <select id="tags" name="tags" class="form-control" multiple>
+                        {% for tag in tags %}
+                            <option value="{{ tag.id }}" {% if tag.id|stringformat:"s" in tag_ids %}selected{% endif %}>
+                                {{ tag.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+            </form>
+        </div>
+
+        <!-- Product Listings -->
+        <div class="col-md-9">
+            <h2>Search Results for "{{ query }}"</h2>
+
+            <div class="row">
+                {% for product in page_obj %}
+                    <div class="">
+                        <div class="card product-card">
+                            <div class="product-img-container">
+                                <a href="{% url 'product_detail' product.slug %}">
+                                    <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="product-img">
+                                </a>
+                            </div>
+                            <div class="card-body product-info">
+                                <h5 class="product-title">{{ product.name }}</h5>
+                                <p class="product-price">
+                                    <del>₹{{ product.original_price }}</del> ₹{{ product.get_discounted_price }}
+                                </p>
+                                <p class="product-description">{{ product.description|linebreaksbr }}</p>
+
+                                {% if product.quantity > 0 %}
+                                    <a href="{% url 'place_order' product.slug %}" class="btn btn-success btn-sm">Buy Now</a>
+                                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning btn-sm" style="margin-left: 10px;">Add to Cart</a>
+                                {% else %}
+                                    <p class="text-danger">Out of Stock</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="alert alert-info">No products found.</div>
+                {% endfor %}
             </div>
-        {% empty %}
-            <div class="alert alert-info">No products found.</div>
-        {% endfor %}
-    </div>
 
-    <!-- Pagination Controls -->
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?q={{ query }}&page=1" class="pagination-btn">&laquo; first</a>
-                <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}" class="pagination-btn">previous</a>
-            {% endif %}
+            <!-- Pagination Controls -->
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?q={{ query }}&page=1" class="pagination-btn">&laquo; first</a>
+                        <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}" class="pagination-btn">previous</a>
+                    {% endif %}
 
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
 
-            {% if page_obj.has_next %}
-                <a href="?q={{ query }}&page={{ page_obj.next_page_number }}" class="pagination-btn">next</a>
-                <a href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}" class="pagination-btn">last &raquo;</a>
-            {% endif %}
-        </span>
+                    {% if page_obj.has_next %}
+                        <a href="?q={{ query }}&page={{ page_obj.next_page_number }}" class="pagination-btn">next</a>
+                        <a href="?q={{ query }}&page={{ page_obj.paginator.num_pages }}" class="pagination-btn">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- JavaScript to handle main image -->
 <script>
-    // Function to set the main image (if you want to change it later)
     function setMainImage(imageUrl) {
         const mainImage = document.getElementById("main-product-image");
         mainImage.src = imageUrl;
     }
+
+    // Toggle Sidebar for Mobile
+    function toggleSidebar() {
+        const sidebar = document.getElementById("filter-sidebar");
+        sidebar.classList.toggle("d-none");
+    }
+
+    // Update the price display when the range input changes
+    const minPriceInput = document.getElementById("min_price");
+    const maxPriceInput = document.getElementById("max_price");
+    const priceDisplay = document.getElementById("price-range-display");
+
+    minPriceInput.addEventListener("input", updatePriceDisplay);
+    maxPriceInput.addEventListener("input", updatePriceDisplay);
+
+    function updatePriceDisplay() {
+        priceDisplay.innerHTML = `₹${minPriceInput.value} - ₹${maxPriceInput.value}`;
+    }
 </script>
+
+<!-- Custom CSS for responsive filters sidebar -->
+<style>
+    /* Sidebar background color to match header */
+    #filter-sidebar {
+        background-color: #2c3e50;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .filter-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    .filter-form .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .filter-form label {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #fff;
+    }
+
+    .filter-form select,
+    .filter-form input {
+        font-size: 1rem;
+        border-radius: 5px;
+        padding: 8px;
+    }
+
+    .filter-form .btn {
+        font-size: 1rem;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .product-card {
+        margin-bottom: 20px;
+    }
+    #price-range-display {
+        color: #fff;
+    }
+
+    /* Responsive for mobile view */
+    @media (max-width: 767px) {
+        #filter-sidebar {
+            display: none;
+        }
+
+        .col-md-3 {
+            margin-bottom: 30px;
+        }
+
+        .col-md-9 {
+            margin-top: 20px;
+        }
+
+        .pagination .step-links {
+            text-align: center;
+            display: block;
+        }
+
+        .filter-form .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .filter-form label,
+        .filter-form input,
+        .filter-form select {
+            font-size: 0.9rem;
+        }
+
+        .filter-form .btn {
+            width: 100%;
+        }
+
+        #filter-toggle-btn {
+            display: block;
+            margin: 20px auto;
+        }
+    }
+</style>
