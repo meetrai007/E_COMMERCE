@@ -54,9 +54,10 @@ def search_products(request):
             name_score = partial_ratio(query, product.name)
             category_score = partial_ratio(query, product.category.name) if product.category else 0
             description_score = partial_ratio(query, product.description)
+            gender_score = partial_ratio(query, product.gender_age_group)
             
             # Aggregate the highest score
-            max_score = max(name_score, category_score, description_score)
+            max_score = max(name_score, category_score, description_score, gender_score)
             
             # Set a threshold for inclusion in the results (e.g., > 90%)
             if max_score > 90:

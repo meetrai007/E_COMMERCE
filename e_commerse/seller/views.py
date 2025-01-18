@@ -121,26 +121,29 @@ def edit_product(request, product_id):
     # Get the product to edit
     product = get_object_or_404(Product, id=product_id)
     categories = Category.objects.all()  # Get all categories
+    brands = Brand.objects.all()
 
     if request.method == "POST":
         # Get form data
         name = request.POST.get("name")
         category_id = request.POST.get("category")
-        price = request.POST.get("price")
+        original_price = request.POST.get("original_price")
         quantity = request.POST.get("quantity")
         description = request.POST.get("description")
+        gender = request.POST.get("gender")
+        brand = request.POST.get("brand")
         new_photos = request.FILES.getlist("photos")  # Get multiple new images uploaded
 
         # Validate the form fields
-        if not name or not price or not description:
-            error_message = "Please fill in all required fields."
+        if not name or not original_price or not description or not quantity or not gender:
+            messages.error(request, "All fields are required.")
             return render(
                 request,
                 "seller/edit_product.html",
                 {
                     "product": product,
                     "categories": categories,
-                    "error_message": error_message,
+                    "brands": brands,
                 },
             )
 
@@ -150,9 +153,10 @@ def edit_product(request, product_id):
         # Update product details
         product.name = name
         product.category = category
-        product.price = price
+        product.original_price = original_price
         product.quantity = quantity
         product.description = description
+        product.gender_age_group = gender
 
         # Save the updated product
         product.save()
@@ -176,6 +180,7 @@ def edit_product(request, product_id):
         {
             "product": product,
             "categories": categories,
+            "brands": brands,
         },
     )
 

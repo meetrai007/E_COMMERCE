@@ -198,16 +198,28 @@
             <h2>Shop by Gender</h2>
             <div class="shopping-categories-bygender">
                 <div class="shopping-tile men-category">
-                    <img src="\static\store\img\man.png" alt="Men's Clothing">
-                    <h3>Men</h3>
+                    <a href="{% url 'search_products' %}?q=Man">
+                        <img src="\static\store\img\man.png" alt="Men's Clothing">
+                        <h3>Men</h3>
+                    </a>
                 </div>
                 <div class="shopping-tile women-category">
-                    <img src="\static\store\img\girl.png" alt="Women's Clothing">
-                    <h3>Women</h3>
+                    <a href="{% url 'search_products' %}?q=Women">
+                        <img src="\static\store\img\girl.png" alt="Women's Clothing">
+                        <h3>Women</h3>
+                    </a>
                 </div>
                 <div class="shopping-tile baby-category">
-                    <img src="\static\store\img\baby.png" alt="Baby Clothing">
-                    <h3>Baby</h3>
+                    <a href="{% url 'search_products' %}?q=Boy">
+                        <img src="\static\store\img\baby.png" alt="Boy Clothing">
+                        <h3>Boy</h3>
+                    </a>
+                </div>
+                <div class="shopping-tile baby-category">
+                    <a href="{% url 'search_products' %}?q=Girl">
+                        <img src="\static\store\img\baby.png" alt="Baby Clothing">
+                        <h3>Girl</h3>
+                    </a>
                 </div>
             </div>
         </div>

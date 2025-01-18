@@ -39,7 +39,7 @@ class Product(models.Model):
     description = models.TextField()
     slug = AutoSlugField(populate_from='name', unique=True)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='products')
-    gender = models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female'), ('B', 'Both')])
+    gender_age_group = models.CharField(max_length=1, choices=[('M', 'Man'), ('W', 'Woman'), ('B', 'Boy'), ('G', 'Girl'), ('A', 'All')],default='A')
     tags = models.ManyToManyField(Tag, related_name='products', blank=True)
 
     def __str__(self):
