@@ -34,7 +34,6 @@ class Product(models.Model):
     original_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     discount_value = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     discount_type = models.CharField(max_length=10, choices=DISCOUNT_TYPE_CHOICES, default='percentage')
-    price = models.DecimalField(max_digits=10, decimal_places=2,null=True)  # price field
     quantity = models.PositiveIntegerField(default=1)
     description = models.TextField()
     slug = AutoSlugField(populate_from='name', unique=True)
@@ -45,20 +44,6 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-            # Set the price to be the same as original_price if it's not already set
-            if self.discount_value is None:
-                self.price = self.original_price
-            else:
-                # Recalculate the discounted price based on the type of discount
-                if self.discount_type == 'percentage':
-                    # Ensure both operands are Decimals
-                    self.price = Decimal(self.original_price) * (1 - Decimal(self.discount_value) / Decimal(100))
-                elif self.discount_type == 'fixed':
-                    self.price = Decimal(self.original_price) - Decimal(self.discount_value)
-            
-            super(Product, self).save(*args, **kwargs)
-    
     def get_discounted_price(self):
         original_price = self.original_price
         discount_value = self.discount_value
@@ -66,9 +51,9 @@ class Product(models.Model):
 
         if discount_value is not None:
             if discount_type == 'percentage':
-                return original_price * (1 - discount_value / 100)
+                return round(original_price * (1 - discount_value / 100),2)
             elif discount_type == 'fixed':
-                return original_price - discount_value
+                return round(original_price - discount_value,2)
 
 def __str__(self):
     return self.name

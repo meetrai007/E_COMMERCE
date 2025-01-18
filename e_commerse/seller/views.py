@@ -24,6 +24,8 @@ def seller_dashboard(request):
         name = request.POST["name"]
         category_id = request.POST["category"]
         original_price = request.POST["original_price"]
+        discount_type = request.POST["discount_type"]
+        discount_value = request.POST["discount_value"]
         quantity = request.POST["quantity"]
         description = request.POST["description"]
         brand = request.POST["brand"]
@@ -37,6 +39,8 @@ def seller_dashboard(request):
             name=name,
             category=category,
             original_price=original_price,
+            discount_type=discount_type,
+            discount_value=discount_value,
             quantity=quantity,
             brand=brand,
             description=description,
@@ -131,6 +135,8 @@ def edit_product(request, product_id):
         name = request.POST.get("name")
         category_id = request.POST.get("category")
         original_price = request.POST.get("original_price")
+        discount_type = request.POST.get("discount_type")
+        discount_value = request.POST.get("discount_value")
         quantity = request.POST.get("quantity")
         description = request.POST.get("description")
         gender = request.POST.get("gender")
@@ -157,6 +163,8 @@ def edit_product(request, product_id):
         product.name = name
         product.category = category
         product.original_price = original_price
+        product.discount_type = discount_type
+        product.discount_value = discount_value
         product.quantity = quantity
         product.description = description
         product.gender_age_group = gender

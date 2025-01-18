@@ -70,7 +70,7 @@
                             <td>{{ product.category.name }}</td>
                             <td>{{ product.quantity }}</td>
                             <td>₹{{ product.original_price }}</td>
-                            <td>{{ product.discount_value }} {{ product.discount_type }}</td>
+                            <td>{{ product.discount_value }} {% if product.discount_type == 'percentage' %}%{% endif %}{% if product.discount_type == 'fixed' %}₹{% endif %}</td>
                             <td>₹{{ product.get_discounted_price }}</td>
                             <td>
                                 <a href="{% url 'edit_product' product.id %}" class="btn btn-edit">Edit</a>
