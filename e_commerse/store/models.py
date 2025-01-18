@@ -31,10 +31,10 @@ class Product(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     name = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    discount_value = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    discount_value = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     discount_type = models.CharField(max_length=10, choices=DISCOUNT_TYPE_CHOICES, default='percentage')
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # price field
+    price = models.DecimalField(max_digits=10, decimal_places=2,null=True)  # price field
     quantity = models.PositiveIntegerField(default=1)
     description = models.TextField()
     slug = AutoSlugField(populate_from='name', unique=True)
@@ -58,6 +58,17 @@ class Product(models.Model):
                     self.price = Decimal(self.original_price) - Decimal(self.discount_value)
             
             super(Product, self).save(*args, **kwargs)
+    
+    def get_discounted_price(self):
+        original_price = self.original_price
+        discount_value = self.discount_value
+        discount_type = self.discount_type
+
+        if discount_value is not None:
+            if discount_type == 'percentage':
+                return original_price * (1 - discount_value / 100)
+            elif discount_type == 'fixed':
+                return original_price - discount_value
 
 def __str__(self):
     return self.name
