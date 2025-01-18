@@ -17,7 +17,7 @@
 
                     <div class="card-body product-info">
                         <h5 class="product-title">{{ product.name }}</h5>
-                        <p class="product-price">₹{{ product.price }}</p>
+                        <p class="product-price"><span><del>₹{{ product.original_price }}</del></span> ₹{{ product.get_discounted_price }}</p>
                         <p class="product-description">{{ product.description|linebreaksbr }}</p>
 
                         <!-- Buy Now and Add to Cart Buttons -->
