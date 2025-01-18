@@ -45,12 +45,19 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-def save(self, *args, **kwargs):
-        # Set the price to be the same as original_price if it's not already set
-        if self.original_price is not None and self.price is None:
-            self.price = self.original_price
-        
-        super(Product, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+            # Set the price to be the same as original_price if it's not already set
+            if self.discount_value is None:
+                self.price = self.original_price
+            else:
+                # Recalculate the discounted price based on the type of discount
+                if self.discount_type == 'percentage':
+                    # Ensure both operands are Decimals
+                    self.price = Decimal(self.original_price) * (1 - Decimal(self.discount_value) / Decimal(100))
+                elif self.discount_type == 'fixed':
+                    self.price = Decimal(self.original_price) - Decimal(self.discount_value)
+            
+            super(Product, self).save(*args, **kwargs)
 
 def __str__(self):
     return self.name

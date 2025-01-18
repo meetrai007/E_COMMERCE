@@ -147,11 +147,11 @@
             </div>
     
             <!-- Gender -->
-            <div class="edit-product-form-group mb-3">
-                <label for="gender" class="edit-product-form-label">Gender:</label required>
+            <div class="form-group">
+                <label for="gender" class="form-label">Gender:</label>
                 <div>
                     <label>
-                        <input type="radio" id="gender_male" name="gender" value="M" {% if product.gender == "M" %}checked{% endif %}> Man
+                        <input type="radio" id="gender_male" name="gender" value="M" {% if product.gender == "M" %}checked{% elif not product.gender %}checked{% endif %}> Man
                     </label>
                     <label>
                         <input type="radio" id="gender_female" name="gender" value="W" {% if product.gender == "W" %}checked{% endif %}> Woman
@@ -160,10 +160,14 @@
                         <input type="radio" id="gender_both" name="gender" value="B" {% if product.gender == "B" %}checked{% endif %}> Boy
                     </label>
                     <label>
-                        <input type="radio" id="gender_both" name="gender" value="G" {% if product.gender == "G" %}checked{% endif %}> Girl
+                        <input type="radio" id="gender_girl" name="gender" value="G" {% if product.gender == "G" %}checked{% endif %}> Girl
+                    </label>
+                    <label>
+                        <input type="radio" id="gender_all" name="gender" value="A" {% if product.gender == "A" or not product.gender %}checked{% endif %}> All
                     </label>
                 </div>
             </div>
+            
     
             <!-- Brand -->
             <div class="edit-product-form-group mb-3">
