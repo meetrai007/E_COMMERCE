@@ -290,29 +290,31 @@ body {
 .add-product-form button:hover {
     background-color: var(--hover-color);
 }
-
-
-/* Product Card Styles */
-.product-card {
-    display: flex;
-    flex-direction: row;
-    border-radius: 8px;
-    padding: 30px;
-    margin-bottom: 20px; /* Add some margin between cards */
-}
-
-.product-img-container {
-    flex: 1;
-    max-width: 250px;
-}
-
 .product-img {
     width: 100%;
     height: 200px;
     object-fit: contain;
     border-radius: 8px;
+} 
+
+
+/* Product Card Styles */
+/* .product-card {
+    display: flex;
+    flex-direction: row;
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 20px;  */
+    /* Add some margin between cards */
+/* } */
+
+/* .product-img-container {
+    flex: 1;
+    max-width: 250px;
 }
 
+
+/* 
 .product-info {
     flex: 2;
     padding-left: 15px;
@@ -337,7 +339,7 @@ body {
 .product-description {
     font-size: 0.9rem;
     margin-bottom: 15px;
-}
+}  */
 
 
 /* Product Thumbnails Container */

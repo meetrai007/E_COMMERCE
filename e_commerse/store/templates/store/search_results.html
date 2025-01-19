@@ -89,17 +89,19 @@
 
         <!-- Product Listings -->
         <div class="col-md-9">
-            <h2>Search Results for "{{ query }}"</h2>
+            <h2>Search Results</h2>
 
             <div class="row">
                 {% for product in page_obj %}
                     <div class="col-md-4">
-                        <div class="card product-card">
+                        <div class="card product-card p-3 m-2 bg-light">
                             <div class="product-img-container">
                                 <a href="{% url 'product_detail' product.slug %}">
                                     <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="product-img">
                                 </a>
                             </div>
+                            <hr style="border: 1px solid rgb(0, 0, 0);">
+
                             <div class="card-body product-info">
                                 <h5 class="product-title">{{ product.name }}</h5>
                                 <p class="product-price">
@@ -174,7 +176,7 @@
     /* Sidebar fixed on the left */
     #filter-sidebar {
         position: fixed;
-        top: 67px;
+        top: 75px;
         left: 0;
         width: 300px;  /* Adjust width as needed */
         height: 100vh;
