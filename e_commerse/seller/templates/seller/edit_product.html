@@ -101,6 +101,9 @@
     <!-- Include Header -->
     {% include 'base/header.html' %}
 
+    <!-- Include Alert Message -->
+    {% include 'base/alert_message.html' %}
+
     <!-- Edit Product Form -->
     <div class="edit-product-container">
         <h2>Edit Product: {{ product.name }}</h2>
@@ -127,8 +130,23 @@
     
             <!-- Price -->
             <div class="edit-product-form-group mb-3">
-                <label for="price" class="edit-product-form-label">Price:</label>
-                <input type="number" id="price" name="price" class="edit-product-form-control" step="0.01" value="{{ product.price }}" required>
+                <label for="price" class="edit-product-form-label">original_price:</label>
+                <input type="number" id="price" name="original_price" class="edit-product-form-control" step="0.01" value="{{ product.original_price }}" required>
+            </div>
+
+            <!-- Discount Type -->
+            <div class="form-group">
+                <label for="discount_type" class="form-label">Discount Type:</label>
+                <select id="discount_type" name="discount_type" class="form-select" required>
+                    <option value="percentage">Percentage</option>
+                    <option value="fixed">Fixed Amount</option>
+                </select>
+            </div>
+
+            <!-- Discount Value -->
+            <div class="form-group">
+                <label for="discount_value" class="form-label">Discount Value:</label>
+                <input type="number" id="discount_value" name="discount_value" class="form-control" required>
             </div>
             
             <!-- Quantity -->
@@ -141,6 +159,40 @@
             <div class="edit-product-form-group mb-3">
                 <label for="description" class="edit-product-form-label">Description:</label>
                 <textarea id="description" name="description" class="edit-product-form-control" rows="4" required>{{ product.description }}</textarea>
+            </div>
+    
+            <!-- Gender -->
+            <div class="form-group">
+                <label for="gender" class="form-label">Gender:</label>
+                <div>
+                    <label>
+                        <input type="radio" id="gender_male" name="gender" value="M" {% if product.gender == "M" %}checked{% elif not product.gender %}checked{% endif %}> Man
+                    </label>
+                    <label>
+                        <input type="radio" id="gender_female" name="gender" value="W" {% if product.gender == "W" %}checked{% endif %}> Woman
+                    </label>
+                    <label>
+                        <input type="radio" id="gender_both" name="gender" value="B" {% if product.gender == "B" %}checked{% endif %}> Boy
+                    </label>
+                    <label>
+                        <input type="radio" id="gender_girl" name="gender" value="G" {% if product.gender == "G" %}checked{% endif %}> Girl
+                    </label>
+                    <label>
+                        <input type="radio" id="gender_all" name="gender" value="A" {% if product.gender == "A" or not product.gender %}checked{% endif %}> All
+                    </label>
+                </div>
+            </div>
+            
+    
+            <!-- Brand -->
+            <div class="edit-product-form-group mb-3">
+                <label for="brand" class="edit-product-form-label">Brand:</label>
+                <select id="brand" name="brand" class="edit-product-form-select" >
+                    <option value="" disabled selected>Select Brand</option>
+                    {% for brand in brands %}
+                        <option value="{{ brand.id }}" {% if brand.id == product.brand.id %}selected{% endif %}>{{ brand.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
     
             <!-- Current Photos -->
