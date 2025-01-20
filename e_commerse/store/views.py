@@ -102,6 +102,7 @@ def search_products(request):
     brands = Brand.objects.all()
     tags = Tag.objects.all()
     gender_age_group_choices = Product._meta.get_field('gender_age_group').choices
+    discount_type_choices = Product._meta.get_field('discount_type').choices
 
     context = {
         'page_obj': page_obj,
@@ -113,7 +114,7 @@ def search_products(request):
         'brand_id': brand_id,
         'min_price': min_price,
         'max_price': max_price,
-        'discount_type': discount_type,
+        'discount_type_choices': discount_type_choices,
         'gender_age_group': gender_age_group,
         'gender_age_group_choices': gender_age_group_choices,
         'tag_ids': tag_ids,

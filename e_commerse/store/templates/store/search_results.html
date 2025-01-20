@@ -48,9 +48,9 @@
                     <label for="discount_type">Discount Type</label>
                     <select id="discount_type" name="discount_type" class="form-control">
                         <option value="">All</option>
-                        {% for code, symbol in product.DISCOUNT_TYPE_CHOICES %}
+                        {% for code, symbol in discount_type_choices %}
                             <option value="{{ code }}" {% if code == discount_type %}selected{% endif %}>
-                                {{ symbol }}
+                                {{ code }}
                             </option>
                         {% endfor %}
                     </select>
@@ -104,9 +104,22 @@
 
                             <div class="card-body product-info">
                                 <h5 class="product-title">{{ product.name }}</h5>
+                                <h6>
+                                    {% if product.discount_value > 0 %}
+                                        {% if product.discount_type == 'percentage' %}
+                                            {{ product.discount_value }}% off
+                                        {% elif product.discount_type == 'fixed' %}
+                                            ₹{{ product.discount_value }} off
+                                        {% endif %}
+                                    {% endif %}
+                                </h6>
                                 <p class="product-price">
-                                    <del>₹{{ product.original_price }}</del> ₹{{ product.get_discounted_price }}
+                                    {% if product.discount_value > 0 %}
+                                        <del>₹{{ product.original_price }}</del>
+                                    {% endif %}
+                                    ₹{{ product.get_discounted_price }}
                                 </p>
+                                
                                 <!-- <p class="product-description">{{ product.description|linebreaksbr }}</p> -->
 
                                 {% if product.quantity > 0 %}
