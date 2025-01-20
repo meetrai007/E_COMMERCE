@@ -44,17 +44,18 @@
                 </div>
             
                 <!-- Discount Type Filter -->
-                <div class="form-group">
-                    <label for="discount_type">Discount Type</label>
-                    <select id="discount_type" name="discount_type" class="form-control">
-                        <option value="">All</option>
-                        {% for code, symbol in discount_type_choices %}
-                            <option value="{{ code }}" {% if code == discount_type %}selected{% endif %}>
-                                {{ code }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
+<div class="form-group">
+    <label for="discount_type">Discount Type</label>
+    <select id="discount_type" name="discount_type" class="form-control">
+        <option value="">All</option>
+        {% for code, symbol in discount_type_choices %}
+            <option value="{{ code }}" {% if code == discount_type %}selected{% endif %}>
+                {{ symbol }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
             
                 <!-- Gender/Age Group Filter -->
                 <div class="form-group">
@@ -83,7 +84,6 @@
                 
                 <!-- Submit Button -->
                 <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
-                <br><br><br>
             </form>
         </div>
 
@@ -93,8 +93,8 @@
 
             <div class="row">
                 {% for product in page_obj %}
-                    <div class="col-md-4">
-                        <div class="card product-card p-3 m-2 bg-light">
+                    <div class="col-md-4 mb-4">
+                        <div class="card product-card h-100">
                             <div class="product-img-container">
                                 <a href="{% url 'product_detail' product.slug %}">
                                     <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="product-img">
@@ -119,12 +119,12 @@
                                     {% endif %}
                                     ₹{{ product.get_discounted_price }}
                                 </p>
-                                
-                                <!-- <p class="product-description">{{ product.description|linebreaksbr }}</p> -->
 
                                 {% if product.quantity > 0 %}
-                                    <a href="{% url 'place_order' product.slug %}" class="btn btn-success btn-sm">Buy Now</a>
-                                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning btn-sm" style="margin-left: 10px;">Add to Cart</a>
+                                    <div class="product-actions mt-auto">
+                                        <a href="{% url 'place_order' product.slug %}" class="btn btn-success btn-sm">Buy Now</a>
+                                        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning btn-sm ml-2">Add to Cart</a>
+                                    </div>
                                 {% else %}
                                     <p class="text-danger">Out of Stock</p>
                                 {% endif %}
@@ -186,22 +186,115 @@
 
 <!-- Custom CSS for responsive filters sidebar -->
 <style>
+    /* Product Card Styling */
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    /* Product Image Styling */
+    .product-img-container {
+        width: 100%;
+        height: 200px;
+    }
+
+    .product-img {
+        padding: 10px;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 8px;
+    }
+
+    /* Product Info Styling */
+    .product-info {
+        padding: 15px;
+        background-color: #f9f9f9;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .product-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    /* Price Styling */
+    .product-price {
+        font-size: 1.1rem;
+        margin: 10px 0;
+    }
+
+    .product-price del {
+        font-size: 0.9rem;
+        color: #888;
+        margin-right: 5px;
+    }
+
+    .product-price span {
+        color: #ff5722;
+        font-weight: bold;
+    }
+
+    /* Discount Badge Styling */
+    h6 {
+        font-size: 1rem;
+        color: #28a745;
+        margin-bottom: 10px;
+    }
+
+    /* Ensure buttons are at the bottom of the card */
+    .product-actions {
+        margin-top: auto;
+    }
+
+    /* Responsive Styling */
+    @media (max-width: 767px) {
+        .product-card {
+            margin-bottom: 15px;
+        }
+
+        .product-info {
+            padding: 10px;
+        }
+
+        .product-title {
+            font-size: 1rem;
+        }
+
+        .product-price {
+            font-size: 1rem;
+        }
+
+        .product-price del {
+            font-size: 0.8rem;
+        }
+    }
+
     /* Sidebar fixed on the left */
     #filter-sidebar {
         position: fixed;
         top: 75px;
         left: 0;
-        width: 300px;  /* Adjust width as needed */
-        height: 100vh;
+        width: 300px;
+        height: 630px;
         background-color: #2c3e50;
         padding: 20px;
-        overflow-y: auto; /* Prevents scrolling in the sidebar */
+        overflow-y: auto;
         z-index: 999;
     }
 
     /* Adjust the product listings to take the full width of the page */
     .col-md-9 {
-        margin-left: 270px;  /* Create space for the sidebar */
+        margin-left: 320px;
         padding-top: 20px;
     }
 
@@ -249,7 +342,7 @@
     @media (max-width: 767px) {
         /* Show toggle button */
         #filter-sidebar {
-            display: none;  /* Initially hide the sidebar */
+            display: none;
         }
 
         .col-md-9 {

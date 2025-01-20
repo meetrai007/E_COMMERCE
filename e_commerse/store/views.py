@@ -1,7 +1,6 @@
 # views.py
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category, ProductImage, Brand, Tag
-from rapidfuzz.fuzz import partial_ratio
 from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -36,7 +35,6 @@ def product_detail_view(request, slug):
 def product_images(request, slug):
     product = get_object_or_404(Product, slug=slug)
     return render(request, 'store/product_images.html', {'product': product})
-
 
 def search_products(request):
     query = request.GET.get('q', '')
@@ -114,6 +112,7 @@ def search_products(request):
         'brand_id': brand_id,
         'min_price': min_price,
         'max_price': max_price,
+        'discount_type': discount_type,  # Add this line
         'discount_type_choices': discount_type_choices,
         'gender_age_group': gender_age_group,
         'gender_age_group_choices': gender_age_group_choices,
