@@ -35,8 +35,8 @@
                             <button type="submit" class="btn btn-secondary btn-sm">Update</button>
                         </form>
                     </td>
-                    <td>$ {{ item.product.price }}</td>
-                    <td>$ {{ item.get_total_price }}</td>
+                    <td>₹ {{ item.product.get_discounted_price }}</td>
+                    <td>₹ {{ item.get_total_price }}</td>
                     <td>
                         <form method="POST" action="{% url 'remove_from_cart' item.id %}">
                             {% csrf_token %}
@@ -49,7 +49,7 @@
         </table>
 
         <div class="d-flex justify-content-between">
-            <h4>Total Price: $ {{ cart.get_total_price }}</h4>
+            <h4>Total Price: ₹ {{ cart.get_total_price }}</h4>
             <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
         </div>
 

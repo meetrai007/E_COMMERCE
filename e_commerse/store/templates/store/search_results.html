@@ -50,7 +50,7 @@
         <option value="">All</option>
         {% for code, symbol in discount_type_choices %}
             <option value="{{ code }}" {% if code == discount_type %}selected{% endif %}>
-                {{ symbol }}
+                {{ code }}
             </option>
         {% endfor %}
     </select>
