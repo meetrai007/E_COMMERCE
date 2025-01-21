@@ -15,7 +15,7 @@ def seller_dashboard(request):
 
     # Fetch products and orders
     products = Product.objects.filter(seller=seller_id)
-    orders = Order.objects.filter(product__seller=seller_id)
+    orders = Order.objects.filter(products__product__seller=seller_id)
     categories = Category.objects.all()  # Get all categories for dropdown
     brands = Brand.objects.all()
 

@@ -83,7 +83,7 @@ def buy_now(request, product_id):
             # Create the order for the selected product
             order = Order.objects.create(
                 buyer=request.user,
-                total_price=product.price,  # Assuming the product price is directly used for the order
+                total_price=product.get_discounted_price(),  # Assuming the product price is directly used for the order
                 delivery_address=delivery_address
             )
 
