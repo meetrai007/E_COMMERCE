@@ -1,0 +1,9 @@
+<h2>Buy Now</h2>
+<p>Product: {{ product.name }}</p>
+<p>Price: ₹ {{ product.get_discounted_price }}</p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Place Order</button>
+</form>

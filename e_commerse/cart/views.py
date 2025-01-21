@@ -2,7 +2,9 @@ from django.shortcuts import render,redirect
 from .models import CartItem,Cart
 from django.shortcuts import get_object_or_404, redirect
 from store.models import Product
-
+from orders.models import Order,OrderItem
+from base.forms import AddressForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -43,10 +45,7 @@ def add_to_cart(request, product_id):
 
     return redirect('cart_view')
 
-def checkout_view(request):
-    cart = Cart.objects.get(user=request.user)
-    # Placeholder logic for the checkout process
-    return render(request, 'cart/checkout.html', {'cart': cart})
+
 
 
 def remove_from_cart(request, item_id):
@@ -60,3 +59,37 @@ def update_cart(request, item_id):
         cart_item.quantity = request.POST.get('quantity', cart_item.quantity)
         cart_item.save()
     return redirect('cart_view')
+
+@login_required
+def checkout_view(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    cart_items = cart.items.all()
+    total_price = sum(item.get_total_price() for item in cart_items)
+
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            delivery_address = form.cleaned_data['delivery_address']
+
+            # Create the order
+            order = Order.objects.create(
+                buyer=request.user,
+                total_price=total_price,
+                delivery_address=delivery_address
+            )
+
+            # Create OrderItem for each CartItem and link to the Order
+            for item in cart_items:
+                order_item = OrderItem.objects.create(
+                    product=item.product,
+                    quantity=item.quantity
+                )
+                order.products.add(order_item)
+                item.delete()  # Remove the item from the cart
+
+            cart.delete()  # Clear the cart after order is placed
+            return redirect('order_confirmation', order_id=order.id)
+    else:
+        form = AddressForm()
+
+    return render(request, 'cart/checkout.html', {'cart_items': cart_items, 'total_price': total_price, 'form': form})

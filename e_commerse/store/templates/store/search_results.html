@@ -122,7 +122,7 @@
 
                                 {% if product.quantity > 0 %}
                                     <div class="product-actions mt-auto">
-                                        <a href="{% url 'place_order' product.slug %}" class="btn btn-success btn-sm">Buy Now</a>
+                                        <a href="{% url 'buy_now' product.id %}" class="btn btn-success btn-sm">Buy Now</a>
                                         <a href="{% url 'add_to_cart' product.id %}" class="btn btn-warning btn-sm ml-2">Add to Cart</a>
                                     </div>
                                 {% else %}
