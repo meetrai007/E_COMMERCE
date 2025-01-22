@@ -51,7 +51,6 @@ def search_products(request):
     tag_ids = request.GET.getlist('tags')
     sort_price = request.GET.get('sort_price', '')
 
-    print(query, category_id, brand_id, min_price, max_price, discount_type, gender_age_group, tag_ids, sort_price)
 
     # Initial queryset for all products, retrieved from cache or database
     products = cache.get_or_set('products', Product.objects.all())
@@ -81,8 +80,6 @@ def search_products(request):
     if tag_ids:
         filter_conditions &= Q(tags__id__in=tag_ids)
     
-    print(filter_conditions)
-
     # Apply the filter conditions to the products queryset
     products = products.filter(filter_conditions).distinct()
 
