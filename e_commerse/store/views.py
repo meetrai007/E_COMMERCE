@@ -35,6 +35,10 @@ def product_detail_view(request, slug):
 def product_images(request, slug):
     product = get_object_or_404(Product, slug=slug)
     return render(request, 'store/product_images.html', {'product': product})
+from django.db.models import Q
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.core.cache import cache
 
 def search_products(request):
     query = request.GET.get('q', '')
@@ -45,6 +49,9 @@ def search_products(request):
     discount_type = request.GET.get('discount_type')
     gender_age_group = request.GET.get('gender_age_group')
     tag_ids = request.GET.getlist('tags')
+    sort_price = request.GET.get('sort_price', '')
+
+    print(query, category_id, brand_id, min_price, max_price, discount_type, gender_age_group, tag_ids, sort_price)
 
     # Initial queryset for all products, retrieved from cache or database
     products = cache.get_or_set('products', Product.objects.all())
@@ -65,20 +72,6 @@ def search_products(request):
     if brand_id:
         filter_conditions &= Q(brand_id=brand_id)
 
-    if min_price:
-        try:
-            min_price = float(min_price)
-            filter_conditions &= Q(original_price__gte=min_price)
-        except ValueError:
-            pass  # Handle invalid min_price input gracefully
-
-    if max_price:
-        try:
-            max_price = float(max_price)
-            filter_conditions &= Q(original_price__lte=max_price)
-        except ValueError:
-            pass  # Handle invalid max_price input gracefully
-
     if discount_type:
         filter_conditions &= Q(discount_type=discount_type)
 
@@ -87,8 +80,17 @@ def search_products(request):
 
     if tag_ids:
         filter_conditions &= Q(tags__id__in=tag_ids)
+    
+    print(filter_conditions)
 
+    # Apply the filter conditions to the products queryset
     products = products.filter(filter_conditions).distinct()
+
+    # Apply sorting by price if 'sort_price' is provided
+    if sort_price == 'low_to_high':
+        products = products.order_by('original_price')  # Sort by price ascending
+    elif sort_price == 'high_to_low':
+        products = products.order_by('-original_price')  # Sort by price descending
 
     # Pagination
     paginator = Paginator(products, 12)
@@ -117,6 +119,7 @@ def search_products(request):
         'gender_age_group': gender_age_group,
         'gender_age_group_choices': gender_age_group_choices,
         'tag_ids': tag_ids,
+        'sort_price': sort_price,  # Add sort_price to context
     }
 
     return render(request, 'store/search_results.html', context)

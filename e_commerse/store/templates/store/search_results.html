@@ -33,30 +33,29 @@
                     </select>
                 </div>
             
-                <!-- Price Range Filter -->
+                <!-- Sort By Price Filter -->
                 <div class="form-group">
-                    <label for="price-range">Price Range</label>
-                    <input type="range" id="min_price" name="min_price" class="form-control" value="{{ min_price|default:0 }}" min="0" max="5000" step="100">
-                    <input type="range" id="max_price" name="max_price" class="form-control" value="{{ max_price|default:5000 }}" min="0" max="50000" step="100">
-                    <div id="price-range-display">
-                        <span>₹{{ min_price|default:0 }}</span> - <span>₹{{ max_price|default:5000 }}</span>
-                    </div>
+                    <label for="sort_price">Sort By Price</label>
+                    <select id="sort_price" name="sort_price" class="form-control">
+                        <option value="">Select</option>
+                        <option value="low_to_high" {% if sort_price == 'low_to_high' %}selected{% endif %}>Low to High</option>
+                        <option value="high_to_low" {% if sort_price == 'high_to_low' %}selected{% endif %}>High to Low</option>
+                    </select>
                 </div>
             
                 <!-- Discount Type Filter -->
-<div class="form-group">
-    <label for="discount_type">Discount Type</label>
-    <select id="discount_type" name="discount_type" class="form-control">
-        <option value="">All</option>
-        {% for code, symbol in discount_type_choices %}
-            <option value="{{ code }}" {% if code == discount_type %}selected{% endif %}>
-                {{ code }}
-            </option>
-        {% endfor %}
-    </select>
-</div>
+                <div class="form-group">
+                    <label for="discount_type">Discount Type</label>
+                    <select id="discount_type" name="discount_type" class="form-control">
+                        <option value="">All</option>
+                        {% for code, symbol in discount_type_choices %}
+                            <option value="{{ code }}" {% if code == discount_type %}selected{% endif %}>
+                                {{ code }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-            
                 <!-- Gender/Age Group Filter -->
                 <div class="form-group">
                     <label for="gender_age_group">Gender/Age Group</label>
@@ -369,3 +368,4 @@
         }
     }
 </style>
+
