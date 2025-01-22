@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from seller.models import Seller
 from store.models import Product, Category,ProductImage, Brand
-from orders.models import Order
+from orders.models import Order, OrderItems
 from django.contrib.auth import authenticate, login
 from django.core.cache import cache
 from decimal import Decimal
@@ -15,9 +15,9 @@ def seller_dashboard(request):
 
     # Fetch products and orders
     products = Product.objects.filter(seller=seller_id)
-    orders = Order.objects.filter(products__product__seller=seller_id)
     categories = Category.objects.all()  # Get all categories for dropdown
     brands = Brand.objects.all()
+    orders = OrderItems.objects.filter(product__seller=seller_id)
 
     # Handle Add Product logic
     if request.method == "POST":

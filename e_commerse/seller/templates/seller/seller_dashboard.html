@@ -105,13 +105,13 @@
                     <tbody>
                         {% for order in orders %}
                         <tr>
-                            <td>{{ order.id }}</td>
-                            <td>{{ order.buyer }}</td>
+                            <td>{{ order.order.id }}</td>
+                            <td>{{ order.order.buyer }}</td>
                             <td>{{ order.product.name }}</td>
                             <td>{{ order.quantity }}</td>
-                            <td>{{ order.order_date }}</td>
-                            <td>{{ order.delivery_address }}</td>
-                            <td>{{ order.status }}</td>
+                            <td>{{ order.order.order_date }}</td>
+                            <td>{{ order.order.delivery_address }}</td>
+                            <td>{{ order.order.status }}</td>
                         </tr>
                         {% empty %}
                         <tr>
