@@ -170,17 +170,6 @@
         sidebar.classList.toggle("d-none");
     }
 
-    // Update the price display when the range input changes
-    const minPriceInput = document.getElementById("min_price");
-    const maxPriceInput = document.getElementById("max_price");
-    const priceDisplay = document.getElementById("price-range-display");
-
-    minPriceInput.addEventListener("input", updatePriceDisplay);
-    maxPriceInput.addEventListener("input", updatePriceDisplay);
-
-    function updatePriceDisplay() {
-        priceDisplay.innerHTML = `₹${minPriceInput.value} - ₹${maxPriceInput.value}`;
-    }
 </script>
 
 <!-- Custom CSS for responsive filters sidebar -->
