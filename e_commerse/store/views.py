@@ -91,7 +91,7 @@ def search_products(request):
     products = products.filter(filter_conditions).distinct()
 
     # Pagination
-    paginator = Paginator(products, 10)
+    paginator = Paginator(products, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

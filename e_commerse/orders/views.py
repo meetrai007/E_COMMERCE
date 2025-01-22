@@ -73,6 +73,9 @@ from base.forms import AddressForm
 
 @login_required
 def buy_now(request, product_id):
+    if request.user.IS_seller:
+        messages.info(request,"login as a buyer to place order")
+        return redirect('home')
     product = get_object_or_404(Product, id=product_id)
     address = Address.objects.filter(user=request.user)
     

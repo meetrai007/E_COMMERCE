@@ -345,14 +345,7 @@ body {
     justify-content: start;
 }
 
-.product-thumbnail {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
+
 
 /* Hover effect on thumbnails */
 .product-thumbnail:hover {
