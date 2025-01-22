@@ -1,37 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
 
-<h2>Checkout</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+</head>
 
-<p>Review your order and provide your delivery address:</p>
+<body>
+    {% include 'base/header.html' %}
+    <div class="container-order">
+        <h2>Checkout</h2>
+        <p>Review your order and provide your delivery address:</p>
 
-<!-- Display cart items -->
-<table>
-    <thead>
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in cart_items %}
-        <tr>
-            <td>{{ item.product.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>₹{{ item.product.get_discounted_price }}</td>
-            <td>₹{{ item.get_total_price }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <!-- Display cart items -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>₹{{ item.product.get_discounted_price }}</td>
+                    <td>₹{{ item.get_total_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-<p><strong>Total Price: ₹{{ total_price }}</strong></p>
+        <p><strong>Total Price: ₹{{ total_price }}</strong></p>
 
-<!-- Address Form -->
-<h3>Delivery Address</h3>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Place Order</button>
-</form>
+        <!-- Address Form -->
+        <form method="POST">
+            {% csrf_token %}
+            <h3>Delivery Address</h3>
+            <div class="form-group">
+                <label for="address">Delivery Address</label>
+                <select name="delivery_address" id="address" class="form-control">
+                    {% for address in addresses %}
+                    <option value="{{ address.id }}" {% if address.is_default %}selected{% endif %}>
+                        {{ address.address }}, {{ address.postal_code }}
+                    </option>
+                    {% endfor %}
+                    <option value="new">Add New Address</option>
+                </select>
+            </div>
 
+            <div id="new-address-form" class="new-address-form" style="display: none;">
+                <h4>New Address</h4>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" name="address" id="address" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="postal_code">Postal Code</label>
+                    <input type="text" name="postal_code" id="postal_code" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="is_default" id="is_default"> Set as default address
+                    </label>
+                </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="form-group">
+                <label for="payment_method">Payment Method</label>
+                <select name="payment_method" id="payment_method" class="form-control">
+                    <option value="credit_card">Credit Card</option>
+                    <option value="debit_card">Debit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="cash_on_delivery">Cash on Delivery</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-primary">Place Order</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addressSelect = document.getElementById('address');
+            const newAddressForm = document.getElementById('new-address-form');
+
+            addressSelect.addEventListener('change', function () {
+                if (this.value === 'new') {
+                    newAddressForm.style.display = 'block';
+                } else {
+                    newAddressForm.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    {% include 'base/footer.html' %}
+</body>
+
+</html>

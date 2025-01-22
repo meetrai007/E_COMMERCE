@@ -6,7 +6,6 @@ from seller.models import Seller
 # Create your models here.
 class Order(models.Model):
     buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
-    products = models.ManyToManyField('OrderItem', related_name='order')
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     order_date = models.DateTimeField(auto_now_add=True)
     delivery_address = models.TextField()
@@ -25,7 +24,8 @@ class Order(models.Model):
     def __str__(self):
         return f"Order #{self.id} - {self.buyer.username}"
 
-class OrderItem(models.Model):
+class OrderItems(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='orderItems')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
@@ -35,16 +35,12 @@ class OrderItem(models.Model):
 
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
-    address_line1 = models.CharField(max_length=255)
-    address_line2 = models.CharField(max_length=255, blank=True, null=True)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
+    address = models.CharField(max_length=255)
     postal_code = models.CharField(max_length=20)
-    country = models.CharField(max_length=100)
     is_default = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.address_line1}, {self.city} ({'Default' if self.is_default else 'Saved'})"
+        return f"{self.user}, {self.address} ({'Default' if self.is_default else 'Saved'})"
 
     def save(self, *args, **kwargs):
         if self.is_default:

@@ -68,38 +68,48 @@ from base.models import Userprofile
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Product, Order, OrderItem
+from .models import Product, Order, OrderItems
 from base.forms import AddressForm
 
 @login_required
 def buy_now(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    address = Address.objects.filter(user=request.user)
     
     if request.method == 'POST':
-        form = AddressForm(request.POST)
-        if form.is_valid():
-            delivery_address = form.cleaned_data['delivery_address']
+         # Handle address selection or creation
+        address_id = request.POST.get('delivery_address')
+        if address_id == "new":
+            # Create a new address if "Add New Address" is selected
+            new_address = Address.objects.create(
+                user=request.user,
+                address=request.POST['address'],
+                postal_code=request.POST['postal_code'],
+                is_default=request.POST.get('is_default', False) == 'on')
+            selected_address = new_address
+        else:
+            # Use the selected existing address
+            selected_address = Address.objects.get(id=address_id, user=request.user)
+            
 
-            # Create the order for the selected product
-            order = Order.objects.create(
-                buyer=request.user,
-                total_price=product.get_discounted_price(),  # Assuming the product price is directly used for the order
-                delivery_address=delivery_address
-            )
+        # Create the order for the selected product
+        order = Order.objects.create(
+            buyer=request.user,
+            total_price=product.get_discounted_price(),  # Assuming the product price is directly used for the order
+            delivery_address=selected_address.address
+        )
 
-            # Create an OrderItem for the product
-            order_item = OrderItem.objects.create(
-                product=product,
-                quantity=1  # Assuming user wants to buy one quantity
-            )
+        # Create an OrderItems for the product
+        order_item = OrderItems.objects.create(
+            order=order,
+            product=product,
+            quantity=1  # Assuming user wants to buy one quantity
+        )
 
-            order.products.add(order_item)  # Add the order item to the order
-            return redirect('order_confirmation', order_id=order.id)
+        # Redirect to an order success page (or another destination)
+        return redirect('order_confirmation', order_id=order.id)
 
-    else:
-        form = AddressForm()
-
-    return render(request, 'orders/buy_now.html', {'product': product, 'form': form})
+    return render(request, 'orders/buy_now.html', {'product': product, 'addresses': address})
 @login_required
 def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id)
