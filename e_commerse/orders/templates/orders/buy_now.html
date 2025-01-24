@@ -9,10 +9,10 @@
 
 <body>
     {% include 'base/header.html' %}
-    <div class="container-oder ">
-        <div class="product-details">
+    <div class="container-oder">
+        <div class="product-details col-sm-12 ">
             {% if product.images.first.image.url %}
-            <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+            <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" width="400">
             {% else %}
             <img src="https://via.placeholder.com/400x300" alt="No Image">
             {% endif %}
@@ -22,7 +22,7 @@
         </div>
 
         <!-- Right Section: Order Form -->
-        <div class="order-form">
+        <div class="order-form col-sm-12">
             <h1>Place Your Order</h1>
 
             <form method="post">

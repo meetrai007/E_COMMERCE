@@ -95,7 +95,21 @@
             <div class="col-md-6">
                 <div class="product-details">
                     <h2 class="product-title">{{ product.name }}</h2>
-                    <p class="product-price">$ {{ product.price }}</p>
+                    <h6>
+                        {% if product.discount_value > 0 %}
+                            {% if product.discount_type == 'percentage' %}
+                                {{ product.discount_value }}% off
+                            {% elif product.discount_type == 'fixed' %}
+                                ₹{{ product.discount_value }} off
+                            {% endif %}
+                        {% endif %}
+                    </h6>
+                    <p class="product-price">
+                        {% if product.discount_value > 0 %}
+                            <del>₹{{ product.original_price }}</del>
+                        {% endif %}
+                        ₹{{ product.get_discounted_price }}
+                    </p>
                     <p class="product-description">{{ product.description|linebreaksbr }}</p>
 
                     <!-- Buy Now and Add to Cart Buttons -->
