@@ -5,6 +5,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        h2, h3, h4 {
+            color: #343a40;
+        }
+
+        .container-order {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            display: block;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container-order {
+                padding: 15px;
+            }
+
+            table th, table td {
+                font-size: 14px;
+                padding: 6px;
+            }
+
+            .btn-primary {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -40,6 +133,12 @@
         <!-- Address Form -->
         <form method="POST">
             {% csrf_token %}
+            <!-- Basic info -->
+            <h3>Basic Information</h3>
+            <div class="form-group">
+                <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name">
+                <input type="text" name="number" id="number" class="form-control" placeholder="Enter your number">
+            </div>
             <h3>Delivery Address</h3>
             <div class="form-group">
                 <label for="address">Delivery Address</label>

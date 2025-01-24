@@ -7,7 +7,7 @@ from seller.models import Seller
 class Order(models.Model):
     buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     name = models.CharField(max_length=100)
-    number = models.IntegerField(max_length=15)
+    number = models.CharField(max_length=15)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     order_date = models.DateTimeField(auto_now_add=True)
     delivery_address = models.TextField()

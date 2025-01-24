@@ -4,17 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmation</title>
-</head>
-<body>
-    <h2>Order Confirmation</h2>
-    <p>Thank you for your order!</p>
-    <p>Order ID: {{ order.id }}</p>
-    <p>Delivery Address: {{ order.delivery_address }}</p>
-    <ul>
-        {% for item in order.products.all %}
-            <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
-        {% endfor %}
-    </ul>
+    <style>
+        /* General body styling */
+        .order-page-body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
 
+        /* Styling for the main heading */
+        .order-heading {
+            color: #4CAF50; /* Dark green color */
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Styling for general text paragraphs */
+        .order-paragraph {
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: center;
+            color: #555;
+        }
+
+        /* Styling for the order details container */
+        .order-details-box {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 600px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling for the list of items */
+        .order-items-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .order-item {
+            font-size: 14px;
+            padding: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .order-item:nth-child(even) {
+            background-color: #e9f7e9;
+        }
+
+        /* Styling for the bold order information */
+        .order-info {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="order-page-body">
+    <div class="order-details-box">
+        <h2 class="order-heading">Order Confirmation</h2>
+        <p class="order-paragraph">Thank you for your order!</p>
+        <p class="order-info">Order ID: {{ order.id }}</p>
+        <p class="order-info">Delivery Address: {{ order.delivery_address }}</p>
+        <ul class="order-items-list">
+            {% for item in order.products.all %}
+                <li class="order-item">{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

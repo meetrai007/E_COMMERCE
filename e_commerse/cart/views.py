@@ -81,6 +81,8 @@ def checkout_view(request):
 
         order = Order.objects.create(
             buyer=request.user,
+            name = request.POST['name'],
+            number = request.POST['number'],
             total_price=total_price,
             delivery_address=selected_address.address
         )
