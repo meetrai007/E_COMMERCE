@@ -5,6 +5,7 @@ from .models import Address, Order  # Assuming the `Order` model is in the `orde
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from base.models import Userprofile
+from base.forms import UserProfileForm
 
 # @login_required
 # @csrf_exempt
@@ -79,6 +80,7 @@ def buy_now(request, product_id):
             return redirect('home')
     except:
         pass
+    User_profile_form = UserProfileForm
     product = get_object_or_404(Product, id=product_id)
     address = Address.objects.filter(user=request.user)
     
@@ -101,6 +103,8 @@ def buy_now(request, product_id):
         # Create the order for the selected product
         order = Order.objects.create(
             buyer=request.user,
+            name = request.POST['name'],
+            number = request.POST['number'],
             total_price=product.get_discounted_price(),  # Assuming the product price is directly used for the order
             delivery_address=selected_address.address
         )
@@ -115,7 +119,7 @@ def buy_now(request, product_id):
         # Redirect to an order success page (or another destination)
         return redirect('order_confirmation', order_id=order.id)
 
-    return render(request, 'orders/buy_now.html', {'product': product, 'addresses': address})
+    return render(request, 'orders/buy_now.html', {'product': product, 'addresses': address,'User_profile_form':User_profile_form})
 @login_required
 def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id)

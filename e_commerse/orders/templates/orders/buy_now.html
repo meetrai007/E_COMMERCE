@@ -5,28 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Order</title>
+    <style>
+
+    </style>
+    
 </head>
 
 <body>
     {% include 'base/header.html' %}
+
     <div class="container-oder">
-        <div class="product-details col-sm-12 ">
+        <div class="product-details ">
             {% if product.images.first.image.url %}
             <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" width="400">
             {% else %}
             <img src="https://via.placeholder.com/400x300" alt="No Image">
             {% endif %}
             <div class="product-title">{{ product.name }}</div>
-            <div class="product-description">{{ product.description|linebreaksbr }}</div>
-            <div class="product-price">$ {{ product.price }}</div>
+            <!-- original price -->
+            <!-- <div class="product-price">₹ {{ product.price }}</div> -->
+            <h6 class="product-discount">
+                {% if product.discount_value > 0 %}
+                    {% if product.discount_type == 'percentage' %}
+                        {{ product.discount_value }}% off
+                    {% elif product.discount_type == 'fixed' %}
+                        ₹{{ product.discount_value }} off
+                    {% endif %}
+                {% endif %}
+            </h6>
+            <p class="product-price">
+                {% if product.discount_value > 0 %}
+                    <del>₹{{ product.original_price }}</del>
+                {% endif %}
+                ₹{{ product.get_discounted_price }}
+            </p>
+            <!-- order quantity -->
+            <div class="product-quantity">Quantity: 1</div>
+            <div class="product-price"> <span style="color: black;">total price:₹ {{ product.get_discounted_price }}</span></div>
         </div>
 
         <!-- Right Section: Order Form -->
-        <div class="order-form col-sm-12">
+        <div class="order-form">
             <h1>Place Your Order</h1>
 
             <form method="post">
                 {% csrf_token %}
+                <!-- basic info -->
+                <h3>Basic Information</h3>
+                <div class="form-group">
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Enter your name">
+                    <input type="text" name="number" id="number" class="form-control" placeholder="Enter your number">
+                </div>
 
                 <!-- Select Default Address -->
                 <div class="form-group">
