@@ -25,10 +25,15 @@ def home_view(request):
 
 def product_detail_view(request, slug):
     product = get_object_or_404(Product, slug=slug)
+    category_id = product.category.id
+    filter_conditions = Q()  # Initialize an empty Q object
+    filter_conditions &= Q(category_id=category_id)
+    similar_products = Product.objects.filter(filter_conditions).distinct()
     product_images = ProductImage.objects.filter(product=product)
     context = {
         'product': product,
-        'product_images': product_images
+        'product_images': product_images,
+        'similar_products': similar_products
     }
     return render(request, 'store/product_detail.html', context)
 
