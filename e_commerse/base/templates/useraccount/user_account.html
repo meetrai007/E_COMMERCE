@@ -89,10 +89,41 @@
         }
 
         /* Purchased Products Section */
+        #purchased-products {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
         #purchased-products h5 {
             font-weight: bold;
             color: #007bff;
+            margin-bottom: 20px;
         }
+
+        .purchased-item {
+            border: 1px solid #dee2e6;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .purchased-item h6 {
+            font-size: 1.1rem;
+            color: #333333;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .purchased-item span {
+            display: block;
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
 
         /* Cart Section */
         #cart h5 {
@@ -212,20 +243,21 @@
             <!-- Main Content -->
             <div class="col-md-9 main-content">
 
-                <!-- Purchased Products -->
+                <!-- Purchased Products Section -->
                 <div id="purchased-products" class="section active-section">
                     <h5>Purchased Products</h5>
                     <ul class="list-group">
                         {% for order in purchased_products %}
-                        <li class="list-group-item">
+                        <li class="list-group-item purchased-item">
                             {% for item in order.orderItems.all %}
-                            <li>Product: {{ item.product.name }} (Quantity: {{ item.quantity }})</li>
+                            <h6>{{ item.product.name }}</h6>
+                            <span>Quantity: {{ item.quantity }}</span>
                             {% endfor %}
                         </li>
                         {% endfor %}
                     </ul>
                 </div>
-
+                
                 <!-- Cart Section -->
                 <div id="cart" class="section">
                     <h5>Your Cart</h5>
