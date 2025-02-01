@@ -8,6 +8,8 @@ from django.contrib.auth.views import LogoutView
 from django.views.generic import RedirectView
 from base import views
 
+
+
 urlpatterns = [
     path('user_account/',views.account_page, name='user_account'),
     # Other URL patterns
@@ -21,4 +23,6 @@ urlpatterns = [
 
 ]
 
-
+# Custom error handler
+handler404 = 'base.views.handler404'
+# handler404 = 'base.views.handler500'

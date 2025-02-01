@@ -14,6 +14,13 @@ from .utils import validate_phone_number, generate_otp  # Assuming you have thes
 from .models import Userprofile
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.shortcuts import render
+
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
+
+def handler500(request, exception):
+    return render(request, '500.html', status=500)
 
 
 def login_or_signup_with_otp(request):
