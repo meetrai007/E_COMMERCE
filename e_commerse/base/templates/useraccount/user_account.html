@@ -24,15 +24,15 @@
             position: fixed;
             top: 70px;
             left: 0;
-            width: 25%; /* Fixed width for the sidebar */
+            width: 25%;
             overflow: hidden;
         }
 
         .main-content {
-            margin-left: 25%; /* Push content to the right of the sidebar */
+            margin-left: 25%;
             padding: 20px;
             overflow-y: auto;
-            height: calc(100vh - 55px); /* Ensure it fills the viewport minus the navbar height */
+            height: calc(100vh - 70px);
             position: relative;
             top: 70px;
         }
@@ -46,9 +46,9 @@
             border-radius: 50%;
         }
 
-        .profile-info h2,
-        .profile-info h4 {
+        .profile-info h2 {
             margin: 10px 0;
+            color: #ffffff;
         }
 
         .profile-info .edit-icon {
@@ -59,10 +59,6 @@
 
         .profile-info .edit-icon:hover {
             color: #0056b3;
-        }
-
-        .account-sidebar h4 {
-            padding: 15px;
         }
 
         .account-sidebar a {
@@ -85,8 +81,86 @@
             display: block;
         }
 
-        .btn-primary {
-            margin-top: 15px;
+        .list-group-item {
+            border: none;
+            margin-bottom: 5px;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Purchased Products Section */
+        #purchased-products h5 {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* Cart Section */
+        #cart h5 {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        #cart .list-group-item {
+            background-color: #fce8e8;
+        }
+
+        /* Orders Section */
+        #orders h5 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .order-item {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-status {
+            font-weight: bold;
+            color: #28a745;
+            margin-top: 10px;
+        }
+
+        .review-section {
+            margin-top: 20px;
+            background-color: #f1f3f5;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .review-section h3 {
+            font-size: 1.2rem;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .review-section button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .review-section button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Favorites Section */
+        #favorites h5 {
+            color: #17a2b8;
+            font-weight: bold;
+        }
+
+        #favorites .list-group-item {
+            background-color: #e8f7fc;
         }
     </style>
 </head>
@@ -96,11 +170,10 @@
     <!-- Navbar -->
     {% include 'base/header.html' %}
 
-    <!-- Main Layout -->
     <div class="container-fluid">
         <div class="row">
 
-            <!-- Sidebar (Left) -->
+            <!-- Sidebar -->
             <div class="col-md-3 account-sidebar">
                 <div class="profile-info">
                     {% if userprofile.profile_picture %}
@@ -120,7 +193,7 @@
                     </a>
                 </div>
 
-                <ul class="nav flex-column">
+                <ul class="nav flex-column mt-3">
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="showSection('purchased-products')">Purchased Products</a>
                     </li>
@@ -136,13 +209,12 @@
                 </ul>
             </div>
 
-            <!-- Main Content (Right) -->
+            <!-- Main Content -->
             <div class="col-md-9 main-content">
 
                 <!-- Purchased Products -->
                 <div id="purchased-products" class="section active-section">
                     <h5>Purchased Products</h5>
-                    {% if purchased_products %}
                     <ul class="list-group">
                         {% for order in purchased_products %}
                         <li class="list-group-item">
@@ -152,56 +224,51 @@
                         </li>
                         {% endfor %}
                     </ul>
-                    {% else %}
-                    <p>You have no purchased products yet.</p>
-                    {% endif %}
                 </div>
 
-                <!-- Cart -->
+                <!-- Cart Section -->
                 <div id="cart" class="section">
                     <h5>Your Cart</h5>
                     <ul class="list-group">
                         {% for item in cart_items %}
                         <li class="list-group-item">
-                            Product: {{ item.product.name }} (Quantity: {{ item.quantity }}) - ₹
-                            {{ item.get_total_price }}
+                            Product: {{ item.product.name }} (Quantity: {{ item.quantity }})
                         </li>
                         {% endfor %}
                     </ul>
-                    <a href="{% url 'cart_view' %}" class="btn btn-primary">View Cart</a>
+                    <a href="{% url 'cart_view' %}" class="btn btn-primary mt-2">View Cart</a>
                 </div>
 
-                <!-- Orders -->
+                <!-- Orders Section -->
                 <div id="orders" class="section">
                     <h5>Your Orders</h5>
                     {% if orders %}
                     <ul class="list-group">
                         {% for order in orders %}
-                        <li class="list-group-item">
+                        <li class="order-item">
                             Order ID: {{ order.id }}
                             <ul>
                                 {% for item in order.orderItems.all %}
                                 <li>Product: {{ item.product.name }} (Quantity: {{ item.quantity }})</li>
                                 {% endfor %}
                             </ul>
-                            Status: {{ order.status }}
+                            <div class="order-status">Status: {{ order.status }}</div>
 
                             {% if order.status == 'Delivered' %}
-
-                            <h3>Add a Review</h3>
-                            <form method="post">
-                                <input type="hidden" name="product_id" value="{{ order.orderItems.first.product.id }}">
-                                {% csrf_token %}
-                                {{ form.as_p }}
-                                <button type="submit">Submit Review</button>
-                            </form>
+                            <div class="review-section">
+                                <h3>Add a Review</h3>
+                                <form method="post">
+                                    <input type="hidden" name="product_id" value="{{ order.orderItems.first.product.id }}">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit">Submit Review</button>
+                                </form>
+                            </div>
                             {% endif %}
-
                         </li>
                         {% empty %}
                         <li class="list-group-item">No orders found.</li>
                         {% endfor %}
-
                     </ul>
                     {% else %}
                     <p>You have no orders yet.</p>
@@ -209,14 +276,17 @@
                     <a href="/orders" class="btn btn-primary">View All Orders</a>
                 </div>
 
+
                 <!-- Favorite Products -->
                 <div id="favorites" class="section">
                     <h5>Your Favorite Products</h5>
                     <ul class="list-group">
-                        <li class="list-group-item">Product X</li>
-                        <li class="list-group-item">Product Y</li>
+                        {% for product in favorite_products %}
+                        <li class="list-group-item">{{ product.name }}</li>
+                        {% empty %}
+                        <li class="list-group-item">No favorite products.</li>
+                        {% endfor %}
                     </ul>
-                    <a href="/favorites" class="btn btn-primary">View Favorites</a>
                 </div>
 
             </div>
@@ -227,20 +297,11 @@
     <script>
         // Function to show the selected section and hide others
         function showSection(sectionId) {
-            // Hide all sections
             const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.style.display = 'none';
-            });
-
-            // Show the selected section
-            const selectedSection = document.getElementById(sectionId);
-            if (selectedSection) {
-                selectedSection.style.display = 'block';
-            }
+            sections.forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
         }
 
-        // Set the default section to show (Purchased Products)
         document.addEventListener('DOMContentLoaded', function () {
             showSection('purchased-products');
         });
