@@ -1,6 +1,7 @@
 from django.db import models
 from autoslug import AutoSlugField
 from decimal import Decimal
+from django.contrib.auth.models import User
 from seller.models import Seller
 
 class Category(models.Model):
@@ -57,18 +58,6 @@ class Product(models.Model):
 
 def __str__(self):
     return self.name
-# def get_discounted_price(self):
-#     """Calculate the final price after discount."""
-#     if self.discount_value:
-#         # Ensure the discount_value and original_price are Decimal
-#         original_price = Decimal(self.original_price)
-#         discount_value = Decimal(self.discount_value)
-        
-#         if self.discount_type == 'percentage':
-#             return original_price * (1 - discount_value / 100)
-#         elif self.discount_type == 'fixed':
-#             return original_price - discount_value
-#     return self.price
 
 
 class ProductImage(models.Model):
@@ -77,3 +66,4 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image of {self.product.name}"
+    

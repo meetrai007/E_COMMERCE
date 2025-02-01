@@ -1,5 +1,6 @@
 from django import forms
 from .models import Userprofile
+from orders.models import ProductReview
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
@@ -16,3 +17,6 @@ from django import forms
 
 class AddressForm(forms.Form):
     delivery_address = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'placeholder': 'Enter your delivery address'}), required=True)
+
+
+

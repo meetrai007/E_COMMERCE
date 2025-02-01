@@ -1,8 +1,8 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login
-from orders.models import Order
+from orders.models import Order, OrderItems
 from seller.models import Seller
 from django.contrib import messages
 from django.utils.timezone import now
@@ -10,11 +10,13 @@ from .models import OTP
 from django.contrib.auth.decorators import login_required
 from django.utils.crypto import get_random_string
 from .forms import UserProfileForm
+from orders.forms import ProductReviewForm
 from .utils import validate_phone_number, generate_otp  # Assuming you have these utility functions
 from .models import Userprofile
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.shortcuts import render
+from store.models import Product
 
 def handler404(request, exception):
     return render(request, '404.html', status=404)
@@ -124,11 +126,31 @@ def account_page(request):
     orders = Order.objects.filter(buyer=user)
     purchased_products = orders.filter(status="Delivered")
 
+    if request.method == 'POST':
+        form = ProductReviewForm(request.POST)
+        product_id = request.POST.get('product_id')
+        print("""Product ID: """,product_id)
+        if not product_id:
+            # Handle missing product ID
+            # return render(request, 'error.html', {'message': 'Product ID is missing.'})
+            return redirect('user_account')
+        
+        product = get_object_or_404(Product, id=product_id)
+        
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.user = request.user
+            review.save()
+            return redirect('user_account')
+    else:
+        form = ProductReviewForm()
     return render(request, 'useraccount/user_account.html', {
         'user': user,
         'userprofile': userprofile,
         'orders': orders,
-        'purchased_products': purchased_products
+        'purchased_products': purchased_products,
+        'form': form
     })
 
 @login_required

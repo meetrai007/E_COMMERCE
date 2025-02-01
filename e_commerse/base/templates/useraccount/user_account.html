@@ -160,10 +160,28 @@
                     <ul class="list-group">
                         {% for order in orders %}
                         <li class="list-group-item">
-                            Order #{{ order.id }} - {{ order.product.name }}
-                            (Status: {{ order.status }})
+                            Order ID: {{ order.id }}
+                            <ul>
+                                {% for item in order.orderItems.all %}
+                                    <li>Product: {{ item.product.name }} (Quantity: {{ item.quantity }})</li>
+                                {% endfor %}
+                            </ul>
+                            Status: {{ order.status }}
+                            {% if order.status == 'Delivered' %}
+                            
+                                <h3>Add a Review</h3>
+                                <form method="post">
+                                  <input type="hidden" name="product_id" value="{{ order.orderItems.first.product.id }}">
+                                  {% csrf_token %}
+                                  {{ form.as_p }}
+                                  <button type="submit">Submit Review</button>
+                                </form>
+                            {% endif %}
                         </li>
-                        {% endfor %}
+                    {% empty %}
+                        <li class="list-group-item">No orders found.</li>
+                    {% endfor %}
+
                     </ul>
                     {% else %}
                     <p>You have no orders yet.</p>
