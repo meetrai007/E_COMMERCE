@@ -34,9 +34,10 @@ body {
 .navbar-custom {
     background-color: var(--dark-bg);
     box-shadow: 0px 4px 6px var(--shadow-light);
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 999;
+    width: 100%;
 }
 
 .navbar-brand img {
