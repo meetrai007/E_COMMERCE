@@ -134,7 +134,9 @@
                     <ul class="list-group">
                         {% for order in purchased_products %}
                         <li class="list-group-item">
-                            {{ order.product.name }} - ${{ order.total_price }}
+                            {% for item in order.orderItems.all %}
+                                    <li>Product: {{ item.product.name }} (Quantity: {{ item.quantity }})</li>
+                            {% endfor %}
                         </li>
                         {% endfor %}
                     </ul>
@@ -147,10 +149,13 @@
                 <div id="cart" class="section">
                     <h5>Your Cart</h5>
                     <ul class="list-group">
-                        <li class="list-group-item">Product A</li>
-                        <li class="list-group-item">Product B</li>
+                        {% for item in cart_items %}
+                        <li class="list-group-item">
+                            Product: {{ item.product.name }} (Quantity: {{ item.quantity }}) - ₹ {{ item.get_total_price }}
+                        </li>
+                        {% endfor %}
                     </ul>
-                    <a href="/cart" class="btn btn-primary">View Cart</a>
+                    <a href="{% url 'cart_view' %}" class="btn btn-primary">View Cart</a>
                 </div>
 
                 <!-- Orders -->
@@ -167,6 +172,7 @@
                                 {% endfor %}
                             </ul>
                             Status: {{ order.status }}
+
                             {% if order.status == 'Delivered' %}
                             
                                 <h3>Add a Review</h3>
@@ -177,6 +183,7 @@
                                   <button type="submit">Submit Review</button>
                                 </form>
                             {% endif %}
+                            
                         </li>
                     {% empty %}
                         <li class="list-group-item">No orders found.</li>

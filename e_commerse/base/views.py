@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login
-from orders.models import Order, OrderItems
+from orders.models import Order, OrderItems, ProductReview
 from seller.models import Seller
 from django.contrib import messages
 from django.utils.timezone import now
@@ -17,6 +17,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.shortcuts import render
 from store.models import Product
+from cart.models import Cart
 
 def handler404(request, exception):
     return render(request, '404.html', status=404)
@@ -126,6 +127,10 @@ def account_page(request):
     orders = Order.objects.filter(buyer=user)
     purchased_products = orders.filter(status="Delivered")
 
+    # filter products for cart
+    cart = get_object_or_404(Cart, user=request.user)
+    cart_items = cart.items.all()
+
     if request.method == 'POST':
         form = ProductReviewForm(request.POST)
         product_id = request.POST.get('product_id')
@@ -136,6 +141,12 @@ def account_page(request):
             return redirect('user_account')
         
         product = get_object_or_404(Product, id=product_id)
+        
+        # try:
+        #     review = ProductReview.objects.get(product=product, user=user)
+            
+        # except ProductReview.DoesNotExist:
+        #     review = None
         
         if form.is_valid():
             review = form.save(commit=False)
@@ -150,7 +161,8 @@ def account_page(request):
         'userprofile': userprofile,
         'orders': orders,
         'purchased_products': purchased_products,
-        'form': form
+        'form': form,
+        'cart_items': cart_items
     })
 
 @login_required
